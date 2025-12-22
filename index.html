@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Università d'Italia</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading">
+    <div class="loading-content">
+      <div class="loading-logo">
+        <div class="flag-stripes">
+          <div class="stripe green"></div>
+          <div class="stripe white"></div>
+          <div class="stripe red"></div>
+        </div>
+        <h1>Università d'Italia</h1>
+      </div>
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Exploring Italy's academic landscape...</p>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-background"></div>
+    <div class="hero-content">
+      <div class="hero-title">
+        <h1>Università d'Italia</h1>
+        <div class="hero-subtitle">
+          <p>An interactive journey through Italy's academic heritage</p>
+          <div class="hero-stats">
+            <span><i class="fas fa-university"></i> 60+ Universities</span>
+            <span><i class="fas fa-map-marked-alt"></i> 20 Regions</span>
+            <span><i class="fas fa-landmark"></i> Since 962 AD</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="hero-actions">
+        <button id="explore-btn" class="btn-explore">
+          <span>Explore the Map</span>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+      </div>
+      
+      <div class="scroll-indicator">
+        <span>Scroll to explore</span>
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Map Controls -->
+    <div class="map-controls">
+      <button id="toggle-sidebar" class="control-btn" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>
+        <span class="btn-text">Universities List</span>
+      </button>
+      
+      <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search university or city..." aria-label="Search universities" />
+        <button id="clear-search" class="clear-btn" aria-label="Clear search">
+          <i class="fas fa-times"></i>
+        </button>
+        <i class="fas fa-search search-icon"></i>
+      </div>
+      
+      <button id="reset-view" class="control-btn" aria-label="Reset view">
+        <i class="fas fa-sync-alt"></i>
+        <span class="btn-text">Reset View</span>
+      </button>
+    </div>
+
+    <!-- Map Section -->
+    <section class="map-section">
+      <div id="map"></div>
+      
+      <!-- Map Legend -->
+      <div class="map-legend">
+        <div class="legend-title">University Types</div>
+        <div class="legend-items">
+          <div class="legend-item">
+            <span class="legend-color university"></span>
+            <span>University</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color polytechnic"></span>
+            <span>Polytechnic</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color special"></span>
+            <span>Special</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <h2>
+          <i class="fas fa-university"></i>
+          <span id="sidebar-title">Italian Universities</span>
+        </h2>
+        <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-filters">
+        <select id="type-filter" class="filter-select">
+          <option value="all">All Types</option>
+          <option value="university">University</option>
+          <option value="polytechnic">Polytechnic</option>
+          <option value="special">Special Statute</option>
+        </select>
+        <select id="sort-filter" class="filter-select">
+          <option value="name">Name (A-Z)</option>
+          <option value="founded">Oldest First</option>
+          <option value="region">By Region</option>
+        </select>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="results-info">
+          <span id="results-count">Loading universities...</span>
+          <button id="reset-filters" class="btn-text">
+            <i class="fas fa-filter"></i>
+            <span>Reset Filters</span>
+          </button>
+        </div>
+
+        <div id="university-list" class="university-list">
+          <!-- Universities loaded here -->
+        </div>
+        
+        <div id="empty-state" class="empty-state">
+          <i class="fas fa-search"></i>
+          <h3>No universities found</h3>
+          <p>Try adjusting your search or filters</p>
+          <button id="reset-filters-empty" class="btn-text">
+            Reset all filters
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>Università d'Italia</h3>
+        <p>Exploring Italy's academic heritage</p>
+      </div>
+      <div class="footer-info">
+        <p>All Italian public universities mapped</p>
+        <p class="footer-credit">
+          Made with <i class="fas fa-heart footer-heart"></i> by 
+          <span class="footer-signature">Deepserish B K</span>
+        </p>
+      </div>
+      <div class="footer-flag">
+        <div class="flag-stripe green"></div>
+        <div class="flag-stripe white"></div>
+        <div class="flag-stripe red"></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- University Modal -->
+  <div id="university-modal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close" aria-label="Close modal">
+        <i class="fas fa-times"></i>
+      </button>
+      
+      <div class="modal-header">
+        <div class="university-type" id="modal-type">University</div>
+        <div class="university-year" id="modal-year">Est. 1088</div>
+      </div>
+      
+      <div class="modal-body">
+        <h2 id="modal-name">University Name</h2>
+        <div class="modal-location">
+          <i class="fas fa-map-marker-alt"></i>
+          <span id="modal-city">City</span>, 
+          <span id="modal-region">Region</span>
+        </div>
+        
+        <div class="modal-stats">
+          <div class="stat">
+            <div class="stat-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Founded</div>
+              <div class="stat-value" id="modal-founded">1088</div>
+            </div>
+          </div>
+          <div class="stat">
+            <div class="stat-icon">
+              <i class="fas fa-flag"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Region</div>
+              <div class="stat-value" id="modal-region-full">Emilia-Romagna</div>
+            </div>
+          </div>
+          <div class="stat">
+            <div class="stat-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Type</div>
+              <div class="stat-value" id="modal-type-full">University</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-description">
+          <h3>About</h3>
+          <p id="modal-description">University description will appear here...</p>
+        </div>
+        
+        <div class="modal-actions">
+          <a href="#" id="modal-website" target="_blank" class="btn-primary">
+            <i class="fas fa-external-link-alt"></i>
+            Visit Official Website
+          </a>
+          <button class="btn-secondary" id="modal-locate">
+            <i class="fas fa-map-pin"></i>
+            Show on Map
+          </button>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <div class="italian-flag">
+          <div class="flag-stripe green"></div>
+          <div class="flag-stripe white"></div>
+          <div class="flag-stripe red"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
