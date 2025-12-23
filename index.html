@@ -30,6 +30,7 @@
   </div>
 
   <!-- View Toggle -->
+<div class="sticky-nav-container">
   <div class="view-toggle">
     <div class="toggle-container">
       <button class="view-option active" id="view-universities" data-view="universities">
@@ -46,6 +47,7 @@
       </button>
     </div>
   </div>
+</div>
 
   <!-- Hero Section -->
   <section class="hero-section">
@@ -57,7 +59,7 @@
           <p>An interactive journey through Italy's academic heritage</p>
           <div class="hero-stats">
             <span><i class="fas fa-university"></i> 60+ Universities</span>
-            <span><i class="fas fa-graduation-cap"></i> 500+ Master Courses</span>
+            <span><i class="fas fa-graduation-cap"></i> 300+ Master Courses</span>
             <span><i class="fas fa-book-open"></i> 50+ Bachelor Courses</span>
             <span><i class="fas fa-landmark"></i> Since 962 AD</span>
           </div>
@@ -85,6 +87,7 @@
     <!-- Map Controls -->
     <div class="map-controls">
       <!-- Universities View Controls -->
+       
       <div class="control-group universities-view">
         <button id="toggle-sidebar" class="control-btn" aria-label="Toggle sidebar">
           <i class="fas fa-bars"></i>
@@ -220,7 +223,7 @@
       </div>
     </section>
 
-    <!-- Sidebar (Universities View) -->
+    <!-- Universities Sidebar -->
     <aside id="sidebar" class="sidebar">
       <div class="sidebar-header">
         <h2>
@@ -270,106 +273,53 @@
       </div>
     </aside>
 
-    <!-- Masters Courses Panel -->
-    <aside id="masters-panel" class="sidebar" style="right: -100%;">
+    <!-- Courses Panel (Used for both Masters and Bachelors) -->
+    <aside id="courses-panel" class="sidebar" style="right: -100%;">
       <div class="sidebar-header">
         <h2>
-          <i class="fas fa-graduation-cap"></i>
-          <span id="masters-title">Master Degree Courses</span>
+          <i class="fas fa-graduation-cap" id="courses-panel-icon"></i>
+          <span id="courses-panel-title">Degree Courses</span>
         </h2>
-        <button class="sidebar-close" id="masters-close" aria-label="Close courses panel">
+        <button class="sidebar-close" id="courses-panel-close" aria-label="Close courses panel">
           <i class="fas fa-times"></i>
         </button>
       </div>
 
       <div class="sidebar-filters">
-        <select id="masters-field-filter" class="filter-select">
+        <select id="courses-field-filter" class="filter-select">
           <option value="all">All Fields</option>
         </select>
       </div>
 
       <div class="sidebar-content">
         <div class="results-info">
-          <span id="masters-count">Loading courses...</span>
-          <button id="reset-masters-filters" class="btn-text">
+          <span id="courses-count">Loading courses...</span>
+          <button id="reset-courses-filters" class="btn-text">
             <i class="fas fa-filter"></i>
             <span>Reset Filters</span>
           </button>
         </div>
 
         <!-- Fields List -->
-        <div id="masters-fields-list" class="fields-list">
-          <!-- Master fields loaded here -->
+        <div id="fields-list" class="fields-list">
+          <!-- Fields loaded here -->
         </div>
 
         <!-- Subfields List -->
-        <div id="masters-subfields-list" class="subfields-list" style="display: none;">
-          <!-- Master subfields loaded here -->
+        <div id="subfields-list" class="subfields-list" style="display: none;">
+          <!-- Subfields loaded here -->
         </div>
 
         <!-- Courses List -->
-        <div id="masters-courses-list" class="courses-list" style="display: none;">
-          <!-- Master courses loaded here -->
+        <div id="courses-list" class="courses-list" style="display: none;">
+          <!-- Courses loaded here -->
         </div>
         
-        <div id="masters-empty-state" class="empty-state" style="display: none;">
+        <div id="courses-empty-state" class="empty-state" style="display: none;">
           <i class="fas fa-search"></i>
-          <h3>No master courses found</h3>
+          <h3>No courses found</h3>
           <p>Try adjusting your search or filters</p>
-          <button id="reset-masters-filters-empty" class="btn-text">
-            Reset all filters
-          </button>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Bachelors Courses Panel -->
-    <aside id="bachelors-panel" class="sidebar" style="right: -100%;">
-      <div class="sidebar-header">
-        <h2>
-          <i class="fas fa-book-open"></i>
-          <span id="bachelors-title">Bachelor Degree Courses</span>
-        </h2>
-        <button class="sidebar-close" id="bachelors-close" aria-label="Close courses panel">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-
-      <div class="sidebar-filters">
-        <select id="bachelors-field-filter" class="filter-select">
-          <option value="all">All Fields</option>
-        </select>
-      </div>
-
-      <div class="sidebar-content">
-        <div class="results-info">
-          <span id="bachelors-count">Loading courses...</span>
-          <button id="reset-bachelors-filters" class="btn-text">
-            <i class="fas fa-filter"></i>
-            <span>Reset Filters</span>
-          </button>
-        </div>
-
-        <!-- Fields List -->
-        <div id="bachelors-fields-list" class="fields-list">
-          <!-- Bachelor fields loaded here -->
-        </div>
-
-        <!-- Subfields List -->
-        <div id="bachelors-subfields-list" class="subfields-list" style="display: none;">
-          <!-- Bachelor subfields loaded here -->
-        </div>
-
-        <!-- Courses List -->
-        <div id="bachelors-courses-list" class="courses-list" style="display: none;">
-          <!-- Bachelor courses loaded here -->
-        </div>
-        
-        <div id="bachelors-empty-state" class="empty-state" style="display: none;">
-          <i class="fas fa-search"></i>
-          <h3>No bachelor courses found</h3>
-          <p>Try adjusting your search or filters</p>
-          <button id="reset-bachelors-filters-empty" class="btn-text">
+          <button id="reset-courses-filters-empty" class="btn-text">
             Reset all filters
           </button>
         </div>
@@ -403,244 +353,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- University Modal -->
-  <div id="university-modal" class="modal">
-    <div class="modal-overlay"></div>
-    <div class="modal-content">
-      <button class="modal-close" id="modal-close" aria-label="Close modal">
-        <i class="fas fa-times"></i>
-      </button>
-      
-      <div class="modal-header">
-        <div class="university-type" id="modal-type">University</div>
-        <div class="university-year" id="modal-year">Est. 1088</div>
-      </div>
-      
-      <div class="modal-body">
-        <h2 id="modal-name">University Name</h2>
-        <div class="modal-location">
-          <i class="fas fa-map-marker-alt"></i>
-          <span id="modal-city">City</span>, 
-          <span id="modal-region">Region</span>
-        </div>
-        
-        <div class="modal-stats">
-          <div class="stat">
-            <div class="stat-icon">
-              <i class="fas fa-calendar-alt"></i>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Founded</div>
-              <div class="stat-value" id="modal-founded">1088</div>
-            </div>
-          </div>
-          <div class="stat">
-            <div class="stat-icon">
-              <i class="fas fa-flag"></i>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Region</div>
-              <div class="stat-value" id="modal-region-full">Emilia-Romagna</div>
-            </div>
-          </div>
-          <div class="stat">
-            <div class="stat-icon">
-              <i class="fas fa-graduation-cap"></i>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Type</div>
-              <div class="stat-value" id="modal-type-full">University</div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="modal-description">
-          <h3>About</h3>
-          <p id="modal-description">University description will appear here...</p>
-        </div>
-        
-        <div class="modal-actions">
-          <a href="#" id="modal-website" target="_blank" class="btn-primary">
-            <i class="fas fa-external-link-alt"></i>
-            Visit Official Website
-          </a>
-          <button class="btn-secondary" id="modal-locate">
-            <i class="fas fa-map-pin"></i>
-            Show on Map
-          </button>
-        </div>
-      </div>
-      
-      <div class="modal-footer">
-        <div class="italian-flag">
-          <div class="flag-stripe green"></div>
-          <div class="flag-stripe white"></div>
-          <div class="flag-stripe red"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Master Course Modal -->
-  <div id="master-course-modal" class="modal">
-    <div class="modal-overlay"></div>
-    <div class="modal-content">
-      <button class="modal-close" id="master-course-modal-close" aria-label="Close modal">
-        <i class="fas fa-times"></i>
-      </button>
-      
-      <div class="modal-header">
-        <div class="course-field" id="master-course-field">STEM - CS & AI</div>
-        <div class="course-language" id="master-course-language">English</div>
-      </div>
-      
-      <div class="modal-body">
-        <h2 id="master-course-name">Course Name</h2>
-        <div class="modal-location">
-          <i class="fas fa-university"></i>
-          <span id="master-course-university">University Name</span>
-          <span class="location-separator">•</span>
-          <i class="fas fa-map-marker-alt"></i>
-          <span id="master-course-location">City, Region</span>
-        </div>
-        
-        <div class="modal-stats">
-          <div class="stat">
-            <div class="stat-icon">
-              <i class="fas fa-clock"></i>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Duration</div>
-              <div class="stat-value" id="master-course-duration">2 years</div>
-            </div>
-          </div>
-          <div class="stat">
-            <div class="stat-icon">
-              <i class="fas fa-language"></i>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Language</div>
-              <div class="stat-value" id="master-course-lang">English</div>
-            </div>
-          </div>
-          <div class="stat">
-            <div class="stat-icon">
-              <i class="fas fa-certificate"></i>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Degree</div>
-              <div class="stat-value" id="master-course-degree">MSc</div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="modal-description">
-          <h3>About this Program</h3>
-          <p id="master-course-description">Course description will appear here...</p>
-        </div>
-        
-        <div class="modal-actions">
-          <a href="#" id="master-course-website" target="_blank" class="btn-primary">
-            <i class="fas fa-external-link-alt"></i>
-            Course Website
-          </a>
-          <button class="btn-secondary" id="master-course-locate-university">
-            <i class="fas fa-map-pin"></i>
-            Show University
-          </button>
-        </div>
-      </div>
-      
-      <div class="modal-footer">
-        <div class="italian-flag">
-          <div class="flag-stripe green"></div>
-          <div class="flag-stripe white"></div>
-          <div class="flag-stripe red"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bachelor Course Modal -->
-  <div id="bachelor-course-modal" class="modal">
-    <div class="modal-overlay"></div>
-    <div class="modal-content">
-      <button class="modal-close" id="bachelor-course-modal-close" aria-label="Close modal">
-        <i class="fas fa-times"></i>
-      </button>
-      
-      <div class="modal-header">
-        <div class="course-field" id="bachelor-course-field">Bachelor Program</div>
-        <div class="course-language" id="bachelor-course-language">English</div>
-      </div>
-      
-      <div class="modal-body">
-        <h2 id="bachelor-course-name">Course Name</h2>
-        <div class="modal-location">
-          <i class="fas fa-university"></i>
-          <span id="bachelor-course-university">University Name</span>
-          <span class="location-separator">•</span>
-          <i class="fas fa-map-marker-alt"></i>
-          <span id="bachelor-course-location">City, Region</span>
-        </div>
-        
-        <div class="modal-stats">
-          <div class="stat">
-            <div class="stat-icon">
-              <i class="fas fa-clock"></i>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Duration</div>
-              <div class="stat-value" id="bachelor-course-duration">3 years</div>
-            </div>
-          </div>
-          <div class="stat">
-            <div class="stat-icon">
-              <i class="fas fa-language"></i>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Language</div>
-              <div class="stat-value" id="bachelor-course-lang">English</div>
-            </div>
-          </div>
-          <div class="stat">
-            <div class="stat-icon">
-              <i class="fas fa-certificate"></i>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Degree</div>
-              <div class="stat-value" id="bachelor-course-degree">BSc/BA</div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="modal-description">
-          <h3>About this Program</h3>
-          <p id="bachelor-course-description">Course description will appear here...</p>
-        </div>
-        
-        <div class="modal-actions">
-          <a href="#" id="bachelor-course-website" target="_blank" class="btn-primary">
-            <i class="fas fa-external-link-alt"></i>
-            Course Website
-          </a>
-          <button class="btn-secondary" id="bachelor-course-locate-university">
-            <i class="fas fa-map-pin"></i>
-            Show University
-          </button>
-        </div>
-      </div>
-      
-      <div class="modal-footer">
-        <div class="italian-flag">
-          <div class="flag-stripe green"></div>
-          <div class="flag-stripe white"></div>
-          <div class="flag-stripe red"></div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Scripts -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
