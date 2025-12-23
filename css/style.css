@@ -20,6 +20,11 @@
   --field-law: #5E5CE6;
   --field-tourism: #64D2FF;
   
+  /* Bachelor Specific Colors */
+  --field-bachelor-stem: #5AC8FA;
+  --field-bachelor-business: #FF9500;
+  --field-bachelor-humanities: #FF2D55;
+  
   /* Borders */
   --border-color: rgba(255, 255, 255, 0.1);
   
@@ -431,7 +436,7 @@ body {
   max-width: 350px;
 }
 
-#search-input, #course-search {
+#search-input, #masters-search, #bachelors-search {
   width: 100%;
   padding: 0.625rem 1rem 0.625rem 2.25rem;
   background: rgba(255, 255, 255, 0.06);
@@ -443,14 +448,14 @@ body {
   transition: all var(--transition-normal);
 }
 
-#search-input:focus, #course-search:focus {
+#search-input:focus, #masters-search:focus, #bachelors-search:focus {
   outline: none;
   border-color: var(--italy-green);
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 0 3px rgba(0, 140, 69, 0.2);
 }
 
-#search-input::placeholder, #course-search::placeholder {
+#search-input::placeholder, #masters-search::placeholder, #bachelors-search::placeholder {
   color: var(--text-muted);
 }
 
@@ -722,7 +727,7 @@ body {
   font-size: 0.85rem;
 }
 
-#reset-filters, #reset-courses-filters {
+#reset-filters, #reset-masters-filters, #reset-bachelors-filters {
   background: none;
   border: none;
   color: var(--text-secondary);
@@ -735,7 +740,7 @@ body {
   transition: color var(--transition-fast);
 }
 
-#reset-filters:hover, #reset-courses-filters:hover {
+#reset-filters:hover, #reset-masters-filters:hover, #reset-bachelors-filters:hover {
   color: var(--italy-green);
 }
 
@@ -1100,7 +1105,7 @@ body {
   font-size: 0.9rem;
 }
 
-#reset-filters-empty, #reset-courses-filters-empty {
+#reset-filters-empty, #reset-masters-filters-empty, #reset-bachelors-filters-empty {
   background: none;
   border: none;
   color: var(--text-secondary);
@@ -1110,7 +1115,7 @@ body {
   transition: color var(--transition-fast);
 }
 
-#reset-filters-empty:hover, #reset-courses-filters-empty:hover {
+#reset-filters-empty:hover, #reset-masters-filters-empty:hover, #reset-bachelors-filters-empty:hover {
   color: var(--italy-green);
 }
 

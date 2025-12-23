@@ -28,7 +28,10 @@ const CONFIG = {
     science: '#30D158',
     env: '#32D74B',
     law: '#5E5CE6',
-    tourism: '#64D2FF'
+    tourism: '#64D2FF',
+    bachelorStem: '#5AC8FA',
+    bachelorBusiness: '#FF9500',
+    bachelorHumanities: '#FF2D55'
   }
 };
 
@@ -222,7 +225,7 @@ const universityNameMapping = {
   "University degli Studi dell'AQUILA": "Università degli Studi dell'Aquila",
   
   // University of Brescia variations
-  "University degli Studi di BRESCIA": "Università degli Studi di Brescia",
+  "University gli Studi di BRESCIA": "Università degli Studi di Brescia",
   
   // Roma Tre University
   "Roma Tre University": "Università degli Studi di Roma 'Roma Tre'",
@@ -245,8 +248,18 @@ const universityNameMapping = {
   // University of Parma variations
   "University of Parma": "Università degli Studi di Parma",
   
-  // Special universities - add fallback coordinates
-  "University of Rome \"Foro Italico\"": null, // Will use fallback coordinates
+  // For UG courses
+  "University Of Bologna": "Università di Bologna",
+  "University Of Bologna - Revenna Campus": "Università di Bologna",
+  "University Of Bologna - Rimini Campus": "Università di Bologna",
+  "University Of Bologna - Forli Campus": "Università di Bologna",
+  "Sapienza University of Rome": "Università degli Studi di Roma 'La Sapienza'",
+  "Tor Vergata University of Rome": "Università degli Studi di Roma 'Tor Vergata'",
+  "University of Campania": "Università degli Studi della Campania 'Luigi Vanvitelli'",
+  "University of Perugia": "Università degli Studi di Perugia",
+  "University of Turin": "Università degli Studi di Torino",
+  "University Of Camerino": "Università degli Studi di Camerino",
+  "University Of Milan": "Università degli Studi di Milano"
 };
 
 // Fallback city coordinates for unmatched universities
@@ -299,30 +312,40 @@ const cityCoordinates = {
   'Salerno': [40.6773, 14.7775],
   'Caserta': [41.0836, 14.3308],
   'Viterbo': [42.4287, 12.1048],
+  'Revenna': [44.4184, 12.2035],
+  'Rimini': [44.0596, 12.5684],
+  'Forli': [44.2227, 12.0408]
 };
 
 // Master Courses Data
 let coursesData = {
-  fields: [],
-  stats: { total_courses: 0, total_fields: 0, total_subfields: 0 }
+  masters: { fields: [], stats: { total_courses: 0, total_fields: 0, total_subfields: 0 } },
+  bachelors: { fields: [], stats: { total_courses: 0, total_fields: 0, total_subfields: 0 } }
 };
 
 // Application State
 const state = {
   currentView: 'universities',
-  coursesViewMode: 'fields',
+  mastersViewMode: 'fields',
+  bachelorsViewMode: 'fields',
   selectedRegion: null,
   selectedUniversity: null,
-  selectedField: null,
-  selectedSubfield: null,
-  selectedCourse: null,
+  selectedMastersField: null,
+  selectedMastersSubfield: null,
+  selectedMastersCourse: null,
+  selectedBachelorsField: null,
+  selectedBachelorsSubfield: null,
+  selectedBachelorsCourse: null,
   filteredUniversities: [...universities],
-  filteredCourses: [],
+  filteredMastersCourses: [],
+  filteredBachelorsCourses: [],
   sidebarOpen: false,
-  coursesPanelOpen: false,
+  mastersPanelOpen: false,
+  bachelorsPanelOpen: false,
   map: null,
   markersCluster: null,
-  courseMarkers: null,
+  mastersMarkers: null,
+  bachelorsMarkers: null,
   universityMarkers: []
 };
 
@@ -344,19 +367,29 @@ function hideLoadingScreen() {
 
 async function loadCoursesData() {
   try {
-    const response = await fetch('json/PG_courses.json');
-    const rawData = await response.json();
-    processCoursesData(rawData);
-    linkCoursesToUniversities();
-    updateCoursesCount();
-    populateFieldFilter();
+    // Load masters data
+    const mastersResponse = await fetch('json/PG_courses.json');
+    const mastersData = await mastersResponse.json();
+    processMastersData(mastersData);
+    linkMastersCoursesToUniversities();
+    updateMastersCount();
+    populateMastersFieldFilter();
+    
+    // Load bachelors data
+    const bachelorsResponse = await fetch('json/UG_courses.json');
+    const bachelorsData = await bachelorsResponse.json();
+    processBachelorsData(bachelorsData);
+    linkBachelorsCoursesToUniversities();
+    updateBachelorsCount();
+    populateBachelorsFieldFilter();
+    
   } catch (error) {
     console.log('Courses data not loaded, continuing with universities only');
   }
 }
 
-function processCoursesData(rawData) {
-  coursesData.fields = rawData.fields.map(field => ({
+function processMastersData(rawData) {
+  coursesData.masters.fields = rawData.fields.map(field => ({
     id: slugify(field.name),
     name: field.name,
     color: getFieldColor(field.name),
@@ -383,100 +416,60 @@ function processCoursesData(rawData) {
     }))
   }));
   
-  coursesData.stats.total_courses = rawData.fields.reduce((total, field) => 
+  coursesData.masters.stats.total_courses = rawData.fields.reduce((total, field) => 
     total + field.subfields.reduce((subTotal, subfield) => 
       subTotal + subfield.courses.length, 0), 0);
-  coursesData.stats.total_fields = rawData.fields.length;
-  coursesData.stats.total_subfields = rawData.fields.reduce((total, field) => 
+  coursesData.masters.stats.total_fields = rawData.fields.length;
+  coursesData.masters.stats.total_subfields = rawData.fields.reduce((total, field) => 
     total + field.subfields.length, 0);
 }
 
-function linkCoursesToUniversities() {
-  // Reset courses for all universities
-  universities.forEach(uni => {
-    uni.courses = [];
-  });
+function processBachelorsData(rawData) {
+  coursesData.bachelors.fields = rawData.fields.map(field => ({
+    id: slugify(field.name),
+    name: field.name,
+    color: getBachelorFieldColor(field.name),
+    icon: getBachelorFieldIcon(field.name),
+    subfields: field.subfields.map(subfield => ({
+      id: slugify(subfield.name),
+      name: subfield.name,
+      courses: subfield.courses.map(course => ({
+        id: slugify(course.course_name + ' ' + course.university),
+        name: course.course_name,
+        university: course.university,
+        universityId: null,
+        coordinates: null,
+        city: null,
+        region: null,
+        duration: '3 years',
+        language: "English",
+        courseType: 'BSc/BA',
+        field: field.name,
+        subfield: subfield.name,
+        matchedUniversity: null,
+        exactUniversityName: null
+      }))
+    }))
+  }));
   
+  coursesData.bachelors.stats.total_courses = rawData.fields.reduce((total, field) => 
+    total + field.subfields.reduce((subTotal, subfield) => 
+      subTotal + subfield.courses.length, 0), 0);
+  coursesData.bachelors.stats.total_fields = rawData.fields.length;
+  coursesData.bachelors.stats.total_subfields = rawData.fields.reduce((total, field) => 
+    total + field.subfields.length, 0);
+}
+
+function linkMastersCoursesToUniversities() {
   let linkedCount = 0;
   let unlinkedCount = 0;
   
-  // Process all courses
-  coursesData.fields.forEach(field => {
+  // Process all master courses
+  coursesData.masters.fields.forEach(field => {
     field.subfields.forEach(subfield => {
       subfield.courses.forEach(course => {
-        let matchedUniversity = null;
-        let foundBy = '';
+        const matchedUniversity = findUniversityForCourse(course.university);
         
-        // Try direct mapping first
-        const mappedName = universityNameMapping[course.university];
-        if (mappedName) {
-          matchedUniversity = universities.find(u => u.name === mappedName);
-          if (matchedUniversity) foundBy = 'direct mapping';
-        }
-        
-        // If not found by mapping, try string matching
-        if (!matchedUniversity) {
-          const courseUniLower = course.university.toLowerCase().trim();
-          
-          // Try exact match first
-          matchedUniversity = universities.find(uni => 
-            uni.name.toLowerCase() === courseUniLower
-          );
-          if (matchedUniversity) foundBy = 'exact match';
-          
-          // Try partial match
-          if (!matchedUniversity) {
-            matchedUniversity = universities.find(uni => {
-              const uniNameLower = uni.name.toLowerCase();
-              return uniNameLower.includes(courseUniLower) || 
-                     courseUniLower.includes(uniNameLower) ||
-                     uniNameLower.replace(/università degli studi di |università di |politecnico di /gi, '').includes(courseUniLower.replace(/university of |polytechnic of /gi, '')) ||
-                     courseUniLower.replace(/university of |polytechnic of /gi, '').includes(uniNameLower.replace(/università degli studi di |università di |politecnico di /gi, ''));
-            });
-            if (matchedUniversity) foundBy = 'partial match';
-          }
-          
-          // Try city matching
-          if (!matchedUniversity) {
-            matchedUniversity = universities.find(uni => 
-              courseUniLower.includes(uni.city.toLowerCase()) ||
-              courseUniLower.includes(uni.region.toLowerCase())
-            );
-            if (matchedUniversity) foundBy = 'city/region match';
-          }
-          
-          // Try keyword matching
-          if (!matchedUniversity) {
-            const keywords = {
-              'bologna': 'Università di Bologna',
-              'milano': 'Politecnico di Milano',
-              'torino': 'Politecnico di Torino',
-              'padova': 'Università degli Studi di Padova',
-              'firenze': 'Università degli Studi di Firenze',
-              'roma sapienza': 'Università degli Studi di Roma \'La Sapienza\'',
-              'roma tor vergata': 'Università degli Studi di Roma \'Tor Vergata\'',
-              'roma tre': 'Università degli Studi di Roma \'Roma Tre\'',
-              'pavia': 'Università degli Studi di Pavia',
-              'siena': 'Università degli Studi di Siena',
-              'trento': 'Università degli Studi di Trento',
-              'verona': 'Università degli Studi di Verona',
-              'genova': 'Università degli Studi di Genova',
-              'pisa': 'Università di Pisa'
-            };
-            
-            for (const [keyword, uniName] of Object.entries(keywords)) {
-              if (courseUniLower.includes(keyword)) {
-                matchedUniversity = universities.find(u => u.name === uniName);
-                if (matchedUniversity) {
-                  foundBy = 'keyword match';
-                  break;
-                }
-              }
-            }
-          }
-        }
-        
-        // If university found, link the course
         if (matchedUniversity) {
           course.universityId = matchedUniversity.id;
           course.coordinates = [matchedUniversity.lat, matchedUniversity.lng];
@@ -486,16 +479,14 @@ function linkCoursesToUniversities() {
           course.matchedUniversity = matchedUniversity.name;
           
           // Add to university's courses
-          matchedUniversity.courses.push({
+          if (!matchedUniversity.mastersCourses) matchedUniversity.mastersCourses = [];
+          matchedUniversity.mastersCourses.push({
             ...course,
             field: field.name,
             subfield: subfield.name
           });
           
           linkedCount++;
-          
-          // Debug log (comment out in production)
-          // console.log(`✓ Linked: ${course.name.substring(0, 40)}... → ${matchedUniversity.name} (${foundBy})`);
         } else {
           // Use fallback coordinates based on city
           const fallbackCoords = getFallbackCoordinates(course.university);
@@ -504,25 +495,121 @@ function linkCoursesToUniversities() {
           course.region = 'Italy';
           
           unlinkedCount++;
-          
-          // Debug log for unlinked courses
-          console.warn(`✗ Could not link: ${course.name} (${course.university}) - using fallback coordinates`);
         }
       });
     });
   });
   
-  // Log linking results
-  console.log(`\n📊 Course Linking Results:`);
-  console.log(`   Total courses: ${coursesData.stats.total_courses}`);
+  console.log(`📊 Master Courses Linking Results:`);
   console.log(`   Successfully linked: ${linkedCount}`);
   console.log(`   Using fallback coordinates: ${unlinkedCount}`);
-  console.log(`   Success rate: ${((linkedCount / coursesData.stats.total_courses) * 100).toFixed(1)}%`);
+}
+
+function linkBachelorsCoursesToUniversities() {
+  let linkedCount = 0;
+  let unlinkedCount = 0;
   
-  if (unlinkedCount > 0) {
-    console.log(`\n⚠️  ${unlinkedCount} courses need manual university matching.`);
-    console.log(`   These courses will show on the map with approximate city coordinates.`);
+  // Process all bachelor courses
+  coursesData.bachelors.fields.forEach(field => {
+    field.subfields.forEach(subfield => {
+      subfield.courses.forEach(course => {
+        const matchedUniversity = findUniversityForCourse(course.university);
+        
+        if (matchedUniversity) {
+          course.universityId = matchedUniversity.id;
+          course.coordinates = [matchedUniversity.lat, matchedUniversity.lng];
+          course.city = matchedUniversity.city;
+          course.region = matchedUniversity.region;
+          course.exactUniversityName = matchedUniversity.name;
+          course.matchedUniversity = matchedUniversity.name;
+          
+          // Add to university's courses
+          if (!matchedUniversity.bachelorsCourses) matchedUniversity.bachelorsCourses = [];
+          matchedUniversity.bachelorsCourses.push({
+            ...course,
+            field: field.name,
+            subfield: subfield.name
+          });
+          
+          linkedCount++;
+        } else {
+          // Use fallback coordinates based on city
+          const fallbackCoords = getFallbackCoordinates(course.university);
+          course.coordinates = fallbackCoords;
+          course.city = 'Unknown (approximate location)';
+          course.region = 'Italy';
+          
+          unlinkedCount++;
+        }
+      });
+    });
+  });
+  
+  console.log(`📊 Bachelor Courses Linking Results:`);
+  console.log(`   Successfully linked: ${linkedCount}`);
+  console.log(`   Using fallback coordinates: ${unlinkedCount}`);
+}
+
+function findUniversityForCourse(universityName) {
+  // Try direct mapping first
+  const mappedName = universityNameMapping[universityName];
+  if (mappedName) {
+    const university = universities.find(u => u.name === mappedName);
+    if (university) return university;
   }
+  
+  // Try string matching
+  const courseUniLower = universityName.toLowerCase().trim();
+  
+  // Try exact match
+  let university = universities.find(uni => 
+    uni.name.toLowerCase() === courseUniLower
+  );
+  if (university) return university;
+  
+  // Try partial match
+  university = universities.find(uni => {
+    const uniNameLower = uni.name.toLowerCase();
+    return uniNameLower.includes(courseUniLower) || 
+           courseUniLower.includes(uniNameLower) ||
+           uniNameLower.replace(/università degli studi di |università di |politecnico di /gi, '').includes(courseUniLower.replace(/university of |polytechnic of /gi, '')) ||
+           courseUniLower.replace(/university of |polytechnic of /gi, '').includes(uniNameLower.replace(/università degli studi di |università di |politecnico di /gi, ''));
+  });
+  if (university) return university;
+  
+  // Try city matching
+  university = universities.find(uni => 
+    courseUniLower.includes(uni.city.toLowerCase()) ||
+    courseUniLower.includes(uni.region.toLowerCase())
+  );
+  if (university) return university;
+  
+  // Try keyword matching
+  const keywords = {
+    'bologna': 'Università di Bologna',
+    'milano': 'Politecnico di Milano',
+    'torino': 'Politecnico di Torino',
+    'padova': 'Università degli Studi di Padova',
+    'firenze': 'Università degli Studi di Firenze',
+    'roma sapienza': 'Università degli Studi di Roma \'La Sapienza\'',
+    'roma tor vergata': 'Università degli Studi di Roma \'Tor Vergata\'',
+    'roma tre': 'Università degli Studi di Roma \'Roma Tre\'',
+    'pavia': 'Università degli Studi di Pavia',
+    'siena': 'Università degli Studi di Siena',
+    'trento': 'Università degli Studi di Trento',
+    'verona': 'Università degli Studi di Verona',
+    'genova': 'Università degli Studi di Genova',
+    'pisa': 'Università di Pisa'
+  };
+  
+  for (const [keyword, uniName] of Object.entries(keywords)) {
+    if (courseUniLower.includes(keyword)) {
+      const foundUni = universities.find(u => u.name === uniName);
+      if (foundUni) return foundUni;
+    }
+  }
+  
+  return null;
 }
 
 function getFallbackCoordinates(universityName) {
@@ -535,20 +622,27 @@ function getFallbackCoordinates(universityName) {
     }
   }
   
-  // Special cases
-  if (uniLower.includes('foro italico') || uniLower.includes('rome "foro italico"')) {
-    return [41.9286, 12.4622]; // Rome coordinates
-  }
-  
   // Default to Rome
   return [41.9028, 12.4964];
 }
 
-function populateFieldFilter() {
-  const fieldFilter = document.getElementById('field-filter');
+function populateMastersFieldFilter() {
+  const fieldFilter = document.getElementById('masters-field-filter');
   fieldFilter.innerHTML = '<option value="all">All Fields</option>';
   
-  coursesData.fields.forEach(field => {
+  coursesData.masters.fields.forEach(field => {
+    const option = document.createElement('option');
+    option.value = field.id;
+    option.textContent = field.name;
+    fieldFilter.appendChild(option);
+  });
+}
+
+function populateBachelorsFieldFilter() {
+  const fieldFilter = document.getElementById('bachelors-field-filter');
+  fieldFilter.innerHTML = '<option value="all">All Fields</option>';
+  
+  coursesData.bachelors.fields.forEach(field => {
     const option = document.createElement('option');
     option.value = field.id;
     option.textContent = field.name;
@@ -582,6 +676,23 @@ function getFieldColor(fieldName) {
   return colors[fieldName] || CONFIG.colors.italyGreen;
 }
 
+function getBachelorFieldColor(fieldName) {
+  const colors = {
+    'STEM – Computer Science & Artificial Intelligence': CONFIG.colors.bachelorStem,
+    'STEM – Engineering & Technology': CONFIG.colors.bachelorStem,
+    'Business, Economics & Management': CONFIG.colors.bachelorBusiness,
+    'Health & Medical Sciences': CONFIG.colors.health,
+    'Social Sciences & Humanities': CONFIG.colors.bachelorHumanities,
+    'STEM – Biological & Life Sciences': CONFIG.colors.bachelorStem,
+    'STEM – Earth & Environmental Sciences': CONFIG.colors.bachelorStem,
+    'STEM – Mathematics & Statistics': CONFIG.colors.bachelorStem,
+    'Agriculture & Animal Sciences': CONFIG.colors.env,
+    'Tourism, Hospitality & Cultural Studies': CONFIG.colors.tourism,
+    'Interdisciplinary Studies': CONFIG.colors.bachelorBusiness
+  };
+  return colors[fieldName] || CONFIG.colors.bachelorStem;
+}
+
 function getFieldIcon(fieldName) {
   const icons = {
     'STEM – Computer Science & Artificial Intelligence': 'fas fa-microchip',
@@ -599,11 +710,21 @@ function getFieldIcon(fieldName) {
   return icons[fieldName] || 'fas fa-graduation-cap';
 }
 
-function detectLanguage(courseName) {
-  const lower = courseName.toLowerCase();
-  if (lower.includes('english') || lower.includes('international')) return 'English';
-  if (lower.includes('italian') || /^[A-Z\s]+$/.test(courseName)) return 'Italian';
-  return 'Both';
+function getBachelorFieldIcon(fieldName) {
+  const icons = {
+    'STEM – Computer Science & Artificial Intelligence': 'fas fa-laptop-code',
+    'STEM – Engineering & Technology': 'fas fa-cogs',
+    'Business, Economics & Management': 'fas fa-chart-line',
+    'Health & Medical Sciences': 'fas fa-heartbeat',
+    'Social Sciences & Humanities': 'fas fa-users',
+    'STEM – Biological & Life Sciences': 'fas fa-dna',
+    'STEM – Earth & Environmental Sciences': 'fas fa-globe-europe',
+    'STEM – Mathematics & Statistics': 'fas fa-calculator',
+    'Agriculture & Animal Sciences': 'fas fa-tractor',
+    'Tourism, Hospitality & Cultural Studies': 'fas fa-umbrella-beach',
+    'Interdisciplinary Studies': 'fas fa-brain'
+  };
+  return icons[fieldName] || 'fas fa-book-open';
 }
 
 // ===== MAP FUNCTIONS =====
@@ -662,8 +783,11 @@ function initMap() {
   });
   state.map.addLayer(state.markersCluster);
 
-  state.courseMarkers = L.layerGroup();
-  state.map.addLayer(state.courseMarkers);
+  state.mastersMarkers = L.layerGroup();
+  state.map.addLayer(state.mastersMarkers);
+
+  state.bachelorsMarkers = L.layerGroup();
+  state.map.addLayer(state.bachelorsMarkers);
 
   state.map.on('drag', () => {
     state.map.panInsideBounds([
@@ -699,17 +823,23 @@ function renderUniversityMarkers(universities) {
       title: uni.name
     });
     
+    const mastersCount = uni.mastersCourses ? uni.mastersCourses.length : 0;
+    const bachelorsCount = uni.bachelorsCourses ? uni.bachelorsCourses.length : 0;
+    
     marker.bindPopup(`
       <div style="padding: 10px; font-family: 'Inter', sans-serif; max-width: 250px;">
         <h3 style="margin: 0 0 8px 0; color: #008C45; font-size: 16px; font-weight: 600;">${uni.name}</h3>
         <p style="margin: 0 0 5px 0; color: #666; font-size: 14px;">
           <i class="fas fa-map-marker-alt"></i> ${uni.city}, ${uni.region}
         </p>
-        <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">
+        <p style="margin: 0 0 5px 0; color: #666; font-size: 14px;">
           <i class="fas fa-calendar-alt"></i> Founded: ${uni.founded}
         </p>
         <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">
-          <i class="fas fa-graduation-cap"></i> ${uni.courses ? uni.courses.length : 0} master courses
+          <i class="fas fa-graduation-cap"></i> ${mastersCount} master courses
+        </p>
+        <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">
+          <i class="fas fa-book-open"></i> ${bachelorsCount} bachelor courses
         </p>
         <button onclick="showUniversityDetails('${uni.id}')" style="
           background: linear-gradient(135deg, #008C45, #006B36);
@@ -743,14 +873,11 @@ function renderUniversityMarkers(universities) {
   }
 }
 
-function renderCourseMarkers(courses) {
-  state.courseMarkers.clearLayers();
+function renderMastersMarkers(courses) {
+  state.mastersMarkers.clearLayers();
   
   courses.forEach(course => {
-    if (!course.coordinates) {
-      console.warn(`Course missing coordinates: ${course.name}`);
-      return;
-    }
+    if (!course.coordinates) return;
     
     const icon = L.divIcon({
       className: 'course-marker',
@@ -783,9 +910,9 @@ function renderCourseMarkers(courses) {
           <i class="fas fa-tag"></i> ${course.field}
         </p>
         <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">
-          <i class="fas fa-language"></i> Language: ${course.language}
+          <i class="fas fa-clock"></i> ${course.duration}
         </p>
-        <button onclick="selectCourseFromMap('${course.id}')" style="
+        <button onclick="selectMastersCourseFromMap('${course.id}')" style="
           background: ${getFieldColor(course.field)};
           color: white;
           border: none;
@@ -802,7 +929,75 @@ function renderCourseMarkers(courses) {
       </div>
     `);
     
-    marker.addTo(state.courseMarkers);
+    marker.addTo(state.mastersMarkers);
+  });
+  
+  if (courses.length > 0) {
+    const validCourses = courses.filter(c => c.coordinates);
+    if (validCourses.length > 0) {
+      const bounds = L.latLngBounds(validCourses.map(c => c.coordinates));
+      state.map.fitBounds(bounds, { padding: [50, 50] });
+    }
+  }
+}
+
+function renderBachelorsMarkers(courses) {
+  state.bachelorsMarkers.clearLayers();
+  
+  courses.forEach(course => {
+    if (!course.coordinates) return;
+    
+    const icon = L.divIcon({
+      className: 'course-marker',
+      html: `
+        <div class="course-icon" style="background: ${getBachelorFieldColor(course.field)};">
+          <i class="fas fa-book-open"></i>
+        </div>
+      `,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14]
+    });
+    
+    const marker = L.marker(course.coordinates, { icon });
+    
+    const universityName = course.exactUniversityName || course.university;
+    const locationText = course.city && course.region ? 
+      `${course.city}, ${course.region}` : 
+      'Approximate location';
+    
+    marker.bindPopup(`
+      <div style="padding: 10px; font-family: 'Inter', sans-serif; max-width: 250px;">
+        <h3 style="margin: 0 0 8px 0; color: #008C45; font-size: 16px; font-weight: 600;">${course.name}</h3>
+        <p style="margin: 0 0 5px 0; color: #666; font-size: 14px;">
+          <i class="fas fa-university"></i> ${universityName}
+        </p>
+        <p style="margin: 0 0 5px 0; color: #666; font-size: 14px;">
+          <i class="fas fa-map-marker-alt"></i> ${locationText}
+        </p>
+        <p style="margin: 0 0 5px 0; color: #666; font-size: 14px;">
+          <i class="fas fa-tag"></i> ${course.field}
+        </p>
+        <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">
+          <i class="fas fa-clock"></i> ${course.duration}
+        </p>
+        <button onclick="selectBachelorsCourseFromMap('${course.id}')" style="
+          background: ${getBachelorFieldColor(course.field)};
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 500;
+          width: 100%;
+          font-family: 'Inter', sans-serif;
+        ">
+          <i class="fas fa-info-circle"></i> View Course
+        </button>
+      </div>
+    `);
+    
+    marker.addTo(state.bachelorsMarkers);
   });
   
   if (courses.length > 0) {
@@ -818,83 +1013,135 @@ function renderCourseMarkers(courses) {
 function switchView(viewType) {
   state.currentView = viewType;
   
+  // Update toggle buttons
   document.querySelectorAll('.view-option').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.view === viewType);
   });
   
+  // Show/hide control groups
   document.querySelectorAll('.control-group').forEach(group => {
     group.style.display = group.classList.contains(`${viewType}-view`) ? 'flex' : 'none';
   });
   
+  // Show/hide legends
   document.getElementById('universities-legend').style.display = 
     viewType === 'universities' ? 'block' : 'none';
-  document.getElementById('courses-legend').style.display = 
-    viewType === 'courses' ? 'block' : 'none';
+  document.getElementById('masters-legend').style.display = 
+    viewType === 'masters' ? 'block' : 'none';
+  document.getElementById('bachelors-legend').style.display = 
+    viewType === 'bachelors' ? 'block' : 'none';
   
-  if (viewType === 'universities') {
-    if (state.coursesPanelOpen) closeCoursesPanel();
-    updateMapForCurrentView();
-  } else {
-    if (state.sidebarOpen) closeSidebar();
-    if (!state.coursesPanelOpen) openCoursesPanel();
-    loadFieldsView();
-    updateMapForCurrentView();
+  // Close panels if switching away
+  if (viewType !== 'universities' && state.sidebarOpen) closeSidebar();
+  if (viewType !== 'masters' && state.mastersPanelOpen) closeMastersPanel();
+  if (viewType !== 'bachelors' && state.bachelorsPanelOpen) closeBachelorsPanel();
+  
+  // Open appropriate panel
+  if (viewType === 'masters' && !state.mastersPanelOpen) {
+    openMastersPanel();
+    loadMastersFieldsView();
+  } else if (viewType === 'bachelors' && !state.bachelorsPanelOpen) {
+    openBachelorsPanel();
+    loadBachelorsFieldsView();
   }
+  
+  updateMapForCurrentView();
 }
 
 function updateMapForCurrentView() {
-  if (state.currentView === 'universities') {
-    state.markersCluster.clearLayers();
-    state.courseMarkers.clearLayers();
-    renderUniversityMarkers(state.filteredUniversities);
-  } else {
-    state.markersCluster.clearLayers();
-    updateCoursesMap();
-  }
-}
-
-function updateCoursesMap() {
-  state.courseMarkers.clearLayers();
+  // Clear all markers first
+  state.markersCluster.clearLayers();
+  state.mastersMarkers.clearLayers();
+  state.bachelorsMarkers.clearLayers();
   
-  if (state.selectedCourse) {
-    renderCourseMarkers([state.selectedCourse]);
-    if (state.selectedCourse.coordinates) {
-      state.map.setView(state.selectedCourse.coordinates, 12);
-    }
-  } else if (state.selectedSubfield) {
-    const courses = getAllCoursesFromSubfield(state.selectedSubfield);
-    renderCourseMarkers(courses);
-    zoomToCourses(courses);
-  } else if (state.selectedField) {
-    const courses = getAllCoursesFromField(state.selectedField);
-    renderCourseMarkers(courses);
-    zoomToCourses(courses);
-  } else {
-    const allCourses = getAllCourses();
-    renderCourseDensity(allCourses);
+  if (state.currentView === 'universities') {
+    renderUniversityMarkers(state.filteredUniversities);
+  } else if (state.currentView === 'masters') {
+    updateMastersMap();
+  } else if (state.currentView === 'bachelors') {
+    updateBachelorsMap();
   }
 }
 
-function getAllCoursesFromSubfield(subfieldId) {
-  for (const field of coursesData.fields) {
+function updateMastersMap() {
+  if (state.selectedMastersCourse) {
+    renderMastersMarkers([state.selectedMastersCourse]);
+    if (state.selectedMastersCourse.coordinates) {
+      state.map.setView(state.selectedMastersCourse.coordinates, 12);
+    }
+  } else if (state.selectedMastersSubfield) {
+    const courses = getAllMastersCoursesFromSubfield(state.selectedMastersSubfield);
+    renderMastersMarkers(courses);
+    zoomToCourses(courses);
+  } else if (state.selectedMastersField) {
+    const courses = getAllMastersCoursesFromField(state.selectedMastersField);
+    renderMastersMarkers(courses);
+    zoomToCourses(courses);
+  } else {
+    const allCourses = getAllMastersCourses();
+    renderMastersDensity(allCourses);
+  }
+}
+
+function updateBachelorsMap() {
+  if (state.selectedBachelorsCourse) {
+    renderBachelorsMarkers([state.selectedBachelorsCourse]);
+    if (state.selectedBachelorsCourse.coordinates) {
+      state.map.setView(state.selectedBachelorsCourse.coordinates, 12);
+    }
+  } else if (state.selectedBachelorsSubfield) {
+    const courses = getAllBachelorsCoursesFromSubfield(state.selectedBachelorsSubfield);
+    renderBachelorsMarkers(courses);
+    zoomToCourses(courses);
+  } else if (state.selectedBachelorsField) {
+    const courses = getAllBachelorsCoursesFromField(state.selectedBachelorsField);
+    renderBachelorsMarkers(courses);
+    zoomToCourses(courses);
+  } else {
+    const allCourses = getAllBachelorsCourses();
+    renderBachelorsDensity(allCourses);
+  }
+}
+
+function getAllMastersCoursesFromSubfield(subfieldId) {
+  for (const field of coursesData.masters.fields) {
     const subfield = field.subfields.find(s => s.id === subfieldId);
     if (subfield) return subfield.courses;
   }
   return [];
 }
 
-function getAllCoursesFromField(fieldId) {
-  const field = coursesData.fields.find(f => f.id === fieldId);
+function getAllMastersCoursesFromField(fieldId) {
+  const field = coursesData.masters.fields.find(f => f.id === fieldId);
   return field ? field.subfields.flatMap(s => s.courses) : [];
 }
 
-function getAllCourses() {
-  return coursesData.fields.flatMap(f => 
+function getAllMastersCourses() {
+  return coursesData.masters.fields.flatMap(f => 
     f.subfields.flatMap(s => s.courses)
   );
 }
 
-function renderCourseDensity(courses) {
+function getAllBachelorsCoursesFromSubfield(subfieldId) {
+  for (const field of coursesData.bachelors.fields) {
+    const subfield = field.subfields.find(s => s.id === subfieldId);
+    if (subfield) return subfield.courses;
+  }
+  return [];
+}
+
+function getAllBachelorsCoursesFromField(fieldId) {
+  const field = coursesData.bachelors.fields.find(f => f.id === fieldId);
+  return field ? field.subfields.flatMap(s => s.courses) : [];
+}
+
+function getAllBachelorsCourses() {
+  return coursesData.bachelors.fields.flatMap(f => 
+    f.subfields.flatMap(s => s.courses)
+  );
+}
+
+function renderMastersDensity(courses) {
   const universityCounts = {};
   
   courses.forEach(course => {
@@ -910,13 +1157,39 @@ function renderCourseDensity(courses) {
     
     const circle = L.circle([lat, lng], {
       radius: radius * 100,
-      color: CONFIG.colors.italyGreen,
-      fillColor: CONFIG.colors.italyGreen,
+      color: CONFIG.colors.stemCS,
+      fillColor: CONFIG.colors.stemCS,
       fillOpacity: 0.3,
       weight: 2
     });
     
-    circle.addTo(state.courseMarkers);
+    circle.addTo(state.mastersMarkers);
+  });
+}
+
+function renderBachelorsDensity(courses) {
+  const universityCounts = {};
+  
+  courses.forEach(course => {
+    if (course.coordinates) {
+      const key = `${course.coordinates[0]},${course.coordinates[1]}`;
+      universityCounts[key] = (universityCounts[key] || 0) + 1;
+    }
+  });
+  
+  Object.entries(universityCounts).forEach(([coords, count]) => {
+    const [lat, lng] = coords.split(',').map(Number);
+    const radius = Math.min(20 + (count * 5), 50);
+    
+    const circle = L.circle([lat, lng], {
+      radius: radius * 100,
+      color: CONFIG.colors.bachelorStem,
+      fillColor: CONFIG.colors.bachelorStem,
+      fillOpacity: 0.3,
+      weight: 2
+    });
+    
+    circle.addTo(state.bachelorsMarkers);
   });
 }
 
@@ -961,18 +1234,32 @@ function closeSidebar() {
   if (state.sidebarOpen) toggleSidebar();
 }
 
-function toggleCoursesPanel() {
-  state.coursesPanelOpen = !state.coursesPanelOpen;
-  const panel = document.getElementById('courses-panel');
-  panel.style.right = state.coursesPanelOpen ? '0' : '-100%';
+function toggleMastersPanel() {
+  state.mastersPanelOpen = !state.mastersPanelOpen;
+  const panel = document.getElementById('masters-panel');
+  panel.style.right = state.mastersPanelOpen ? '0' : '-100%';
 }
 
-function openCoursesPanel() {
-  if (!state.coursesPanelOpen) toggleCoursesPanel();
+function openMastersPanel() {
+  if (!state.mastersPanelOpen) toggleMastersPanel();
 }
 
-function closeCoursesPanel() {
-  if (state.coursesPanelOpen) toggleCoursesPanel();
+function closeMastersPanel() {
+  if (state.mastersPanelOpen) toggleMastersPanel();
+}
+
+function toggleBachelorsPanel() {
+  state.bachelorsPanelOpen = !state.bachelorsPanelOpen;
+  const panel = document.getElementById('bachelors-panel');
+  panel.style.right = state.bachelorsPanelOpen ? '0' : '-100%';
+}
+
+function openBachelorsPanel() {
+  if (!state.bachelorsPanelOpen) toggleBachelorsPanel();
+}
+
+function closeBachelorsPanel() {
+  if (state.bachelorsPanelOpen) toggleBachelorsPanel();
 }
 
 // ===== UNIVERSITIES LIST FUNCTIONS =====
@@ -1024,12 +1311,20 @@ function renderSimpleList(universities) {
           ${uni.type.charAt(0).toUpperCase() + uni.type.slice(1)}
         </span>
       </div>
-      ${uni.courses && uni.courses.length > 0 ? `
-        <div class="course-count" style="margin-top: 5px; font-size: 0.8rem; color: var(--text-tertiary);">
-          <i class="fas fa-graduation-cap"></i>
-          ${uni.courses.length} master courses
-        </div>
-      ` : ''}
+      <div class="course-counts" style="margin-top: 5px; display: flex; gap: 10px; font-size: 0.8rem; color: var(--text-tertiary);">
+        ${uni.mastersCourses && uni.mastersCourses.length > 0 ? `
+          <span>
+            <i class="fas fa-graduation-cap"></i>
+            ${uni.mastersCourses.length} masters
+          </span>
+        ` : ''}
+        ${uni.bachelorsCourses && uni.bachelorsCourses.length > 0 ? `
+          <span>
+            <i class="fas fa-book-open"></i>
+            ${uni.bachelorsCourses.length} bachelors
+          </span>
+        ` : ''}
+      </div>
     </div>
   `).join('');
 }
@@ -1075,12 +1370,20 @@ function renderGroupedByRegion(universities) {
                   ${uni.type.charAt(0).toUpperCase() + uni.type.slice(1)}
                 </span>
               </div>
-              ${uni.courses && uni.courses.length > 0 ? `
-                <div class="course-count" style="margin-top: 5px; font-size: 0.8rem; color: var(--text-tertiary);">
-                  <i class="fas fa-graduation-cap"></i>
-                  ${uni.courses.length} master courses
-                </div>
-              ` : ''}
+              <div class="course-counts" style="margin-top: 5px; display: flex; gap: 10px; font-size: 0.8rem; color: var(--text-tertiary);">
+                ${uni.mastersCourses && uni.mastersCourses.length > 0 ? `
+                  <span>
+                    <i class="fas fa-graduation-cap"></i>
+                    ${uni.mastersCourses.length} masters
+                  </span>
+                ` : ''}
+                ${uni.bachelorsCourses && uni.bachelorsCourses.length > 0 ? `
+                  <span>
+                    <i class="fas fa-book-open"></i>
+                    ${uni.bachelorsCourses.length} bachelors
+                  </span>
+                ` : ''}
+              </div>
             </div>
           `).join('')}
         </div>
@@ -1144,20 +1447,20 @@ function updateResultsCount() {
     current === total ? `${total} universities` : `${current} of ${total} universities`;
 }
 
-// ===== COURSES VIEW FUNCTIONS =====
-function loadFieldsView() {
-  state.coursesViewMode = 'fields';
-  state.selectedField = null;
-  state.selectedSubfield = null;
-  state.selectedCourse = null;
+// ===== MASTERS VIEW FUNCTIONS =====
+function loadMastersFieldsView() {
+  state.mastersViewMode = 'fields';
+  state.selectedMastersField = null;
+  state.selectedMastersSubfield = null;
+  state.selectedMastersCourse = null;
   
-  document.getElementById('fields-list').style.display = 'grid';
-  document.getElementById('subfields-list').style.display = 'none';
-  document.getElementById('courses-list').style.display = 'none';
-  document.getElementById('courses-empty-state').style.display = 'none';
+  document.getElementById('masters-fields-list').style.display = 'grid';
+  document.getElementById('masters-subfields-list').style.display = 'none';
+  document.getElementById('masters-courses-list').style.display = 'none';
+  document.getElementById('masters-empty-state').style.display = 'none';
   
-  const fieldsList = document.getElementById('fields-list');
-  fieldsList.innerHTML = coursesData.fields.map(field => `
+  const fieldsList = document.getElementById('masters-fields-list');
+  fieldsList.innerHTML = coursesData.masters.fields.map(field => `
     <div class="field-card" data-field-id="${field.id}">
       <div class="field-icon" style="background: ${field.color}; color: white;">
         <i class="${field.icon}"></i>
@@ -1176,27 +1479,27 @@ function loadFieldsView() {
   `).join('');
   
   fieldsList.querySelectorAll('.field-card').forEach(card => {
-    card.addEventListener('click', () => selectField(card.dataset.fieldId));
+    card.addEventListener('click', () => selectMastersField(card.dataset.fieldId));
   });
   
-  updateBreadcrumb('field', 'All Fields');
-  updateCoursesCount();
+  updateMastersBreadcrumb('field', 'All Fields');
+  updateMastersCount();
 }
 
-function selectField(fieldId) {
-  const field = coursesData.fields.find(f => f.id === fieldId);
+function selectMastersField(fieldId) {
+  const field = coursesData.masters.fields.find(f => f.id === fieldId);
   if (!field) return;
   
-  state.selectedField = field;
-  state.selectedSubfield = null;
-  state.selectedCourse = null;
-  state.coursesViewMode = 'subfields';
+  state.selectedMastersField = field;
+  state.selectedMastersSubfield = null;
+  state.selectedMastersCourse = null;
+  state.mastersViewMode = 'subfields';
   
-  document.getElementById('fields-list').style.display = 'none';
-  document.getElementById('subfields-list').style.display = 'flex';
-  document.getElementById('courses-list').style.display = 'none';
+  document.getElementById('masters-fields-list').style.display = 'none';
+  document.getElementById('masters-subfields-list').style.display = 'flex';
+  document.getElementById('masters-courses-list').style.display = 'none';
   
-  const subfieldsList = document.getElementById('subfields-list');
+  const subfieldsList = document.getElementById('masters-subfields-list');
   subfieldsList.innerHTML = field.subfields.map(subfield => `
     <div class="subfield-card" data-subfield-id="${subfield.id}">
       <h4>${subfield.name}</h4>
@@ -1208,38 +1511,37 @@ function selectField(fieldId) {
   `).join('');
   
   subfieldsList.querySelectorAll('.subfield-card').forEach(card => {
-    card.addEventListener('click', () => selectSubfield(card.dataset.subfieldId));
+    card.addEventListener('click', () => selectMastersSubfield(card.dataset.subfieldId));
   });
   
-  updateBreadcrumb('field', field.name);
-  updateBreadcrumb('subfield', 'Select Subfield');
+  updateMastersBreadcrumb('field', field.name);
+  updateMastersBreadcrumb('subfield', 'Select Subfield');
   updateMapForCurrentView();
 }
 
-function selectSubfield(subfieldId) {
-  if (!state.selectedField) return;
+function selectMastersSubfield(subfieldId) {
+  if (!state.selectedMastersField) return;
   
-  const subfield = state.selectedField.subfields.find(s => s.id === subfieldId);
+  const subfield = state.selectedMastersField.subfields.find(s => s.id === subfieldId);
   if (!subfield) return;
   
-  state.selectedSubfield = subfield;
-  state.selectedCourse = null;
-  state.coursesViewMode = 'courses';
+  state.selectedMastersSubfield = subfield;
+  state.selectedMastersCourse = null;
+  state.mastersViewMode = 'courses';
   
-  document.getElementById('subfields-list').style.display = 'none';
-  document.getElementById('courses-list').style.display = 'flex';
+  document.getElementById('masters-subfields-list').style.display = 'none';
+  document.getElementById('masters-courses-list').style.display = 'flex';
   
-  filterCoursesForList(subfield.courses);
+  filterMastersCoursesForList(subfield.courses);
   
-  updateBreadcrumb('subfield', subfield.name);
-  updateBreadcrumb('course', 'Select Course');
+  updateMastersBreadcrumb('subfield', subfield.name);
+  updateMastersBreadcrumb('course', 'Select Course');
   updateMapForCurrentView();
 }
 
-function filterCoursesForList(courses) {
-  const searchTerm = document.getElementById('course-search').value.toLowerCase();
-  const fieldFilter = document.getElementById('field-filter').value;
-  const languageFilter = document.getElementById('language-filter').value;
+function filterMastersCoursesForList(courses) {
+  const searchTerm = document.getElementById('masters-search').value.toLowerCase();
+  const fieldFilter = document.getElementById('masters-field-filter').value;
   
   let filtered = [...courses];
   
@@ -1251,21 +1553,17 @@ function filterCoursesForList(courses) {
     );
   }
   
-  if (fieldFilter !== 'all' && !state.selectedField) {
+  if (fieldFilter !== 'all' && !state.selectedMastersField) {
     filtered = filtered.filter(course => {
-      const field = coursesData.fields.find(f => f.id === fieldFilter);
+      const field = coursesData.masters.fields.find(f => f.id === fieldFilter);
       return field && course.field === field.name;
     });
   }
   
-  if (languageFilter !== 'all') {
-    filtered = filtered.filter(course => course.language === languageFilter);
-  }
+  state.filteredMastersCourses = filtered;
   
-  state.filteredCourses = filtered;
-  
-  const coursesList = document.getElementById('courses-list');
-  const emptyState = document.getElementById('courses-empty-state');
+  const coursesList = document.getElementById('masters-courses-list');
+  const emptyState = document.getElementById('masters-empty-state');
   
   if (filtered.length === 0) {
     coursesList.innerHTML = '';
@@ -1284,7 +1582,7 @@ function filterCoursesForList(courses) {
             <i class="fas fa-clock"></i>
             ${course.duration}
           </span>
-          <span class="course-language language-${course.language.toLowerCase()}">
+          <span class="course-language language-english">
             ${course.language}
           </span>
         </div>
@@ -1298,30 +1596,30 @@ function filterCoursesForList(courses) {
     `).join('');
     
     coursesList.querySelectorAll('.course-card').forEach(card => {
-      card.addEventListener('click', () => selectCourse(card.dataset.courseId));
+      card.addEventListener('click', () => selectMastersCourse(card.dataset.courseId));
     });
   }
 }
 
-function selectCourse(courseId) {
-  const course = state.filteredCourses.find(c => c.id === courseId);
+function selectMastersCourse(courseId) {
+  const course = state.filteredMastersCourses.find(c => c.id === courseId);
   if (!course) return;
   
-  state.selectedCourse = course;
-  updateBreadcrumb('course', course.name.substring(0, 30) + (course.name.length > 30 ? '...' : ''));
-  showCourseDetailsModal(course);
+  state.selectedMastersCourse = course;
+  updateMastersBreadcrumb('course', course.name.substring(0, 30) + (course.name.length > 30 ? '...' : ''));
+  showMasterCourseDetailsModal(course);
   updateMapForCurrentView();
 }
 
-function filterCourses() {
-  if (state.coursesViewMode === 'fields') {
-    const searchTerm = document.getElementById('course-search').value.toLowerCase();
-    const fieldFilter = document.getElementById('field-filter').value;
+function filterMastersCourses() {
+  if (state.mastersViewMode === 'fields') {
+    const searchTerm = document.getElementById('masters-search').value.toLowerCase();
+    const fieldFilter = document.getElementById('masters-field-filter').value;
     
-    const fieldsList = document.getElementById('fields-list');
-    const emptyState = document.getElementById('courses-empty-state');
+    const fieldsList = document.getElementById('masters-fields-list');
+    const emptyState = document.getElementById('masters-empty-state');
     
-    let fieldsToShow = coursesData.fields;
+    let fieldsToShow = coursesData.masters.fields;
     
     if (fieldFilter !== 'all') {
       fieldsToShow = fieldsToShow.filter(field => field.id === fieldFilter);
@@ -1366,16 +1664,16 @@ function filterCourses() {
       `).join('');
       
       fieldsList.querySelectorAll('.field-card').forEach(card => {
-        card.addEventListener('click', () => selectField(card.dataset.fieldId));
+        card.addEventListener('click', () => selectMastersField(card.dataset.fieldId));
       });
     }
-  } else if (state.coursesViewMode === 'subfields' && state.selectedField) {
-    const searchTerm = document.getElementById('course-search').value.toLowerCase();
+  } else if (state.mastersViewMode === 'subfields' && state.selectedMastersField) {
+    const searchTerm = document.getElementById('masters-search').value.toLowerCase();
     
-    const subfieldsList = document.getElementById('subfields-list');
-    const emptyState = document.getElementById('courses-empty-state');
+    const subfieldsList = document.getElementById('masters-subfields-list');
+    const emptyState = document.getElementById('masters-empty-state');
     
-    let subfieldsToShow = state.selectedField.subfields;
+    let subfieldsToShow = state.selectedMastersField.subfields;
     
     if (searchTerm) {
       subfieldsToShow = subfieldsToShow.filter(subfield =>
@@ -1405,18 +1703,18 @@ function filterCourses() {
       `).join('');
       
       subfieldsList.querySelectorAll('.subfield-card').forEach(card => {
-        card.addEventListener('click', () => selectSubfield(card.dataset.subfieldId));
+        card.addEventListener('click', () => selectMastersSubfield(card.dataset.subfieldId));
       });
     }
-  } else if (state.coursesViewMode === 'courses' && state.selectedSubfield) {
-    filterCoursesForList(state.selectedSubfield.courses);
+  } else if (state.mastersViewMode === 'courses' && state.selectedMastersSubfield) {
+    filterMastersCoursesForList(state.selectedMastersSubfield.courses);
   }
   
   updateMapForCurrentView();
 }
 
-function updateBreadcrumb(level, text) {
-  const breadcrumb = document.getElementById(`breadcrumb-${level}`);
+function updateMastersBreadcrumb(level, text) {
+  const breadcrumb = document.getElementById(`masters-breadcrumb-${level}`);
   if (breadcrumb) {
     breadcrumb.textContent = text;
     breadcrumb.disabled = false;
@@ -1425,7 +1723,7 @@ function updateBreadcrumb(level, text) {
     const currentIndex = levels.indexOf(level);
     
     for (let i = currentIndex + 1; i < levels.length; i++) {
-      const nextBreadcrumb = document.getElementById(`breadcrumb-${levels[i]}`);
+      const nextBreadcrumb = document.getElementById(`masters-breadcrumb-${levels[i]}`);
       if (nextBreadcrumb) {
         nextBreadcrumb.textContent = levels[i].charAt(0).toUpperCase() + levels[i].slice(1);
         nextBreadcrumb.disabled = true;
@@ -1434,28 +1732,343 @@ function updateBreadcrumb(level, text) {
   }
 }
 
-function updateCoursesCount() {
-  document.getElementById('courses-count').textContent = 
-    `${coursesData.stats.total_courses} master courses`;
+function updateMastersCount() {
+  document.getElementById('masters-count').textContent = 
+    `${coursesData.masters.stats.total_courses} master courses`;
 }
 
-function resetCoursesView() {
-  document.getElementById('course-search').value = '';
-  document.getElementById('field-filter').value = 'all';
-  document.getElementById('language-filter').value = 'all';
+function resetMastersView() {
+  document.getElementById('masters-search').value = '';
+  document.getElementById('masters-field-filter').value = 'all';
   
-  resetBreadcrumb();
-  state.selectedField = null;
-  state.selectedSubfield = null;
-  state.selectedCourse = null;
-  state.coursesViewMode = 'fields';
+  resetMastersBreadcrumb();
+  state.selectedMastersField = null;
+  state.selectedMastersSubfield = null;
+  state.selectedMastersCourse = null;
+  state.mastersViewMode = 'fields';
   
-  loadFieldsView();
+  loadMastersFieldsView();
   updateMapForCurrentView();
 }
 
-function resetBreadcrumb() {
-  document.querySelectorAll('.breadcrumb-item').forEach(item => {
+function resetMastersBreadcrumb() {
+  document.querySelectorAll('#masters-panel .breadcrumb-item').forEach(item => {
+    if (item.dataset.level === 'field') {
+      item.textContent = 'All Fields';
+      item.disabled = false;
+    } else {
+      item.textContent = item.dataset.level.charAt(0).toUpperCase() + item.dataset.level.slice(1);
+      item.disabled = true;
+    }
+  });
+}
+
+// ===== BACHELORS VIEW FUNCTIONS =====
+function loadBachelorsFieldsView() {
+  state.bachelorsViewMode = 'fields';
+  state.selectedBachelorsField = null;
+  state.selectedBachelorsSubfield = null;
+  state.selectedBachelorsCourse = null;
+  
+  document.getElementById('bachelors-fields-list').style.display = 'grid';
+  document.getElementById('bachelors-subfields-list').style.display = 'none';
+  document.getElementById('bachelors-courses-list').style.display = 'none';
+  document.getElementById('bachelors-empty-state').style.display = 'none';
+  
+  const fieldsList = document.getElementById('bachelors-fields-list');
+  fieldsList.innerHTML = coursesData.bachelors.fields.map(field => `
+    <div class="field-card" data-field-id="${field.id}">
+      <div class="field-icon" style="background: ${field.color}; color: white;">
+        <i class="${field.icon}"></i>
+      </div>
+      <h3>${field.name}</h3>
+      <p style="color: var(--text-tertiary); font-size: 0.9rem; margin-bottom: var(--spacing-sm);">
+        Explore ${field.subfields.reduce((total, subfield) => total + subfield.courses.length, 0)} bachelor courses
+      </p>
+      <div class="field-stats">
+        <span class="field-stat">
+          <i class="fas fa-book-open"></i>
+          ${field.subfields.length} subfields
+        </span>
+      </div>
+    </div>
+  `).join('');
+  
+  fieldsList.querySelectorAll('.field-card').forEach(card => {
+    card.addEventListener('click', () => selectBachelorsField(card.dataset.fieldId));
+  });
+  
+  updateBachelorsBreadcrumb('field', 'All Fields');
+  updateBachelorsCount();
+}
+
+function selectBachelorsField(fieldId) {
+  const field = coursesData.bachelors.fields.find(f => f.id === fieldId);
+  if (!field) return;
+  
+  state.selectedBachelorsField = field;
+  state.selectedBachelorsSubfield = null;
+  state.selectedBachelorsCourse = null;
+  state.bachelorsViewMode = 'subfields';
+  
+  document.getElementById('bachelors-fields-list').style.display = 'none';
+  document.getElementById('bachelors-subfields-list').style.display = 'flex';
+  document.getElementById('bachelors-courses-list').style.display = 'none';
+  
+  const subfieldsList = document.getElementById('bachelors-subfields-list');
+  subfieldsList.innerHTML = field.subfields.map(subfield => `
+    <div class="subfield-card" data-subfield-id="${subfield.id}">
+      <h4>${subfield.name}</h4>
+      <div class="course-count">
+        <i class="fas fa-book-open"></i>
+        ${subfield.courses.length} courses available
+      </div>
+    </div>
+  `).join('');
+  
+  subfieldsList.querySelectorAll('.subfield-card').forEach(card => {
+    card.addEventListener('click', () => selectBachelorsSubfield(card.dataset.subfieldId));
+  });
+  
+  updateBachelorsBreadcrumb('field', field.name);
+  updateBachelorsBreadcrumb('subfield', 'Select Subfield');
+  updateMapForCurrentView();
+}
+
+function selectBachelorsSubfield(subfieldId) {
+  if (!state.selectedBachelorsField) return;
+  
+  const subfield = state.selectedBachelorsField.subfields.find(s => s.id === subfieldId);
+  if (!subfield) return;
+  
+  state.selectedBachelorsSubfield = subfield;
+  state.selectedBachelorsCourse = null;
+  state.bachelorsViewMode = 'courses';
+  
+  document.getElementById('bachelors-subfields-list').style.display = 'none';
+  document.getElementById('bachelors-courses-list').style.display = 'flex';
+  
+  filterBachelorsCoursesForList(subfield.courses);
+  
+  updateBachelorsBreadcrumb('subfield', subfield.name);
+  updateBachelorsBreadcrumb('course', 'Select Course');
+  updateMapForCurrentView();
+}
+
+function filterBachelorsCoursesForList(courses) {
+  const searchTerm = document.getElementById('bachelors-search').value.toLowerCase();
+  const fieldFilter = document.getElementById('bachelors-field-filter').value;
+  
+  let filtered = [...courses];
+  
+  if (searchTerm) {
+    filtered = filtered.filter(course =>
+      course.name.toLowerCase().includes(searchTerm) ||
+      course.university.toLowerCase().includes(searchTerm) ||
+      (course.exactUniversityName && course.exactUniversityName.toLowerCase().includes(searchTerm))
+    );
+  }
+  
+  if (fieldFilter !== 'all' && !state.selectedBachelorsField) {
+    filtered = filtered.filter(course => {
+      const field = coursesData.bachelors.fields.find(f => f.id === fieldFilter);
+      return field && course.field === field.name;
+    });
+  }
+  
+  state.filteredBachelorsCourses = filtered;
+  
+  const coursesList = document.getElementById('bachelors-courses-list');
+  const emptyState = document.getElementById('bachelors-empty-state');
+  
+  if (filtered.length === 0) {
+    coursesList.innerHTML = '';
+    emptyState.style.display = 'block';
+  } else {
+    emptyState.style.display = 'none';
+    coursesList.innerHTML = filtered.map((course, index) => `
+      <div class="course-card" data-course-id="${course.id}" style="animation-delay: ${index * 0.05}s">
+        <h4>${course.name}</h4>
+        <div class="university-name">
+          <i class="fas fa-university"></i>
+          ${course.exactUniversityName || course.university}
+        </div>
+        <div class="course-meta">
+          <span class="course-duration">
+            <i class="fas fa-clock"></i>
+            ${course.duration}
+          </span>
+          <span class="course-language language-english">
+            ${course.language}
+          </span>
+        </div>
+        ${course.city && course.city !== 'Unknown (approximate location)' ? `
+          <div class="location-info" style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 5px;">
+            <i class="fas fa-map-marker-alt"></i>
+            ${course.city}, ${course.region}
+          </div>
+        ` : ''}
+      </div>
+    `).join('');
+    
+    coursesList.querySelectorAll('.course-card').forEach(card => {
+      card.addEventListener('click', () => selectBachelorsCourse(card.dataset.courseId));
+    });
+  }
+}
+
+function selectBachelorsCourse(courseId) {
+  const course = state.filteredBachelorsCourses.find(c => c.id === courseId);
+  if (!course) return;
+  
+  state.selectedBachelorsCourse = course;
+  updateBachelorsBreadcrumb('course', course.name.substring(0, 30) + (course.name.length > 30 ? '...' : ''));
+  showBachelorCourseDetailsModal(course);
+  updateMapForCurrentView();
+}
+
+function filterBachelorsCourses() {
+  if (state.bachelorsViewMode === 'fields') {
+    const searchTerm = document.getElementById('bachelors-search').value.toLowerCase();
+    const fieldFilter = document.getElementById('bachelors-field-filter').value;
+    
+    const fieldsList = document.getElementById('bachelors-fields-list');
+    const emptyState = document.getElementById('bachelors-empty-state');
+    
+    let fieldsToShow = coursesData.bachelors.fields;
+    
+    if (fieldFilter !== 'all') {
+      fieldsToShow = fieldsToShow.filter(field => field.id === fieldFilter);
+    }
+    
+    if (searchTerm) {
+      fieldsToShow = fieldsToShow.filter(field =>
+        field.name.toLowerCase().includes(searchTerm) ||
+        field.subfields.some(subfield =>
+          subfield.name.toLowerCase().includes(searchTerm) ||
+          subfield.courses.some(course =>
+            course.name.toLowerCase().includes(searchTerm) ||
+            course.university.toLowerCase().includes(searchTerm) ||
+            (course.exactUniversityName && course.exactUniversityName.toLowerCase().includes(searchTerm))
+          )
+        )
+      );
+    }
+    
+    if (fieldsToShow.length === 0) {
+      fieldsList.style.display = 'none';
+      emptyState.style.display = 'block';
+    } else {
+      fieldsList.style.display = 'grid';
+      emptyState.style.display = 'none';
+      fieldsList.innerHTML = fieldsToShow.map(field => `
+        <div class="field-card" data-field-id="${field.id}">
+          <div class="field-icon" style="background: ${field.color}; color: white;">
+            <i class="${field.icon}"></i>
+          </div>
+          <h3>${field.name}</h3>
+          <p style="color: var(--text-tertiary); font-size: 0.9rem; margin-bottom: var(--spacing-sm);">
+            Explore ${field.subfields.reduce((total, subfield) => total + subfield.courses.length, 0)} bachelor courses
+          </p>
+          <div class="field-stats">
+            <span class="field-stat">
+              <i class="fas fa-book-open"></i>
+              ${field.subfields.length} subfields
+            </span>
+          </div>
+        </div>
+      `).join('');
+      
+      fieldsList.querySelectorAll('.field-card').forEach(card => {
+        card.addEventListener('click', () => selectBachelorsField(card.dataset.fieldId));
+      });
+    }
+  } else if (state.bachelorsViewMode === 'subfields' && state.selectedBachelorsField) {
+    const searchTerm = document.getElementById('bachelors-search').value.toLowerCase();
+    
+    const subfieldsList = document.getElementById('bachelors-subfields-list');
+    const emptyState = document.getElementById('bachelors-empty-state');
+    
+    let subfieldsToShow = state.selectedBachelorsField.subfields;
+    
+    if (searchTerm) {
+      subfieldsToShow = subfieldsToShow.filter(subfield =>
+        subfield.name.toLowerCase().includes(searchTerm) ||
+        subfield.courses.some(course =>
+          course.name.toLowerCase().includes(searchTerm) ||
+          course.university.toLowerCase().includes(searchTerm) ||
+          (course.exactUniversityName && course.exactUniversityName.toLowerCase().includes(searchTerm))
+        )
+      );
+    }
+    
+    if (subfieldsToShow.length === 0) {
+      subfieldsList.style.display = 'none';
+      emptyState.style.display = 'block';
+    } else {
+      subfieldsList.style.display = 'flex';
+      emptyState.style.display = 'none';
+      subfieldsList.innerHTML = subfieldsToShow.map(subfield => `
+        <div class="subfield-card" data-subfield-id="${subfield.id}">
+          <h4>${subfield.name}</h4>
+          <div class="course-count">
+            <i class="fas fa-book-open"></i>
+            ${subfield.courses.length} courses available
+          </div>
+        </div>
+      `).join('');
+      
+      subfieldsList.querySelectorAll('.subfield-card').forEach(card => {
+        card.addEventListener('click', () => selectBachelorsSubfield(card.dataset.subfieldId));
+      });
+    }
+  } else if (state.bachelorsViewMode === 'courses' && state.selectedBachelorsSubfield) {
+    filterBachelorsCoursesForList(state.selectedBachelorsSubfield.courses);
+  }
+  
+  updateMapForCurrentView();
+}
+
+function updateBachelorsBreadcrumb(level, text) {
+  const breadcrumb = document.getElementById(`bachelors-breadcrumb-${level}`);
+  if (breadcrumb) {
+    breadcrumb.textContent = text;
+    breadcrumb.disabled = false;
+    
+    const levels = ['field', 'subfield', 'course'];
+    const currentIndex = levels.indexOf(level);
+    
+    for (let i = currentIndex + 1; i < levels.length; i++) {
+      const nextBreadcrumb = document.getElementById(`bachelors-breadcrumb-${levels[i]}`);
+      if (nextBreadcrumb) {
+        nextBreadcrumb.textContent = levels[i].charAt(0).toUpperCase() + levels[i].slice(1);
+        nextBreadcrumb.disabled = true;
+      }
+    }
+  }
+}
+
+function updateBachelorsCount() {
+  document.getElementById('bachelors-count').textContent = 
+    `${coursesData.bachelors.stats.total_courses} bachelor courses`;
+}
+
+function resetBachelorsView() {
+  document.getElementById('bachelors-search').value = '';
+  document.getElementById('bachelors-field-filter').value = 'all';
+  
+  resetBachelorsBreadcrumb();
+  state.selectedBachelorsField = null;
+  state.selectedBachelorsSubfield = null;
+  state.selectedBachelorsCourse = null;
+  state.bachelorsViewMode = 'fields';
+  
+  loadBachelorsFieldsView();
+  updateMapForCurrentView();
+}
+
+function resetBachelorsBreadcrumb() {
+  document.querySelectorAll('#bachelors-panel .breadcrumb-item').forEach(item => {
     if (item.dataset.level === 'field') {
       item.textContent = 'All Fields';
       item.disabled = false;
@@ -1497,54 +2110,29 @@ function showUniversityDetails(universityId) {
   document.getElementById('modal-description').textContent = university.description;
   document.getElementById('modal-website').href = university.website;
   
-  const coursesSection = document.querySelector('.modal-courses');
-  const coursesList = document.getElementById('modal-courses-list');
-  
-  if (university.courses && university.courses.length > 0) {
-    coursesSection.style.display = 'block';
-    coursesList.innerHTML = university.courses.map(course => `
-      <div class="modal-course-item">
-        <h4>${course.name}</h4>
-        <div>
-          <span class="course-field-badge" style="background: ${getFieldColor(course.field)}; color: white;">
-            ${course.field.split(' – ')[0]}
-          </span>
-          <span style="color: var(--text-tertiary); font-size: 0.85rem;">
-            <i class="fas fa-clock"></i> ${course.duration} • 
-            <i class="fas fa-language"></i> ${course.language}
-          </span>
-        </div>
-      </div>
-    `).join('');
-  } else {
-    coursesSection.style.display = 'none';
-  }
-  
   document.getElementById('university-modal').style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
 
-function showCourseDetailsModal(course) {
-  // Find the exact university if linked
+function showMasterCourseDetailsModal(course) {
   const university = universities.find(u => u.id === course.universityId);
   const universityName = university ? university.name : course.exactUniversityName || course.university;
   const locationText = university ? `${university.city}, ${university.region}` : 
     (course.city && course.region ? `${course.city}, ${course.region}` : 'Location information not available');
   
-  document.getElementById('course-name').textContent = course.name;
-  document.getElementById('course-university').textContent = universityName;
-  document.getElementById('course-location').textContent = locationText;
-  document.getElementById('course-duration').textContent = course.duration;
-  document.getElementById('course-lang').textContent = course.language;
-  document.getElementById('course-degree').textContent = course.courseType;
+  document.getElementById('master-course-name').textContent = course.name;
+  document.getElementById('master-course-university').textContent = universityName;
+  document.getElementById('master-course-location').textContent = locationText;
+  document.getElementById('master-course-duration').textContent = course.duration;
+  document.getElementById('master-course-lang').textContent = course.language;
+  document.getElementById('master-course-degree').textContent = course.courseType;
   
-  const fieldElement = document.getElementById('course-field');
+  const fieldElement = document.getElementById('master-course-field');
   fieldElement.textContent = course.field;
   fieldElement.style.background = getFieldColor(course.field);
   
-  document.getElementById('course-language').textContent = course.language;
+  document.getElementById('master-course-language').textContent = course.language;
   
-  // Enhanced description
   let description = `This ${course.duration.toLowerCase()} ${course.courseType} program in ${course.subfield} `;
   
   if (university) {
@@ -1557,20 +2145,15 @@ function showCourseDetailsModal(course) {
     }
   }
   
-  description += course.language === 'English' ? 
-    'The program is taught entirely in English, making it accessible to international students.' : 
-    course.language === 'Italian' ? 
-    'The program is taught in Italian, providing immersion in the local language and culture.' :
-    'The program offers courses in both English and Italian.';
+  description += 'The program is taught entirely in English, making it accessible to international students.';
   
   if (!university) {
     description += ' (Note: University location is approximate based on city name matching.)';
   }
   
-  document.getElementById('course-description').textContent = description;
+  document.getElementById('master-course-description').textContent = description;
   
-  // Update website link
-  const websiteBtn = document.getElementById('course-website');
+  const websiteBtn = document.getElementById('master-course-website');
   if (university && university.website) {
     websiteBtn.href = university.website;
     websiteBtn.style.display = 'flex';
@@ -1579,15 +2162,73 @@ function showCourseDetailsModal(course) {
     websiteBtn.style.display = 'flex';
   }
   
-  // Update locate button visibility
-  const locateBtn = document.getElementById('course-locate-university');
+  const locateBtn = document.getElementById('master-course-locate-university');
   if (course.coordinates) {
     locateBtn.style.display = 'flex';
   } else {
     locateBtn.style.display = 'none';
   }
   
-  document.getElementById('course-modal').style.display = 'flex';
+  document.getElementById('master-course-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function showBachelorCourseDetailsModal(course) {
+  const university = universities.find(u => u.id === course.universityId);
+  const universityName = university ? university.name : course.exactUniversityName || course.university;
+  const locationText = university ? `${university.city}, ${university.region}` : 
+    (course.city && course.region ? `${course.city}, ${course.region}` : 'Location information not available');
+  
+  document.getElementById('bachelor-course-name').textContent = course.name;
+  document.getElementById('bachelor-course-university').textContent = universityName;
+  document.getElementById('bachelor-course-location').textContent = locationText;
+  document.getElementById('bachelor-course-duration').textContent = course.duration;
+  document.getElementById('bachelor-course-lang').textContent = course.language;
+  document.getElementById('bachelor-course-degree').textContent = course.courseType;
+  
+  const fieldElement = document.getElementById('bachelor-course-field');
+  fieldElement.textContent = course.field;
+  fieldElement.style.background = getBachelorFieldColor(course.field);
+  
+  document.getElementById('bachelor-course-language').textContent = course.language;
+  
+  let description = `This ${course.duration.toLowerCase()} ${course.courseType} program in ${course.subfield} `;
+  
+  if (university) {
+    description += `is offered by ${university.name} in ${university.city}, ${university.region}. `;
+    description += `Founded in ${university.founded}, this university ${university.description.toLowerCase()}. `;
+  } else {
+    description += `is offered by ${course.university}. `;
+    if (course.city && course.city !== 'Unknown (approximate location)') {
+      description += `Located in ${course.city}, ${course.region}. `;
+    }
+  }
+  
+  description += 'The program is taught entirely in English, making it accessible to international students.';
+  
+  if (!university) {
+    description += ' (Note: University location is approximate based on city name matching.)';
+  }
+  
+  document.getElementById('bachelor-course-description').textContent = description;
+  
+  const websiteBtn = document.getElementById('bachelor-course-website');
+  if (university && university.website) {
+    websiteBtn.href = university.website;
+    websiteBtn.style.display = 'flex';
+  } else {
+    websiteBtn.href = '#';
+    websiteBtn.style.display = 'flex';
+  }
+  
+  const locateBtn = document.getElementById('bachelor-course-locate-university');
+  if (course.coordinates) {
+    locateBtn.style.display = 'flex';
+  } else {
+    locateBtn.style.display = 'none';
+  }
+  
+  document.getElementById('bachelor-course-modal').style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
 
@@ -1607,64 +2248,42 @@ function locateUniversityOnMap() {
   });
 }
 
-function locateCourseUniversity() {
-  if (!state.selectedCourse || !state.selectedCourse.coordinates || !state.map) return;
+function locateMasterCourseUniversity() {
+  if (!state.selectedMastersCourse || !state.selectedMastersCourse.coordinates || !state.map) return;
   
-  state.map.setView(state.selectedCourse.coordinates, 14);
-  document.getElementById('course-modal').style.display = 'none';
+  state.map.setView(state.selectedMastersCourse.coordinates, 14);
+  document.getElementById('master-course-modal').style.display = 'none';
   document.body.style.overflow = '';
   
-  // Highlight the course marker
-  state.courseMarkers.eachLayer(layer => {
-    if (layer.getLatLng().lat === state.selectedCourse.coordinates[0] && 
-        layer.getLatLng().lng === state.selectedCourse.coordinates[1]) {
+  state.mastersMarkers.eachLayer(layer => {
+    if (layer.getLatLng().lat === state.selectedMastersCourse.coordinates[0] && 
+        layer.getLatLng().lng === state.selectedMastersCourse.coordinates[1]) {
       layer.openPopup();
     }
   });
 }
 
-function showSimilarCourses() {
-  if (!state.selectedCourse) return;
+function locateBachelorCourseUniversity() {
+  if (!state.selectedBachelorsCourse || !state.selectedBachelorsCourse.coordinates || !state.map) return;
   
-  const similarCourses = [];
-  coursesData.fields.forEach(field => {
-    field.subfields.forEach(subfield => {
-      if (subfield.name === state.selectedCourse.subfield) {
-        subfield.courses.forEach(course => {
-          if (course.id !== state.selectedCourse.id) {
-            similarCourses.push(course);
-          }
-        });
-      }
-    });
-  });
-  
-  state.selectedSubfield = {
-    id: 'similar-courses',
-    name: `Similar to: ${state.selectedCourse.name}`,
-    courses: similarCourses
-  };
-  
-  state.coursesViewMode = 'courses';
-  document.getElementById('subfields-list').style.display = 'none';
-  document.getElementById('courses-list').style.display = 'flex';
-  
-  filterCoursesForList(similarCourses);
-  
-  updateBreadcrumb('subfield', `Similar Courses (${similarCourses.length})`);
-  updateBreadcrumb('course', 'Select Course');
-  
-  updateMapForCurrentView();
-  
-  document.getElementById('course-modal').style.display = 'none';
+  state.map.setView(state.selectedBachelorsCourse.coordinates, 14);
+  document.getElementById('bachelor-course-modal').style.display = 'none';
   document.body.style.overflow = '';
+  
+  state.bachelorsMarkers.eachLayer(layer => {
+    if (layer.getLatLng().lat === state.selectedBachelorsCourse.coordinates[0] && 
+        layer.getLatLng().lng === state.selectedBachelorsCourse.coordinates[1]) {
+      layer.openPopup();
+    }
+  });
 }
 
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
   // View toggles
   document.getElementById('view-universities').addEventListener('click', () => switchView('universities'));
-  document.getElementById('view-courses').addEventListener('click', () => switchView('courses'));
+  document.getElementById('view-masters').addEventListener('click', () => switchView('masters'));
+  document.getElementById('view-bachelors').addEventListener('click', () => switchView('bachelors'));
   
   // Universities view
   document.getElementById('search-input').addEventListener('input', debounce(filterUniversities, 300));
@@ -1679,24 +2298,44 @@ function setupEventListeners() {
   document.getElementById('toggle-sidebar').addEventListener('click', toggleSidebar);
   document.getElementById('sidebar-close').addEventListener('click', closeSidebar);
   
-  // Courses view
-  document.getElementById('clear-course-search').addEventListener('click', () => {
-    document.getElementById('course-search').value = '';
-    filterCourses();
+  // Masters view
+  document.getElementById('clear-masters-search').addEventListener('click', () => {
+    document.getElementById('masters-search').value = '';
+    filterMastersCourses();
   });
   
-  document.getElementById('reset-courses').addEventListener('click', resetCoursesView);
-  document.getElementById('courses-close').addEventListener('click', closeCoursesPanel);
+  document.getElementById('reset-masters').addEventListener('click', resetMastersView);
+  document.getElementById('masters-close').addEventListener('click', closeMastersPanel);
   
-  document.getElementById('field-filter').addEventListener('change', filterCourses);
-  document.getElementById('language-filter').addEventListener('change', filterCourses);
-  document.getElementById('course-search').addEventListener('input', debounce(filterCourses, 300));
+  document.getElementById('masters-field-filter').addEventListener('change', filterMastersCourses);
+  document.getElementById('masters-search').addEventListener('input', debounce(filterMastersCourses, 300));
   
-  // Breadcrumb
-  document.querySelectorAll('.breadcrumb-item').forEach(item => {
+  // Bachelors view
+  document.getElementById('clear-bachelors-search').addEventListener('click', () => {
+    document.getElementById('bachelors-search').value = '';
+    filterBachelorsCourses();
+  });
+  
+  document.getElementById('reset-bachelors').addEventListener('click', resetBachelorsView);
+  document.getElementById('bachelors-close').addEventListener('click', closeBachelorsPanel);
+  
+  document.getElementById('bachelors-field-filter').addEventListener('change', filterBachelorsCourses);
+  document.getElementById('bachelors-search').addEventListener('input', debounce(filterBachelorsCourses, 300));
+  
+  // Masters Breadcrumb
+  document.querySelectorAll('#masters-panel .breadcrumb-item').forEach(item => {
     item.addEventListener('click', () => {
       if (!item.disabled) {
-        handleBreadcrumbClick(item.dataset.level);
+        handleMastersBreadcrumbClick(item.dataset.level);
+      }
+    });
+  });
+  
+  // Bachelors Breadcrumb
+  document.querySelectorAll('#bachelors-panel .breadcrumb-item').forEach(item => {
+    item.addEventListener('click', () => {
+      if (!item.disabled) {
+        handleBachelorsBreadcrumbClick(item.dataset.level);
       }
     });
   });
@@ -1705,8 +2344,10 @@ function setupEventListeners() {
   document.getElementById('reset-view').addEventListener('click', resetAll);
   document.getElementById('reset-filters').addEventListener('click', resetAll);
   document.getElementById('reset-filters-empty').addEventListener('click', resetAll);
-  document.getElementById('reset-courses-filters').addEventListener('click', resetCoursesView);
-  document.getElementById('reset-courses-filters-empty').addEventListener('click', resetCoursesView);
+  document.getElementById('reset-masters-filters').addEventListener('click', resetMastersView);
+  document.getElementById('reset-masters-filters-empty').addEventListener('click', resetMastersView);
+  document.getElementById('reset-bachelors-filters').addEventListener('click', resetBachelorsView);
+  document.getElementById('reset-bachelors-filters-empty').addEventListener('click', resetBachelorsView);
   
   // Modals
   document.getElementById('modal-close').addEventListener('click', () => {
@@ -1721,18 +2362,29 @@ function setupEventListeners() {
   
   document.getElementById('modal-locate').addEventListener('click', locateUniversityOnMap);
   
-  document.getElementById('course-modal-close').addEventListener('click', () => {
-    document.getElementById('course-modal').style.display = 'none';
+  document.getElementById('master-course-modal-close').addEventListener('click', () => {
+    document.getElementById('master-course-modal').style.display = 'none';
     document.body.style.overflow = '';
   });
   
-  document.querySelector('#course-modal .modal-overlay').addEventListener('click', () => {
-    document.getElementById('course-modal').style.display = 'none';
+  document.querySelector('#master-course-modal .modal-overlay').addEventListener('click', () => {
+    document.getElementById('master-course-modal').style.display = 'none';
     document.body.style.overflow = '';
   });
   
-  document.getElementById('course-locate-university').addEventListener('click', locateCourseUniversity);
-  document.getElementById('course-show-similar').addEventListener('click', showSimilarCourses);
+  document.getElementById('master-course-locate-university').addEventListener('click', locateMasterCourseUniversity);
+  
+  document.getElementById('bachelor-course-modal-close').addEventListener('click', () => {
+    document.getElementById('bachelor-course-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  });
+  
+  document.querySelector('#bachelor-course-modal .modal-overlay').addEventListener('click', () => {
+    document.getElementById('bachelor-course-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  });
+  
+  document.getElementById('bachelor-course-locate-university').addEventListener('click', locateBachelorCourseUniversity);
   
   // Escape key
   document.addEventListener('keydown', (e) => {
@@ -1741,8 +2393,12 @@ function setupEventListeners() {
         document.getElementById('university-modal').style.display = 'none';
         document.body.style.overflow = '';
       }
-      if (document.getElementById('course-modal').style.display === 'flex') {
-        document.getElementById('course-modal').style.display = 'none';
+      if (document.getElementById('master-course-modal').style.display === 'flex') {
+        document.getElementById('master-course-modal').style.display = 'none';
+        document.body.style.overflow = '';
+      }
+      if (document.getElementById('bachelor-course-modal').style.display === 'flex') {
+        document.getElementById('bachelor-course-modal').style.display = 'none';
         document.body.style.overflow = '';
       }
     }
@@ -1767,42 +2423,65 @@ function setupEventListeners() {
   if (window.innerWidth <= 768) {
     document.addEventListener('click', (e) => {
       const sidebar = document.getElementById('sidebar');
-      const coursesPanel = document.getElementById('courses-panel');
+      const mastersPanel = document.getElementById('masters-panel');
+      const bachelorsPanel = document.getElementById('bachelors-panel');
       const toggleBtn = document.getElementById('toggle-sidebar');
       
       if (state.sidebarOpen && !sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
         closeSidebar();
       }
       
-      if (state.coursesPanelOpen && !coursesPanel.contains(e.target)) {
-        closeCoursesPanel();
+      if (state.mastersPanelOpen && !mastersPanel.contains(e.target)) {
+        closeMastersPanel();
+      }
+      
+      if (state.bachelorsPanelOpen && !bachelorsPanel.contains(e.target)) {
+        closeBachelorsPanel();
       }
     });
   }
 }
 
-function handleBreadcrumbClick(level) {
+function handleMastersBreadcrumbClick(level) {
   switch(level) {
     case 'field':
-      loadFieldsView();
+      loadMastersFieldsView();
       break;
     case 'subfield':
-      if (state.selectedField) {
-        selectField(state.selectedField.id);
+      if (state.selectedMastersField) {
+        selectMastersField(state.selectedMastersField.id);
       }
       break;
     case 'course':
-      if (state.selectedSubfield) {
-        selectSubfield(state.selectedSubfield.id);
+      if (state.selectedMastersSubfield) {
+        selectMastersSubfield(state.selectedMastersSubfield.id);
       }
       break;
   }
 }
 
-function selectCourseFromMap(courseId) {
+function handleBachelorsBreadcrumbClick(level) {
+  switch(level) {
+    case 'field':
+      loadBachelorsFieldsView();
+      break;
+    case 'subfield':
+      if (state.selectedBachelorsField) {
+        selectBachelorsField(state.selectedBachelorsField.id);
+      }
+      break;
+    case 'course':
+      if (state.selectedBachelorsSubfield) {
+        selectBachelorsSubfield(state.selectedBachelorsSubfield.id);
+      }
+      break;
+  }
+}
+
+function selectMastersCourseFromMap(courseId) {
   let foundCourse = null;
   
-  for (const field of coursesData.fields) {
+  for (const field of coursesData.masters.fields) {
     for (const subfield of field.subfields) {
       const course = subfield.courses.find(c => c.id === courseId);
       if (course) {
@@ -1814,8 +2493,28 @@ function selectCourseFromMap(courseId) {
   }
   
   if (foundCourse) {
-    state.selectedCourse = foundCourse;
-    showCourseDetailsModal(foundCourse);
+    state.selectedMastersCourse = foundCourse;
+    showMasterCourseDetailsModal(foundCourse);
+  }
+}
+
+function selectBachelorsCourseFromMap(courseId) {
+  let foundCourse = null;
+  
+  for (const field of coursesData.bachelors.fields) {
+    for (const subfield of field.subfields) {
+      const course = subfield.courses.find(c => c.id === courseId);
+      if (course) {
+        foundCourse = course;
+        break;
+      }
+    }
+    if (foundCourse) break;
+  }
+  
+  if (foundCourse) {
+    state.selectedBachelorsCourse = foundCourse;
+    showBachelorCourseDetailsModal(foundCourse);
   }
 }
 
@@ -1836,6 +2535,8 @@ function resetAll() {
   
   if (window.innerWidth <= 768) {
     closeSidebar();
+    closeMastersPanel();
+    closeBachelorsPanel();
   }
 }
 
@@ -1853,8 +2554,10 @@ function debounce(func, wait) {
 
 // ===== GLOBAL EXPORTS =====
 window.showUniversityDetails = showUniversityDetails;
-window.selectCourseFromMap = selectCourseFromMap;
-window.handleBreadcrumbClick = handleBreadcrumbClick;
+window.selectMastersCourseFromMap = selectMastersCourseFromMap;
+window.selectBachelorsCourseFromMap = selectBachelorsCourseFromMap;
+window.handleMastersBreadcrumbClick = handleMastersBreadcrumbClick;
+window.handleBachelorsBreadcrumbClick = handleBachelorsBreadcrumbClick;
 
 // ===== INITIALIZE =====
 if (document.readyState === 'loading') {
