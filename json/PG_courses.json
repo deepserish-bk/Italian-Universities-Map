@@ -1,0 +1,1934 @@
+{
+  "fields": [
+    {
+      "name": "STEM – Computer Science & Artificial Intelligence",
+      "subfields": [
+        {
+          "name": "Artificial Intelligence",
+          "courses": [
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE",
+              "university": "Università degli Studi di Verona"
+            },
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE (PROCEDURE FOR NON-EU STUDENTS RESIDING OUTSIDE ITALY)",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE & CYBERSECURITY",
+              "university": "Università degli Studi di Udine"
+            },
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE AND AUTOMATION ENGINEERING",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE AND COMPUTER SCIENCE",
+              "university": "Università della Calabria"
+            },
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE AND DATA ENGINEERING",
+              "university": "Università di Pisa"
+            },
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE AND ROBOTICS",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE ENGINEERING",
+              "university": "Università degli Studi di Modena e Reggio Emilia"
+            },
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE FOR SCIENCE AND TECHNOLOGY",
+              "university": "Università degli Studi di Milano-Bicocca"
+            },
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE SYSTEMS",
+              "university": "Università degli Studi di Trento"
+            },
+            {
+              "course_name": "HUMAN-CENTERED ARTIFICIAL INTELLIGENCE",
+              "university": "Università degli Studi di Milano"
+            }
+          ]
+        },
+        {
+          "name": "Computer Science",
+          "courses": [
+            {
+              "course_name": "APPLIED COMPUTER SCIENCE (MACHINE LEARNING AND BIG DATA)",
+              "university": "Università degli Studi di Napoli 'Parthenope'"
+            },
+            {
+              "course_name": "COMPUTER SCIENCE",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "COMPUTER SCIENCE",
+              "university": "Università degli Studi dell'Aquila"
+            },
+            {
+              "course_name": "COMPUTER SCIENCE",
+              "university": "Università degli Studi di Bari Aldo Moro"
+            },
+            {
+              "course_name": "COMPUTER SCIENCE",
+              "university": "Università degli Studi di Camerino"
+            },
+            {
+              "course_name": "COMPUTER SCIENCE",
+              "university": "Università degli Studi dell'Insubria"
+            },
+            {
+              "course_name": "COMPUTER SCIENCE",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "COMPUTER SCIENCE",
+              "university": "Università di Pisa"
+            },
+            {
+              "course_name": "COMPUTER SCIENCE",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "COMPUTER SCIENCE",
+              "university": "Università degli Studi di Trento"
+            },
+            {
+              "course_name": "COMPUTER SCIENCE AND ENGINEERING",
+              "university": "Politecnico di Milano"
+            },
+            {
+              "course_name": "COMPUTER SCIENCE AND INFORMATION TECHNOLOGY",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "COMPUTER SCIENCE AND NETWORKING",
+              "university": "Università di Pisa"
+            },
+            {
+              "course_name": "ENGINEERING IN COMPUTER SCIENCE",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "SOFTWARE: SCIENCE AND TECHNOLOGY",
+              "university": "Università degli Studi di Firenze"
+            }
+          ]
+        },
+        {
+          "name": "Cybersecurity",
+          "courses": [
+            {
+              "course_name": "CYBERSECURITY",
+              "university": "Politecnico di Torino"
+            },
+            {
+              "course_name": "CYBERSECURITY",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "CYBERSECURITY",
+              "university": "Università di Pisa"
+            },
+            {
+              "course_name": "CYBERSECURITY",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "COMPUTER ENGINEERING, CYBERSECURITY AND ARTIFICIAL INTELLIGENCE",
+              "university": "Università degli Studi di Cagliari"
+            }
+          ]
+        },
+        {
+          "name": "Computer Engineering",
+          "courses": [
+            {
+              "course_name": "COMPUTER ENGINEERING",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "COMPUTER ENGINEERING",
+              "university": "Politecnico di Torino"
+            },
+            {
+              "course_name": "COMPUTER ENGINEERING",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "COMPUTER ENGINEERING",
+              "university": "Università di Pisa"
+            },
+            {
+              "course_name": "COMPUTER ENGINEERING",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "COMPUTER ENGINEERING FOR ROBOTICS AND SMART INDUSTRY",
+              "university": "Università degli Studi di Verona"
+            },
+            {
+              "course_name": "MASTER DEGREE IN COMPUTER ENGINEERING",
+              "university": "Politecnico di Bari"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "STEM – Engineering & Technology",
+      "subfields": [
+        {
+          "name": "Aerospace Engineering",
+          "courses": [
+            {
+              "course_name": "AEROSPACE ENGINEERING",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "AEROSPACE ENGINEERING",
+              "university": "Università degli Studi di Padova"
+            }
+          ]
+        },
+        {
+          "name": "Civil Engineering",
+          "courses": [
+            {
+              "course_name": "CIVIL ENGINEERING",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "CIVIL ENGINEERING FOR MITIGATION OF RISK FROM NATURAL HAZARDS",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "CIVIL ENGINEERING FOR RISK MITIGATION",
+              "university": "Politecnico di Milano"
+            }
+          ]
+        },
+        {
+          "name": "Mechanical Engineering",
+          "courses": [
+            {
+              "course_name": "MECHANICAL ENGINEERING",
+              "university": "Politecnico di Milano"
+            },
+            {
+              "course_name": "MECHANICAL ENGINEERING",
+              "university": "Politecnico di Bari"
+            },
+            {
+              "course_name": "MECHANICAL ENGINEERING",
+              "university": "Università degli Studi di Cassino e del Lazio Meridionale"
+            },
+            {
+              "course_name": "MECHANICAL ENGINEERING",
+              "university": "Università degli Studi della Tuscia"
+            },
+            {
+              "course_name": "MECHANICAL ENGINEERING FOR SUSTAINABILITY",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "MECHANICAL ENGINEERING FOR SUSTAINABILITY",
+              "university": "Università degli Studi di Firenze"
+            },
+            {
+              "course_name": "INDUSTRIAL MECHANICAL ENGINEERING",
+              "university": "Libera Università di Bolzano"
+            }
+          ]
+        },
+        {
+          "name": "Electrical & Electronics Engineering",
+          "courses": [
+            {
+              "course_name": "ELECTRICAL ENGINEERING",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "ELECTRICAL ENGINEERING",
+              "university": "Politecnico di Milano"
+            },
+            {
+              "course_name": "ELECTRICAL ENGINEERING FOR SUSTAINABLE GREEN ENERGY TRANSITION",
+              "university": "Università degli Studi di Catania"
+            },
+            {
+              "course_name": "ELECTRONIC ENGINEERING",
+              "university": "Università degli Studi di Catania"
+            },
+            {
+              "course_name": "ELECTRONIC ENGINEERING",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "ELECTRONICS AND COMMUNICATIONS ENGINEERING",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "ELECTRONICS AND TELECOMMUNICATIONS ENGINEERING",
+              "university": "Università degli Studi di Palermo"
+            }
+          ]
+        },
+        {
+          "name": "Chemical Engineering",
+          "courses": [
+            {
+              "course_name": "CHEMICAL AND PROCESS ENGINEERING",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "CHEMICAL ENGINEERING",
+              "university": "Politecnico di Milano"
+            },
+            {
+              "course_name": "CHEMICAL ENGINEERING FOR INDUSTRIAL SUSTAINABILITY",
+              "university": "Università degli Studi di Catania"
+            },
+            {
+              "course_name": "CHEMICAL NANO-ENGINEERING",
+              "university": "Università degli Studi di Roma 'Tor Vergata'"
+            }
+          ]
+        },
+        {
+          "name": "Automation & Control Engineering",
+          "courses": [
+            {
+              "course_name": "AUTOMATION ENGINEERING",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "CONTROL SYSTEMS AND AUTOMATION ENGINEERING",
+              "university": "Università degli Studi dell'Aquila"
+            },
+            {
+              "course_name": "CONTROL SYSTEMS ENGINEERING",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "DIGITAL AUTOMATION ENGINEERING",
+              "university": "Università degli Studi di Modena e Reggio Emilia"
+            },
+            {
+              "course_name": "INDUSTRIAL AUTOMATION ENGINEERING",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "MASTER DEGREE IN AUTOMATION ENGINEERING",
+              "university": "Politecnico di Bari"
+            }
+          ]
+        },
+        {
+          "name": "Biomedical & Bioengineering",
+          "courses": [
+            {
+              "course_name": "BIOENGINEERING",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "BIOENGINEERING",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "BIOMEDICAL ENGINEERING",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "ENGINEERING AND MANAGEMENT FOR HEALTH",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "INFORMATION ENGINEERING FOR DIGITAL MEDICINE",
+              "university": "Università degli Studi di Salerno"
+            },
+            {
+              "course_name": "MEDICAL ENGINEERING",
+              "university": "Università degli Studi di Bergamo"
+            }
+          ]
+        },
+        {
+          "name": "Telecommunications",
+          "courses": [
+            {
+              "course_name": "COMMUNICATIONS ENGINEERING",
+              "university": "Università degli Studi di Catania"
+            },
+            {
+              "course_name": "TELECOMMUNICATION ENGINEERING",
+              "university": "Politecnico di Bari"
+            },
+            {
+              "course_name": "TELECOMMUNICATIONS ENGINEERING",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "TELECOMMUNICATIONS ENGINEERING",
+              "university": "Università degli Studi di Cassino e del Lazio Meridionale"
+            },
+            {
+              "course_name": "TELECOMMUNICATIONS ENGINEERING: ADVANCED TECHNOLOGIES AND SERVICES",
+              "university": "Università degli Studi dell'Aquila"
+            },
+            {
+              "course_name": "TELECOMMUNICATION ENGINEERING: SMART SENSING, COMPUTING AND NETWORKING",
+              "university": "Università della Calabria"
+            }
+          ]
+        },
+        {
+          "name": "Energy Engineering",
+          "courses": [
+            {
+              "course_name": "ENERGY ENGINEERING",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "ENERGY ENGINEERING",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "GREENING ENERGY MARKET AND FINANCE",
+              "university": "Università di Bologna"
+            }
+          ]
+        },
+        {
+          "name": "Materials & Nanotechnology",
+          "courses": [
+            {
+              "course_name": "MATERIALS ENGINEERING",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "MATERIALS ENGINEERING AND NANOTECHNOLOGY",
+              "university": "Università del Salento"
+            },
+            {
+              "course_name": "MATERIALS SCIENCE",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "MATERIALS SCIENCE",
+              "university": "Università degli Studi di Torino"
+            }
+          ]
+        },
+        {
+          "name": "Robotics",
+          "courses": [
+            {
+              "course_name": "ROBOTICS ENGINEERING",
+              "university": "Università degli Studi di Genova"
+            }
+          ]
+        },
+        {
+          "name": "General & Other Engineering",
+          "courses": [
+            {
+              "course_name": "DESIGN & ENGINEERING",
+              "university": "Politecnico di Milano"
+            },
+            {
+              "course_name": "ENGINEERING AND COMPUTER SCIENCE",
+              "university": "Università degli Studi di Messina"
+            },
+            {
+              "course_name": "ENGINEERING AND MANAGEMENT",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "ENGINEERING FOR BUILDING RETROFITTING",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "ENGINEERING FOR NATURAL RISK MANAGEMENT",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "ENGINEERING MANAGEMENT",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "ENGINEERING PHYSICS",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "ENGINEERING PHYSICS",
+              "university": "Politecnico di Milano"
+            },
+            {
+              "course_name": "ELECTRIC VEHICLE ENGINEERING",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "INTERNET AND MULTIMEDIA ENGINEERING",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "SAFETY ENGINEERING FOR TRANSPORT, LOGISTICS AND PRODUCTION",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "SMART TECHNOLOGY ENGINEERING",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "YACHT DESIGN",
+              "university": "Università degli Studi di Genova"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "STEM – Data Science, Analytics & Mathematics",
+      "subfields": [
+        {
+          "name": "Data Science",
+          "courses": [
+            {
+              "course_name": "ANALYTICS AND DATA SCIENCE FOR ECONOMICS AND MANAGEMENT",
+              "university": "Università degli Studi di Brescia"
+            },
+            {
+              "course_name": "APPLIED DATA SCIENCE",
+              "university": "Università degli Studi dell'Aquila"
+            },
+            {
+              "course_name": "DATA SCIENCE",
+              "university": "Università degli Studi di Milano-Bicocca"
+            },
+            {
+              "course_name": "DATA SCIENCE",
+              "university": "Università degli Studi di Catania"
+            },
+            {
+              "course_name": "DATA SCIENCE",
+              "university": "Università degli Studi di Messina"
+            },
+            {
+              "course_name": "DATA SCIENCE",
+              "university": "Università degli Studi di Napoli Federico II"
+            },
+            {
+              "course_name": "DATA SCIENCE",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "DATA SCIENCE",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "DATA SCIENCE",
+              "university": "Università degli Studi di Verona"
+            },
+            {
+              "course_name": "DATA SCIENCE AND ARTIFICIAL INTELLIGENCE",
+              "university": "Università degli Studi di Trieste"
+            },
+            {
+              "course_name": "DATA SCIENCE AND BUSINESS INFORMATICS",
+              "university": "Università di Pisa"
+            },
+            {
+              "course_name": "DATA SCIENCE AND ENGINEERING",
+              "university": "Politecnico di Torino"
+            },
+            {
+              "course_name": "DATA SCIENCE FOR ECONOMICS",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "COMPUTING FOR DATA SCIENCE",
+              "university": "Libera Università di Bolzano"
+            },
+            {
+              "course_name": "PHYSICS OF DATA",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "STOCHASTICS AND DATA SCIENCE",
+              "university": "Università degli Studi di Torino"
+            }
+          ]
+        },
+        {
+          "name": "Analytics",
+          "courses": [
+            {
+              "course_name": "DATA ANALYTICS FOR BUSINESS AND SOCIETY",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "DATA ANALYTICS FOR ECONOMICS AND MANAGEMENT",
+              "university": "Libera Università di Bolzano"
+            },
+            {
+              "course_name": "ECONOMICS & DATA SCIENCE",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "ECONOMICS AND DATA ANALYSIS",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "ECONOMICS AND DATA ANALYSIS",
+              "university": "Università degli Studi di Verona"
+            }
+          ]
+        },
+        {
+          "name": "Mathematics",
+          "courses": [
+            {
+              "course_name": "APPLIED MATHEMATICS",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "MATHEMATICAL ENGINEERING",
+              "university": "Università degli Studi dell'Aquila"
+            },
+            {
+              "course_name": "MATHEMATICAL ENGINEERING - STUDY TRACK 'FINANCIAL ENGINEERING'",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "MATHEMATICAL ENGINEERING - STUDY TRACK 'MATHEMATICAL MODELLING FOR ENGINEERING AND SCIENCE'",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "MATHEMATICAL MODELLING",
+              "university": "Università degli Studi dell'Aquila"
+            },
+            {
+              "course_name": "MATHEMATICS",
+              "university": "Università degli Studi dell'Aquila"
+            },
+            {
+              "course_name": "MATHEMATICS",
+              "university": "Università della Calabria"
+            },
+            {
+              "course_name": "MATHEMATICS",
+              "university": "Università degli Studi dell'Insubria"
+            },
+            {
+              "course_name": "MATHEMATICS",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "MATHEMATICS",
+              "university": "Università degli Studi di Trento"
+            },
+            {
+              "course_name": "MATHEMATICS",
+              "university": "Università degli Studi di Trieste"
+            },
+            {
+              "course_name": "MATHEMATICS",
+              "university": "Università degli Studi di Verona"
+            },
+            {
+              "course_name": "MATHEMATICS AND APPLICATIONS",
+              "university": "Università degli Studi di Camerino"
+            }
+          ]
+        },
+        {
+          "name": "Statistics",
+          "courses": [
+            {
+              "course_name": "STATISTICAL METHODS AND APPLICATIONS",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "STATISTICAL SCIENCES",
+              "university": "Università di Bologna"
+            }
+          ]
+        },
+        {
+          "name": "Computational Methods",
+          "courses": [
+            {
+              "course_name": "COMPUTATIONAL FINANCE",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "COMPUTING SYSTEMS ENGINEERING",
+              "university": "Università degli Studi dell'Aquila"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "STEM – Physical & Chemical Sciences",
+      "subfields": [
+        {
+          "name": "Physics",
+          "courses": [
+            {
+              "course_name": "ADVANCED METHODS IN PARTICLE PHYSICS",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "ASTROPHYSICS AND COSMOLOGY",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "ASTROPHYSICS AND SPACE PHYSICS",
+              "university": "Università degli Studi di Milano-Bicocca"
+            },
+            {
+              "course_name": "EARTH DYNAMICS",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "EXPLORATION AND APPLIED GEOPHYSICS",
+              "university": "Università di Pisa"
+            },
+            {
+              "course_name": "GEOPHYSICS FOR NATURAL RISKS AND RESOURCES",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "PHYSICS",
+              "university": "Università degli Studi di Bari Aldo Moro"
+            },
+            {
+              "course_name": "PHYSICS",
+              "university": "Università della Calabria"
+            },
+            {
+              "course_name": "PHYSICS",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "PHYSICS",
+              "university": "Università degli Studi di Trento"
+            },
+            {
+              "course_name": "PHYSICS",
+              "university": "Università degli Studi di Ferrara"
+            },
+            {
+              "course_name": "PHYSICS",
+              "university": "Università degli Studi di Camerino"
+            },
+            {
+              "course_name": "PHYSICS",
+              "university": "Università degli Studi dell'Insubria"
+            },
+            {
+              "course_name": "PHYSICAL SCIENCES - BIOMEDICAL PHYSICS CURRICULUM",
+              "university": "Università degli Studi di Pavia"
+            }
+          ]
+        },
+        {
+          "name": "Chemistry",
+          "courses": [
+            {
+              "course_name": "ADVANCED MOLECULAR SCIENCES",
+              "university": "Università degli Studi di Firenze"
+            },
+            {
+              "course_name": "CHEMISTRY",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "CHEMISTRY AND ADVANCED CHEMICAL METHODOLOGIES",
+              "university": "Università degli Studi di Camerino"
+            },
+            {
+              "course_name": "COMPLEX AND DATA DRIVEN CHEMISTRY",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "SCIENCE AND TECHNOLOGY OF BIO AND NANOMATERIALS",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "SUSTAINABLE CHEMISTRY AND TECHNOLOGIES - BIOMOLECULAR CHEMISTRY CURRICULUM",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "SUSTAINABLE CHEMISTRY AND TECHNOLOGIES FOR CIRCULAR ECONOMY",
+              "university": "Università degli Studi di Padova"
+            }
+          ]
+        },
+        {
+          "name": "Geosciences",
+          "courses": [
+            {
+              "course_name": "GEOENGINEERING",
+              "university": "Università degli Studi di Firenze"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "STEM – Biological & Life Sciences",
+      "subfields": [
+        {
+          "name": "Biology",
+          "courses": [
+            {
+              "course_name": "BIOCHEMISTRY",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "BIODIVERSITY, CONSERVATION AND ENVIRONMENTAL QUALITY",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "CELLULAR AND MOLECULAR BIOLOGY",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "CLINICAL AND EXPERIMENTAL BIOLOGY",
+              "university": "Università degli Studi di Foggia"
+            },
+            {
+              "course_name": "MARINE BIOLOGY",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "MOLECULAR AND CELL BIOLOGY",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "MOLECULAR BIOLOGY",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "MOLECULAR BIOLOGY AND GENETICS",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "NEUROBIOLOGY",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "QUANTITATIVE AND COMPUTATIONAL BIOSCIENCES",
+              "university": "Università degli Studi di Padova"
+            }
+          ]
+        },
+        {
+          "name": "Biotechnology",
+          "courses": [
+            {
+              "course_name": "BIOINFORMATICS",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "BIOTECHNOLOGICAL AND CHEMICAL SCIENCES IN DIAGNOSTICS",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "BIOTECHNOLOGIES FOR FOOD SCIENCE",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "BIOTECHNOLOGIES OF HUMAN REPRODUCTION",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "BIOTECHNOLOGY FOR NEUROSCIENCE",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "BIOTECHNOLOGY FOR THE BIO-BASED AND HEALTH INDUSTRY",
+              "university": "Università degli Studi dell'Insubria"
+            },
+            {
+              "course_name": "CELLULAR AND MOLECULAR BIOTECHNOLOGY",
+              "university": "Università degli Studi di Trento"
+            },
+            {
+              "course_name": "HEALTH BIOTECHNOLOGY",
+              "university": "Università della Calabria"
+            },
+            {
+              "course_name": "MEDICAL AND PHARMACEUTICAL BIOTECHNOLOGIES",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "MEDICAL BIOTECHNOLOGIES",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "MEDICAL BIOTECHNOLOGIES",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "MEDICAL BIOTECHNOLOGY",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "MEDICAL BIOTECHNOLOGY AND MOLECULAR MEDICINE",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "MEDICAL-PHARMACEUTICAL BIOTECHNOLOGY",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "MEDICAL, VETERINARY AND FORENSIC BIOTECHNOLOGICAL SCIENCES",
+              "university": "Università degli Studi di Perugia"
+            },
+            {
+              "course_name": "MOLECULAR BIOTECHNOLOGY",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "PHARMACEUTICAL BIOTECHNOLOGIES",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "PHARMACEUTICAL BIOTECHNOLOGY",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "REPRODUCTIVE BIOTECHNOLOGIES",
+              "university": "Università degli Studi di Teramo"
+            },
+            {
+              "course_name": "SUSTAINABLE INDUSTRIAL PHARMACEUTICAL BIOTECHNOLOGY",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "INDUSTRIAL NANOBIOTECHNOLOGIES FOR PHARMACEUTICS",
+              "university": "Università degli Studi di Pavia"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Business, Economics & Management",
+      "subfields": [
+        {
+          "name": "Accounting & Finance",
+          "courses": [
+            {
+              "course_name": "ACCOUNTING, FINANCE & BUSINESS CONSULTING",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "ACCOUNTING, GOVERNANCE AND SUSTAINABILITY",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "FINANCE",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "FINANCE",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "FINANCE AND BANKING",
+              "university": "Università degli Studi di Roma 'Tor Vergata'"
+            },
+            {
+              "course_name": "FINANCE AND ECONOMICS",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "FINANCE AND INSURANCE",
+              "university": "Università della Calabria"
+            },
+            {
+              "course_name": "FINANCE AND RISK MANAGEMENT",
+              "university": "Università degli Studi di Firenze"
+            },
+            {
+              "course_name": "GLOBAL ACCOUNTING AND FINANCE",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "INTERNATIONAL ACCOUNTING AND MANAGEMENT",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "MASTER'S PROGRAM IN FINANCE",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "QUANTITATIVE FINANCE",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "QUANTITATIVE FINANCE AND INSURANCE",
+              "university": "Università degli Studi di Torino"
+            }
+          ]
+        },
+        {
+          "name": "Economics",
+          "courses": [
+            {
+              "course_name": "APPLIED ECONOMICS",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "BEHAVIOURAL AND APPLIED ECONOMICS",
+              "university": "Università degli Studi di Trento"
+            },
+            {
+              "course_name": "ECONOMIC ANALYSIS AND POLICY",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "ECONOMICS",
+              "university": "Università di Pisa"
+            },
+            {
+              "course_name": "ECONOMICS",
+              "university": "Università degli Studi di Roma 'Tor Vergata'"
+            },
+            {
+              "course_name": "ECONOMICS",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "ECONOMICS",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "ECONOMICS",
+              "university": "Università degli Studi di Udine"
+            },
+            {
+              "course_name": "ECONOMICS & FINANCE",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "ECONOMICS AND COMMUNICATION FOR MANAGEMENT AND INNOVATION",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "ECONOMICS AND DEVELOPMENT",
+              "university": "Università degli Studi di Firenze"
+            },
+            {
+              "course_name": "ECONOMICS AND ENTREPRENEURSHIP",
+              "university": "Università degli Studi di Cassino e del Lazio Meridionale"
+            },
+            {
+              "course_name": "ECONOMICS AND FINANCE",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "ECONOMICS AND FINANCE",
+              "university": "Università degli Studi di Napoli Federico II"
+            },
+            {
+              "course_name": "ECONOMICS AND INTERNATIONAL TRADE",
+              "university": "Università Politecnica delle Marche"
+            },
+            {
+              "course_name": "ECONOMICS AND POLITICAL SCIENCE",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "ECONOMICS AND PUBLIC POLICY",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "ECONOMICS, DEVELOPMENT AND INNOVATION",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "ECONOMICS, FINANCE AND SUSTAINABILITY",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "ECONOMICS, FINANCE AND SUSTAINABILITY - ECONOMICS-QEM CURRICULUM",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "ENVIRONMENTAL AND FOOD ECONOMICS",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "FOOD AND HEALTH",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "GLOBAL ECONOMY AND BUSINESS",
+              "university": "Università degli Studi di Cassino e del Lazio Meridionale"
+            },
+            {
+              "course_name": "INTERNATIONAL ECONOMICS",
+              "university": "Università degli Studi di Milano-Bicocca"
+            },
+            {
+              "course_name": "INTERNATIONAL ECONOMICS AND BUSINESS",
+              "university": "Università degli Studi di Verona"
+            },
+            {
+              "course_name": "INTERNATIONAL FINANCE AND ECONOMICS",
+              "university": "Università degli Studi di Macerata"
+            },
+            {
+              "course_name": "MASTER'S PROGRAM IN ECONOMICS, DEVELOPMENT AND INNOVATION",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "RESOURCE ECONOMICS AND SUSTAINABLE DEVELOPMENT",
+              "university": "Università di Bologna"
+            }
+          ]
+        },
+        {
+          "name": "Business Administration & Management",
+          "courses": [
+            {
+              "course_name": "BUSINESS ADMINISTRATION",
+              "university": "Università degli Studi di Roma 'Tor Vergata'"
+            },
+            {
+              "course_name": "BUSINESS ADMINISTRATION",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "BUSINESS ADMINISTRATION AND SUSTAINABILITY",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "ECONOMICS, MANAGEMENT AND POLICIES FOR GLOBAL CHALLENGES",
+              "university": "Università degli Studi di Ferrara"
+            },
+            {
+              "course_name": "GLOBAL DEVELOPMENT AND ENTREPRENEURSHIP",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "GLOBAL ENTREPRENEURSHIP ECONOMICS AND MANAGEMENT",
+              "university": "Università degli Studi dell'Insubria"
+            },
+            {
+              "course_name": "MANAGEMENT",
+              "university": "Università degli Studi di Trento"
+            },
+            {
+              "course_name": "MANAGEMENT AND INDUSTRIAL SYSTEMS ENGINEERING",
+              "university": "Università degli Studi di Trento"
+            },
+            {
+              "course_name": "MANAGEMENT ENGINEERING",
+              "university": "Politecnico di Milano"
+            },
+            {
+              "course_name": "MANAGEMENT ENGINEERING",
+              "university": "Università degli Studi di Firenze"
+            },
+            {
+              "course_name": "MANAGEMENT ENGINEERING",
+              "university": "Università del Salento"
+            },
+            {
+              "course_name": "MANAGEMENT ENGINEERING",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "MANAGEMENT ENGINEERING",
+              "university": "Università degli Studi di Palermo"
+            },
+            {
+              "course_name": "MANAGEMENT ENGINEERING",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "MANAGEMENT FOR ENERGY AND ENVIRONMENTAL TRANSITION (MEET)",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "MANAGEMENT FOR SUSTAINABLE FIRMS",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "MANAGEMENT OF HUMAN RESOURCES",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "MANAGEMENT OF INNOVATION AND ENTREPRENEURSHIP",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "SERVICE MANAGEMENT",
+              "university": "Università di Bologna"
+            }
+          ]
+        },
+        {
+          "name": "Marketing & Entrepreneurship",
+          "courses": [
+            {
+              "course_name": "ENTREPRENEURSHIP AND INNOVATION",
+              "university": "Libera Università di Bolzano"
+            },
+            {
+              "course_name": "INNOVATION AND MARKETING",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "INTERNATIONAL BUSINESS AND DEVELOPMENT",
+              "university": "Università degli Studi di Parma"
+            },
+            {
+              "course_name": "INTERNATIONAL BUSINESS AND ENTREPRENEURSHIP",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "INTERNATIONAL MANAGEMENT",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "INTERNATIONAL MANAGEMENT",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "INTERNATIONAL MANAGEMENT",
+              "university": "Università degli Studi di Trento"
+            },
+            {
+              "course_name": "INTERNATIONAL MANAGEMENT AND MARKETING",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "INTERNATIONAL MARKETING, MANAGEMENT AND ORGANIZATION",
+              "university": "Università degli Studi di Udine"
+            },
+            {
+              "course_name": "MASTER PROGRAMME IN INTERNATIONAL BUSINESS AND ENTREPRENEURSHIP",
+              "university": "Università degli Studi di Pavia"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Health & Medical Sciences",
+      "subfields": [
+        {
+          "name": "Medical Sciences",
+          "courses": [
+            {
+              "course_name": "HARVEY MEDICINE AND SURGERY",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "HEALTH AND PHYSICAL ACTIVITY",
+              "university": "University of Rome \"Foro Italico\""
+            },
+            {
+              "course_name": "HEALTH ECONOMICS",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "HEALTH ECONOMICS AND MANAGEMENT",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "LIFELONG WELL-BEING AND HEALTHY AGING",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "MEDICAL BIOTECHNOLOGY AND MOLECULAR MEDICINE",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "MOLECULAR AND MEDICAL BIOTECHNOLOGY",
+              "university": "Università degli Studi di Verona"
+            },
+            {
+              "course_name": "PHYSICAL ACTIVITY AND HEALTH PROMOTION",
+              "university": "Università degli Studi di Roma 'Tor Vergata'"
+            },
+            {
+              "course_name": "WELLNESS, SPORT AND HEALTH",
+              "university": "Università di Bologna"
+            }
+          ]
+        },
+        {
+          "name": "Psychology & Neuroscience",
+          "courses": [
+            {
+              "course_name": "APPLIED DYNAMIC AND CLINICAL PSYCHOLOGY",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "CLINICAL PSYCHOLOGY FOR INDIVIDUALS, FAMILIES AND ORGANIZATIONS",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "CLINICAL, SOCIAL AND INTERCULTURAL PSYCHOLOGY",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "COGNITIVE NEUROSCIENCE",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "COGNITIVE NEUROSCIENCE AND CLINICAL NEUROPSYCHOLOGY",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "DEVELOPMENTAL AND EDUCATIONAL PSYCHOLOGY",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "NEUROSCIENCE",
+              "university": "Università degli Studi dell'Aquila"
+            },
+            {
+              "course_name": "NEUROSCIENCE",
+              "university": "Università degli Studi di Palermo"
+            },
+            {
+              "course_name": "NEUROSCIENCE",
+              "university": "Università di Pisa"
+            },
+            {
+              "course_name": "NEUROSCIENCE",
+              "university": "Università degli Studi di Trieste"
+            },
+            {
+              "course_name": "PSYCHOLOGY OF WELLBEING AND SOCIAL INCLUSIVITY",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "PSYCHOLOGY, NEUROSCIENCE AND HUMAN SCIENCES",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "WORK, ORGANIZATIONAL AND PERSONNEL PSYCHOLOGY",
+              "university": "Università di Bologna"
+            }
+          ]
+        },
+        {
+          "name": "Health Technology & Engineering",
+          "courses": [
+            {
+              "course_name": "ARTIFICIAL INTELLIGENCE FOR BIOMEDICINE AND HEALTHCARE",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "BIOTECHNOLOGIES AND APPLIED ARTIFICIAL INTELLIGENCE FOR HEALTH",
+              "university": "Università di Pisa"
+            },
+            {
+              "course_name": "ENGINEERING AND MANAGEMENT FOR HEALTH",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "HEALTH BIOTECHNOLOGY",
+              "university": "Università della Calabria"
+            },
+            {
+              "course_name": "INFORMATION ENGINEERING FOR DIGITAL MEDICINE",
+              "university": "Università degli Studi di Salerno"
+            },
+            {
+              "course_name": "MEDICAL ENGINEERING",
+              "university": "Università degli Studi di Bergamo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Social Sciences & Humanities",
+      "subfields": [
+        {
+          "name": "Psychology",
+          "courses": [
+            {
+              "course_name": "APPLIED DYNAMIC AND CLINICAL PSYCHOLOGY",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "CLINICAL PSYCHOLOGY FOR INDIVIDUALS, FAMILIES AND ORGANIZATIONS",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "CLINICAL, SOCIAL AND INTERCULTURAL PSYCHOLOGY",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "DEVELOPMENTAL AND EDUCATIONAL PSYCHOLOGY",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "PSYCHOLOGY OF WELLBEING AND SOCIAL INCLUSIVITY",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "PSYCHOLOGY, NEUROSCIENCE AND HUMAN SCIENCES",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "WORK, ORGANIZATIONAL AND PERSONNEL PSYCHOLOGY",
+              "university": "Università di Bologna"
+            }
+          ]
+        },
+        {
+          "name": "International Relations & Political Science",
+          "courses": [
+            {
+              "course_name": "AREA & GLOBAL STUDIES FOR INTERNATIONAL COOPERATION",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "COMPARATIVE INTERNATIONAL RELATIONS",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "DIPLOMACY AND INTERNATIONAL COOPERATION STUDIES",
+              "university": "Università degli Studi di Trieste"
+            },
+            {
+              "course_name": "EAST EUROPEAN AND EURASIAN STUDIES",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "EUROPEAN AND GLOBAL STUDIES",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "EUROPEAN AND INTERNATIONAL STUDIES",
+              "university": "Università degli Studi di Trento"
+            },
+            {
+              "course_name": "EUROPEAN STUDIES",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "EUROPEAN STUDIES",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "GLOBAL POLITICS AND EURO-MEDITERRANEAN RELATIONS",
+              "university": "Università degli Studi di Catania"
+            },
+            {
+              "course_name": "GLOBAL POLITICS AND SOCIETY",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "INTERNATIONAL COOPERATION ON HUMAN RIGHTS AND INTERCULTURAL HERITAGE",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "INTERNATIONAL POLITICS AND ECONOMICS",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "INTERNATIONAL RELATIONS",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "INTERNATIONAL RELATIONS",
+              "university": "Università degli Studi di Macerata"
+            },
+            {
+              "course_name": "INTERNATIONAL RELATIONS",
+              "university": "Università degli Studi di Napoli Federico II"
+            },
+            {
+              "course_name": "INTERNATIONAL RELATIONS",
+              "university": "Università degli Studi di Palermo"
+            },
+            {
+              "course_name": "INTERNATIONAL RELATIONS, POLITICS & TRADE",
+              "university": "Università degli Studi di Palermo"
+            },
+            {
+              "course_name": "INTERNATIONAL SECURITY STUDIES",
+              "university": "Università degli Studi di Trento"
+            },
+            {
+              "course_name": "INTERNATIONAL STUDIES",
+              "university": "Università degli Studi di Roma 'Roma Tre'"
+            },
+            {
+              "course_name": "WORLD POLITICS AND INTERNATIONAL RELATIONS",
+              "university": "Università degli Studi di Pavia"
+            }
+          ]
+        },
+        {
+          "name": "Sociology & Development",
+          "courses": [
+            {
+              "course_name": "LOCAL DEVELOPMENT",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "MIGRATION STUDIES AND NEW SOCIETIES",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "SOCIOLOGY AND SOCIAL RESEARCH",
+              "university": "Università degli Studi di Trento"
+            }
+          ]
+        },
+        {
+          "name": "Languages & Literature",
+          "courses": [
+            {
+              "course_name": "ENGLISH AND AMERICAN STUDIES",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "ENGLISH STUDIES",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "EUROPEAN, AMERICAN AND POSTCOLONIAL LANGUAGE AND LITERATURE - LITERATURES AND CULTURES CURRICULUM: AMERICAN STUDIES PATH",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "INTERCULTURAL STUDIES IN LANGUAGES AND LITERATURES",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "LANGUAGE AND MIND: LINGUISTICS AND COGNITIVE STUDIES",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "LANGUAGE SCIENCES - LANGUAGE SCIENCES CURRICULUM: LANGUAGE SCIENCES PATH",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "LANGUAGE TECHNOLOGIES AND DIGITAL HUMANITIES",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "LANGUAGE, SOCIETY AND COMMUNICATION",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "LANGUAGES FOR COMMUNICATION IN INTERNATIONAL ENTERPRISES AND ORGANIZATIONS",
+              "university": "Università degli Studi di Modena e Reggio Emilia"
+            },
+            {
+              "course_name": "LANGUAGES, LITERATURES AND DIGITAL CULTURE",
+              "university": "Università degli Studi di Verona"
+            }
+          ]
+        },
+        {
+          "name": "Philosophy & Humanities",
+          "courses": [
+            {
+              "course_name": "DIGITAL AND PUBLIC HUMANITIES",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "DIGITAL HUMANITIES AND DIGITAL KNOWLEDGE",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "ENVIRONMENTAL HUMANITIES",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "FILOSOFIA (INTERNATIONAL CURRICULUM)",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "PHILOSOPHICAL KNOWLEDGE: FOUNDATIONS, METHODS, APPLICATIONS",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "POLITICS, PHILOSOPHY AND PUBLIC AFFAIRS",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "THE ANCIENT MEDITERRANEAN WORLD (HISTORY ARCHAEOLOGY AND ART)",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "THE ANCIENT MEDITERRANEAN WORLD. HISTORY, ARCHAEOLOGY AND ART",
+              "university": "Università degli Studi di Pavia"
+            }
+          ]
+        },
+        {
+          "name": "Communication",
+          "courses": [
+            {
+              "course_name": "COMMUNICATION STRATEGIES",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "ECONOMICS AND COMMUNICATION FOR MANAGEMENT AND INNOVATION",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Environmental, Sustainability & Agricultural Sciences",
+      "subfields": [
+        {
+          "name": "Environmental Science & Engineering",
+          "courses": [
+            {
+              "course_name": "BIODIVERSITY, CONSERVATION AND ENVIRONMENTAL QUALITY",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "ENVIRONMENTAL ENGINEERING",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "ENVIRONMENTAL ENGINEERING",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "ENVIRONMENTAL SCIENCES - GLOBAL CHANGE AND SUSTAINABILITY CURRICULUM",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "ENVIRONMENTAL SUSTAINABILITY AND EDUCATION",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "SUSTAINABLE NATURAL RESOURCE MANAGEMENT",
+              "university": "Università degli Studi di Milano"
+            }
+          ]
+        },
+        {
+          "name": "Sustainability & Circular Economy",
+          "courses": [
+            {
+              "course_name": "CIRCULAR ECONOMY",
+              "university": "Università degli Studi della Tuscia"
+            },
+            {
+              "course_name": "SUSTAINABLE CHEMISTRY AND TECHNOLOGIES FOR CIRCULAR ECONOMY",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "SUSTAINABLE TERRITORIAL DEVELOPMENT, CLIMATE CHANGE, DIVERSITY, COOPERATION",
+              "university": "Università degli Studi di Padova"
+            }
+          ]
+        },
+        {
+          "name": "Agriculture & Food Science",
+          "courses": [
+            {
+              "course_name": "AGRIFOOD SUSTAINABILITY",
+              "university": "Università degli Studi di Pavia"
+            },
+            {
+              "course_name": "BIOTECHNOLOGIES FOR FOOD SCIENCE",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "ENVIRONMENTAL AND FOOD ECONOMICS",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "FOOD AND HEALTH",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "FOOD INDUSTRY ENGINEERING",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "FOREST SCIENCE",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "ITALIAN FOOD AND WINE",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "NATURAL RESOURCES MANAGEMENT FOR TROPICAL RURAL DEVELOPMENT",
+              "university": "Università degli Studi di Firenze"
+            },
+            {
+              "course_name": "PRECISE AND SUSTAINABLE AGRICULTURE",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "SCIENZE ANIMALI (CURRICULUM IN ANIMAL NUTRITION AND FEED SAFETY)",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "SCIENZE E TECNOLOGIE ALIMENTARI (CURRICULUM IN FOOD SYSTEMS)",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "SCIENZE VITICOLE ED ENOLOGICHE (INTERNATIONAL CURRICULUM)",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "SUSTAINABLE AGRICULTURE",
+              "university": "Università degli Studi di Padova"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Arts, Architecture & Design",
+      "subfields": [
+        {
+          "name": "Architecture",
+          "courses": [
+            {
+              "course_name": "ARCHITECTURAL COMPOSITION",
+              "university": "Università degli Studi di Genova"
+            },
+            {
+              "course_name": "ARCHITECTURAL DESIGN AND HISTORY",
+              "university": "Politecnico di Milano"
+            },
+            {
+              "course_name": "ARCHITECTURE AND CREATIVE PRACTICES FOR THE CITY AND LANDSCAPE",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "ARCHITECTURE AND HERITAGE",
+              "university": "Università degli Studi di Napoli Federico II"
+            },
+            {
+              "course_name": "ARCHITECTURE FOR HERITAGE",
+              "university": "Politecnico di Torino"
+            },
+            {
+              "course_name": "ARCHITETTURA (CURRICULUM \"ARCHITECTURAL DESIGN\")",
+              "university": "Università degli Studi di Firenze"
+            },
+            {
+              "course_name": "LANDSCAPE ARCHITECTURE. LAND LANDSCAPE HERITAGE",
+              "university": "Politecnico di Milano"
+            },
+            {
+              "course_name": "SUSTAINABLE ARCHITECTURE AND LANDSCAPE DESIGN",
+              "university": "Politecnico di Milano"
+            }
+          ]
+        },
+        {
+          "name": "Design",
+          "courses": [
+            {
+              "course_name": "DESIGN FOR THE BUILT ENVIRONMENT",
+              "university": "Università degli Studi di Napoli Federico II"
+            },
+            {
+              "course_name": "DESIGN FOR THE FASHION SYSTEM",
+              "university": "Politecnico di Milano"
+            },
+            {
+              "course_name": "DIGITAL AND INTERACTION DESIGN",
+              "university": "Politecnico di Milano"
+            },
+            {
+              "course_name": "INDUSTRIAL DESIGN",
+              "university": "Politecnico di Bari"
+            },
+            {
+              "course_name": "PRODUCT AND SERVICE DESIGN",
+              "university": "Università degli Studi di Roma 'La Sapienza'"
+            },
+            {
+              "course_name": "PRODUCT SERVICE SYSTEM DESIGN",
+              "university": "Politecnico di Milano"
+            }
+          ]
+        },
+        {
+          "name": "Art History & Cultural Heritage",
+          "courses": [
+            {
+              "course_name": "APPLIED SCIENCES TO CULTURAL HERITAGE, MATERIALS AND SITES",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "ART HISTORY IN ROME, FROM LATE ANTIQUITY TO THE PRESENT",
+              "university": "Università degli Studi di Roma 'Tor Vergata'"
+            },
+            {
+              "course_name": "CONSERVATION SCIENCE AND TECHNOLOGY FOR CULTURAL HERITAGE",
+              "university": "Università Ca' Foscari Venezia"
+            },
+            {
+              "course_name": "FASHION, ART AND FOOD MANAGEMENT",
+              "university": "Università degli Studi di Napoli 'Parthenope'"
+            },
+            {
+              "course_name": "INNOVATION AND ORGANIZATION OF CULTURE AND THE ARTS",
+              "university": "Università di Bologna"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Law, Governance & Public Policy",
+      "subfields": [
+        {
+          "name": "Law & Legal Studies",
+          "courses": [
+            {
+              "course_name": "EUROPEAN ECONOMY AND BUSINESS LAW",
+              "university": "Università degli Studi di Roma 'Tor Vergata'"
+            },
+            {
+              "course_name": "EUROPEAN LEGAL STUDIES",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "LAW AND SUSTAINABLE DEVELOPMENT",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "LAW, ECONOMICS AND GOVERNANCE",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "LEGAL STUDIES",
+              "university": "Università di Bologna"
+            }
+          ]
+        },
+        {
+          "name": "Governance & Public Policy",
+          "courses": [
+            {
+              "course_name": "HUMAN RIGHTS AND MULTI-LEVEL GOVERNANCE",
+              "university": "Università degli Studi di Padova"
+            },
+            {
+              "course_name": "POLITICS, PHILOSOPHY AND PUBLIC AFFAIRS",
+              "university": "Università degli Studi di Milano"
+            },
+            {
+              "course_name": "PUBLIC AND CULTURAL DIPLOMACY",
+              "university": "Università degli Studi di Siena"
+            },
+            {
+              "course_name": "SECURITY AND HUMAN RIGHTS",
+              "university": "Università degli Studi della Tuscia"
+            },
+            {
+              "course_name": "SECURITY, INTELLIGENCE AND STRATEGIC STUDIES",
+              "university": "Università degli Studi di Trento"
+            }
+          ]
+        },
+        {
+          "name": "Digital Governance",
+          "courses": [
+            {
+              "course_name": "DIGITAL SKILLS FOR SUSTAINABLE SOCIETAL TRANSITIONS",
+              "university": "Politecnico di Torino"
+            },
+            {
+              "course_name": "DIGITAL TRANSFORMATION MANAGEMENT",
+              "university": "Università di Bologna"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tourism, Hospitality & Cultural Studies",
+      "subfields": [
+        {
+          "name": "Tourism Management",
+          "courses": [
+            {
+              "course_name": "DESIGN OF SUSTAINABLE TOURISM SYSTEMS",
+              "university": "Università degli Studi di Firenze"
+            },
+            {
+              "course_name": "HOSPITALITY FOR SUSTAINABLE TOURISM DEVELOPMENT",
+              "university": "Università degli Studi dell'Insubria"
+            },
+            {
+              "course_name": "INNOVATION MANAGEMENT FOR SUSTAINABLE TOURISM",
+              "university": "Università degli Studi di Sassari"
+            },
+            {
+              "course_name": "INTERNATIONAL TOURISM AND DESTINATION MANAGEMENT",
+              "university": "Università degli Studi di Macerata"
+            },
+            {
+              "course_name": "PLANNING AND MANAGEMENT OF TOURISM SYSTEMS",
+              "university": "Università degli Studi di Bergamo"
+            },
+            {
+              "course_name": "TOURISM ECONOMICS AND MANAGEMENT",
+              "university": "Università di Bologna"
+            },
+            {
+              "course_name": "TOURISM STRATEGY, CULTURAL HERITAGE AND MADE IN ITALY",
+              "university": "Università degli Studi di Roma 'Tor Vergata'"
+            },
+            {
+              "course_name": "TOURISM SYSTEMS AND HOSPITALITY MANAGEMENT",
+              "university": "Università degli Studi di Palermo"
+            }
+          ]
+        },
+        {
+          "name": "Cultural & Heritage Studies",
+          "courses": [
+            {
+              "course_name": "CULTURAL HERITAGE AND CREATIVITY FOR TOURISM AND TERRITORIAL DEVELOPMENT",
+              "university": "Università degli Studi di Torino"
+            },
+            {
+              "course_name": "GEOGRAPHY, SPATIAL MANAGEMENT, HERITAGE FOR INTERNATIONAL COOPERATION",
+              "university": "Università degli Studi di Firenze"
+            },
+            {
+              "course_name": "URBAN AND REGIONAL PLANNING AND DESIGN FOR SUSTAINABILITY",
+              "university": "Università degli Studi di Firenze"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

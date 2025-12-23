@@ -1,0 +1,22 @@
+{
+  "name": "universita-d-italia",
+  "version": "2.0.0",
+  "description": "Interactive map of Italian universities with master degree courses",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 3000",
+    "dev": "npx live-server --port=3000"
+  },
+  "keywords": [
+    "italy",
+    "universities",
+    "education",
+    "map",
+    "courses",
+    "master-degrees"
+  ],
+  "author": "Deepserish B K",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}

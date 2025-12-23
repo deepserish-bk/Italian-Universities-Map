@@ -1,0 +1,396 @@
+{
+  "fields": [
+    {
+      "name": "STEM – Computer Science & Artificial Intelligence",
+      "subfields": [
+        {
+          "name": "Artificial Intelligence",
+          "courses": [
+            {
+              "course_name": "Artificial Intelligence",
+              "university": "University of Pavia"
+            },
+            {
+              "course_name": "Artificial Intelligence",
+              "university": "University of Milan"
+            },
+            {
+              "course_name": "Artificial Intelligence",
+              "university": "University of Milano-Bicocca"
+            }
+          ]
+        },
+        {
+          "name": "Computer Science & Engineering",
+          "courses": [
+            {
+              "course_name": "Information Engineering",
+              "university": "University of Padova"
+            },
+            {
+              "course_name": "Applied Computer Science and Artificial Intelligence",
+              "university": "Sapienza University of Rome"
+            },
+            {
+              "course_name": "Computer Engineering",
+              "university": "Politecnico di Torino"
+            },
+            {
+              "course_name": "Data Analytics",
+              "university": "University of Campania"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "STEM – Engineering & Technology",
+      "subfields": [
+        {
+          "name": "Civil & Environmental Engineering",
+          "courses": [
+            {
+              "course_name": "Building Construction Engineering",
+              "university": "University Of Bologna - Revenna Campus"
+            },
+            {
+              "course_name": "Sustainable Building Engineering",
+              "university": "Sapienza University of Rome"
+            },
+            {
+              "course_name": "Environmental Engineering for Sustainable Development",
+              "university": "Sapienza University of Rome"
+            },
+            {
+              "course_name": "Civil and Environmental Engineering",
+              "university": "Politecnico di Torino"
+            }
+          ]
+        },
+        {
+          "name": "Mechanical & Automotive Engineering",
+          "courses": [
+            {
+              "course_name": "Mechanical Engineering",
+              "university": "Politecnico di Torino"
+            },
+            {
+              "course_name": "Automotive Engineering",
+              "university": "Politecnico di Torino"
+            },
+            {
+              "course_name": "Engineering management",
+              "university": "University of Perugia"
+            },
+            {
+              "course_name": "Engineering Sciences",
+              "university": "Tor Vergata University of Rome"
+            }
+          ]
+        },
+        {
+          "name": "General Engineering",
+          "courses": [
+            {
+              "course_name": "Architecture",
+              "university": "Politecnico di Torino"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "STEM – Biological & Life Sciences",
+      "subfields": [
+        {
+          "name": "Biology",
+          "courses": [
+            {
+              "course_name": "Biology of Human and Environmental Health",
+              "university": "University of Padova"
+            },
+            {
+              "course_name": "Biology of Human and Environmental Health",
+              "university": "University Of Bologna"
+            },
+            {
+              "course_name": "Biosciences and Biotechnology",
+              "university": "University Of Camerino"
+            },
+            {
+              "course_name": "Genomics",
+              "university": "University Of Bologna"
+            },
+            {
+              "course_name": "Molecular Biology, Medicinal Chemistry and Computer Science for Pharmaceutical Applications",
+              "university": "Sapienza University of Rome"
+            }
+          ]
+        },
+        {
+          "name": "Bioinformatics & Biotechnology",
+          "courses": [
+            {
+              "course_name": "Bioinformatics",
+              "university": "Sapienza University of Rome"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "STEM – Earth & Environmental Sciences",
+      "subfields": [
+        {
+          "name": "Geosciences & Climate",
+          "courses": [
+            {
+              "course_name": "Earth and Climate Dynamics",
+              "university": "University of Padova"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "STEM – Mathematics & Statistics",
+      "subfields": [
+        {
+          "name": "Statistics",
+          "courses": [
+            {
+              "course_name": "Statistical Sciences",
+              "university": "University Of Bologna"
+            },
+            {
+              "course_name": "Statistical Sciences",
+              "university": "University Of Bologna"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Business, Economics & Management",
+      "subfields": [
+        {
+          "name": "Business Administration & Management",
+          "courses": [
+            {
+              "course_name": "Business Administration - Business Administration and Management Curriculum",
+              "university": "Ca' Foscari University of Venice"
+            },
+            {
+              "course_name": "Business & Management",
+              "university": "University of Turin"
+            },
+            {
+              "course_name": "Business and Economics",
+              "university": "University Of Bologna"
+            },
+            {
+              "course_name": "Business Economics",
+              "university": "University Of Bologna - Rimini Campus"
+            },
+            {
+              "course_name": "Business Administration and Economics",
+              "university": "Tor Vergata University of Rome"
+            }
+          ]
+        },
+        {
+          "name": "Economics & Finance",
+          "courses": [
+            {
+              "course_name": "Economics and Management. Curriculum : Banking and Finance, Business and Management, Economics and Social Sciences",
+              "university": "University of Siena"
+            },
+            {
+              "course_name": "Economics and Business - Economics, Markets and Finance Curriculum",
+              "university": "Ca' Foscari University of Venice"
+            },
+            {
+              "course_name": "Economics and Finance",
+              "university": "University Of Bologna"
+            },
+            {
+              "course_name": "Economics, Politics and Social Sciences",
+              "university": "University Of Bologna"
+            }
+          ]
+        },
+        {
+          "name": "Digital & Innovation Management",
+          "courses": [
+            {
+              "course_name": "Digital Management",
+              "university": "Ca' Foscari University of Venice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Health & Medical Sciences",
+      "subfields": [
+        {
+          "name": "Medicine",
+          "courses": [
+            {
+              "course_name": "Harvey Medicine and Surgery",
+              "university": "University of Pavia"
+            }
+          ]
+        },
+        {
+          "name": "Nursing",
+          "courses": [
+            {
+              "course_name": "Nursing",
+              "university": "University of Campania"
+            },
+            {
+              "course_name": "Nursing",
+              "university": "Sapienza University of Rome"
+            },
+            {
+              "course_name": "Nursing",
+              "university": "Palermo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Social Sciences & Humanities",
+      "subfields": [
+        {
+          "name": "Law & Legal Studies",
+          "courses": [
+            {
+              "course_name": "International, European and Comparative Legal Studies Law",
+              "university": "University of Macerata"
+            },
+            {
+              "course_name": "Global Law and Transnational Legal Studies",
+              "university": "University of Turin"
+            },
+            {
+              "course_name": "International Politics, Law and Economics",
+              "university": "University Of Milan"
+            },
+            {
+              "course_name": "Comparative, European and International Legal Studies",
+              "university": "University of Trento"
+            }
+          ]
+        },
+        {
+          "name": "Psychology",
+          "courses": [
+            {
+              "course_name": "Psychological Science",
+              "university": "University of Padova"
+            },
+            {
+              "course_name": "Techniques and Methods in Psychological Science",
+              "university": "University of Padova"
+            }
+          ]
+        },
+        {
+          "name": "Political Science & International Studies",
+          "courses": [
+            {
+              "course_name": "Economics, Politics and Social Sciences",
+              "university": "University Of Bologna"
+            },
+            {
+              "course_name": "European Studies",
+              "university": "University Of Bologna"
+            },
+            {
+              "course_name": "International Studies",
+              "university": "University Of Bologna - Forli Campus"
+            },
+            {
+              "course_name": "Global Governance",
+              "university": "Tor Vergata University of Rome"
+            }
+          ]
+        },
+        {
+          "name": "Philosophy & Humanities",
+          "courses": [
+            {
+              "course_name": "Philosophy, International and Economic Studies",
+              "university": "Ca' Foscari University of Venice"
+            },
+            {
+              "course_name": "Ancient Civilizations for the Contemporary World",
+              "university": "University Of Milan"
+            },
+            {
+              "course_name": "BA Classics",
+              "university": "Sapienza University of Rome"
+            },
+            {
+              "course_name": "Global Humanities",
+              "university": "Sapienza University of Rome"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tourism, Hospitality & Cultural Studies",
+      "subfields": [
+        {
+          "name": "Hospitality & Tourism Management",
+          "courses": [
+            {
+              "course_name": "Hospitality Innovation and e-Tourism",
+              "university": "Ca' Foscari University of Venice"
+            },
+            {
+              "course_name": "Economics of Tourism",
+              "university": "University Of Bologna - Rimini Campus"
+            },
+            {
+              "course_name": "BSc Hospitality Management",
+              "university": "Sapienza University of Rome"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Agriculture & Animal Sciences",
+      "subfields": [
+        {
+          "name": "Animal Care & Sciences",
+          "courses": [
+            {
+              "course_name": "Animal Care",
+              "university": "University of Padova"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Interdisciplinary Studies",
+      "subfields": [
+        {
+          "name": "Management & Economics",
+          "courses": [
+            {
+              "course_name": "Management and Economics",
+              "university": "University Of Bologna - Forli Campus"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
