@@ -1433,6 +1433,8 @@ class UIManager {
           navContainer.classList.add('scrolled');
         } else {
           navContainer.classList.remove('scrolled');
+          viewToggle.style.pointerEvents = '';
+      
         }
         
         // Add a subtle opacity effect during transition
