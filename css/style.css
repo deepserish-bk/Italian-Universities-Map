@@ -1943,7 +1943,6 @@ body {
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
-/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   /* VIEW TOGGLE - Mobile improvements */
   .view-toggle {
@@ -2065,6 +2064,78 @@ body {
     gap: var(--spacing-sm);
   }
   
+  /* MOBILE FIX: Ensure courses panel opens */
+  #courses-panel {
+    transition: right 0.3s ease !important;
+  }
+  
+  #courses-panel.open,
+  #courses-panel[style*="right: 0"],
+  #courses-panel[style*="right:0"] {
+    right: 0 !important;
+    box-shadow: -15px 0 40px rgba(0, 0, 0, 0.4);
+    z-index: 1002 !important;
+    display: flex !important;
+  }
+  
+  /* Prevent body scroll when panel is open on mobile */
+  body.panel-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Prevent horizontal scrolling on mobile */
+  body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  /* Improve touch feedback */
+  .university-card:active,
+  .course-card:active,
+  .field-card:active,
+  .subfield-card:active {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(1px);
+  }
+  
+  /* Better tap targets for small interactive elements */
+  .sidebar-close,
+  .modal-close,
+  .clear-btn {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Prevent zoom on inputs (iOS specific) */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important; /* Prevent iOS zoom */
+  }
+  
+  /* Improve map interaction */
+  .leaflet-container {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Better scroll for lists */
+  .sidebar-content,
+  .modal-content {
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+  
+  /* Fix for sticky nav on iOS */
+  .sticky-nav-container {
+    position: -webkit-sticky;
+    position: sticky;
+  }
+  
   /* BREADCRUMB - Better mobile sizing */
   .courses-breadcrumb {
     min-width: auto;
@@ -2152,74 +2223,5 @@ body {
       font-size: 0.8rem;
       padding: 0.3rem 0.5rem;
     }
-  }
-}
-/* ===== MOBILE-SPECIFIC FIXES ===== */
-
-/* Prevent horizontal scrolling on mobile */
-@media (max-width: 768px) {
-#courses-panel.open,
-#courses-panel[style*="right: 0"],
-#courses-panel[style*="right:0"] {
-  right: 0 !important;
-  box-shadow: -15px 0 40px rgba(0, 0, 0, 0.4);
-  /* Ensure it's above everything on mobile */
-  z-index: 1002 !important;
-}
-
-/* Prevent body scroll when panel is open on mobile */
-body.panel-open {
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-}
-  body {
-    overflow-x: hidden;
-    width: 100%;
-  }
-  
-  /* Improve touch feedback */
-  .university-card:active,
-  .course-card:active,
-  .field-card:active,
-  .subfield-card:active {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateY(1px);
-  }
-  
-  /* Better tap targets for small interactive elements */
-  .sidebar-close,
-  .modal-close,
-  .clear-btn {
-    min-width: 44px;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Prevent zoom on inputs (iOS specific) */
-  input,
-  select,
-  textarea {
-    font-size: 16px !important; /* Prevent iOS zoom */
-  }
-  
-  /* Improve map interaction */
-  .leaflet-container {
-    -webkit-tap-highlight-color: transparent;
-  }
-  
-  /* Better scroll for lists */
-  .sidebar-content,
-  .modal-content {
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  }
-  
-  /* Fix for sticky nav on iOS */
-  .sticky-nav-container {
-    position: -webkit-sticky;
-    position: sticky;
   }
 }

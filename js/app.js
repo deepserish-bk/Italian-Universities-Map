@@ -1868,7 +1868,24 @@ class UIManager {
       if (!this.coursesPanelOpen) {
         this.openCoursesPanel();
       }
-      
+        // MOBILE FIX: Force open panel on mobile
+  if (window.innerWidth <= 768) {
+    // Close universities sidebar if open
+    if (this.sidebarOpen) {
+      this.closeSidebar();
+    }
+    
+    // Force open courses panel
+    this.openCoursesPanel();
+    
+    // Mobile: Add class to body to prevent scroll
+    document.body.classList.add('panel-open');
+  } else {
+    // Desktop behavior
+    if (!this.coursesPanelOpen) {
+      this.openCoursesPanel();
+    }
+  }
       // Load the appropriate view
       this.loadFieldsView();
     } else {
@@ -1971,33 +1988,46 @@ class UIManager {
     if (this.sidebarOpen) this.toggleSidebar();
   }
 
-  toggleCoursesPanel() {
-    this.coursesPanelOpen = !this.coursesPanelOpen;
-    const panel = document.getElementById('courses-panel');
-    panel.style.right = this.coursesPanelOpen ? '0' : '-100%';
-  }
-
-  openCoursesPanel() {
-    if (!this.coursesPanelOpen) {
-      this.toggleCoursesPanel();
-    }
-      // MOBILE FIX: Force the panel to be visible
-    const panel = document.getElementById('courses-panel');
-    if (panel && window.innerWidth <= 768) {
-      // Mobile-specific fixes
+ toggleCoursesPanel() {
+  this.coursesPanelOpen = !this.coursesPanelOpen;
+  const panel = document.getElementById('courses-panel');
+  
+  if (panel) {
+    // MOBILE FIX: Ensure proper opening
+    if (this.coursesPanelOpen) {
       panel.style.right = '0';
-      panel.style.display = 'flex'; // Ensure it's display:flex
-      panel.style.zIndex = '1002'; // Higher than everything
-      
-      // Prevent body scroll on mobile
-      document.body.classList.add('panel-open');
+      // Mobile-specific: Full width and higher z-index
+      if (window.innerWidth <= 768) {
+        panel.style.width = '100%';
+        panel.style.zIndex = '1002';
+        panel.style.display = 'flex';
+      }
+    } else {
+      panel.style.right = '-100%';
+      // Reset mobile styles
+      if (window.innerWidth <= 768) {
+        panel.style.width = '';
+        panel.style.zIndex = '';
+      }
     }
-    
-    // Ensure the correct view is loaded based on currentCourseType
+  }
+  
+  console.log('Courses panel toggled:', this.coursesPanelOpen, 'on mobile:', window.innerWidth <= 768);
+}
+
+openCoursesPanel() {
+  // MOBILE FIX: Always ensure panel opens on mobile
+  if (!this.coursesPanelOpen || window.innerWidth <= 768) {
+    this.toggleCoursesPanel();
+  }
+  
+  // Load content after panel is definitely open
+  setTimeout(() => {
     if (this.currentCourseType) {
       this.loadFieldsView();
     }
-  }
+  }, 50);
+}
 
   closeCoursesPanel() {
   if (this.coursesPanelOpen) {
@@ -3174,49 +3204,34 @@ filterUniversitiesByRegion(region) {
     this.setupBreadcrumbListeners();
     
 // ===== MOBILE-SPECIFIC EVENT HANDLERS =====
+// MOBILE: Handle closing panels when tapping outside
 if (window.innerWidth <= 768) {
-  // Store reference to UI manager
-  const uiManager = this;
+  const ui = this; // Store reference to UI manager
   
-  // Handle click outside to close panels
   document.addEventListener('click', function(e) {
     const sidebar = document.getElementById('sidebar');
     const coursesPanel = document.getElementById('courses-panel');
     const toggleBtn = document.getElementById('toggle-sidebar');
     
+    // Don't close if clicking on view toggle buttons
+    const isViewToggleClick = e.target.closest('.view-toggle') || 
+                              e.target.closest('.view-option');
+    
     // Close sidebar if clicking outside
-    if (uiManager.sidebarOpen && sidebar && !sidebar.contains(e.target) && 
+    if (ui.sidebarOpen && sidebar && !sidebar.contains(e.target) && 
         toggleBtn && !toggleBtn.contains(e.target)) {
-      uiManager.closeSidebar();
+      ui.closeSidebar();
     }
     
-    // Close courses panel if clicking outside
-    if (uiManager.coursesPanelOpen && coursesPanel && !coursesPanel.contains(e.target)) {
-      // Don't close if clicking on view toggle buttons
-      const viewOptions = document.querySelectorAll('.view-option');
-      let isViewOptionClick = false;
-      viewOptions.forEach(btn => {
-        if (btn.contains(e.target)) isViewOptionClick = true;
-      });
-      
-      if (!isViewOptionClick) {
-        uiManager.closeCoursesPanel();
-      }
+    // Close courses panel if clicking outside (and not on view toggle)
+    if (ui.coursesPanelOpen && coursesPanel && 
+        !coursesPanel.contains(e.target) && 
+        !isViewToggleClick) {
+      ui.closeCoursesPanel();
+      document.body.classList.remove('panel-open');
     }
   });
-  
-  // Mobile-specific touch improvements
-    document.addEventListener('touchstart', function(e) {
-      // Prevent multiple rapid taps
-      if (e.target.classList.contains('control-btn') || 
-          e.target.classList.contains('view-option')) {
-        e.target.style.opacity = '0.7';
-        setTimeout(() => {
-          e.target.style.opacity = '';
-        }, 200);
-      }
-    });
-  }console.log('✅ Event listeners setup complete');
+}console.log('✅ Event listeners setup complete');
   }
 
   setupBreadcrumbListeners() {
