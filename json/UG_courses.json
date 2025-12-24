@@ -1,7 +1,7 @@
 {
   "fields": [
     {
-      "name": "STEM – Computer Science & Artificial Intelligence",
+      "name": "STEM – Computer Science and Artificial Intelligence",
       "subfields": [
         {
           "name": "Artificial Intelligence",
@@ -15,13 +15,17 @@
               "university": "University of Milan"
             },
             {
+              "course_name": "Applied Computer Science and Artificial Intelligence",
+              "university": "Sapienza University of Rome"
+            },
+            {
               "course_name": "Artificial Intelligence",
               "university": "University of Milano-Bicocca"
             }
           ]
         },
         {
-          "name": "Computer Science & Engineering",
+          "name": "Computer Science and Engineering",
           "courses": [
             {
               "course_name": "Information Engineering",
@@ -44,10 +48,10 @@
       ]
     },
     {
-      "name": "STEM – Engineering & Technology",
+      "name": "STEM – Engineering and Technology",
       "subfields": [
         {
-          "name": "Civil & Environmental Engineering",
+          "name": "Civil and Environmental Engineering",
           "courses": [
             {
               "course_name": "Building Construction Engineering",
@@ -68,7 +72,7 @@
           ]
         },
         {
-          "name": "Mechanical & Automotive Engineering",
+          "name": "Mechanical and Automotive Engineering",
           "courses": [
             {
               "course_name": "Mechanical Engineering",
@@ -100,7 +104,7 @@
       ]
     },
     {
-      "name": "STEM – Biological & Life Sciences",
+      "name": "STEM – Biological and Life Sciences",
       "subfields": [
         {
           "name": "Biology",
@@ -128,7 +132,7 @@
           ]
         },
         {
-          "name": "Bioinformatics & Biotechnology",
+          "name": "Bioinformatics and Biotechnology",
           "courses": [
             {
               "course_name": "Bioinformatics",
@@ -139,10 +143,10 @@
       ]
     },
     {
-      "name": "STEM – Earth & Environmental Sciences",
+      "name": "STEM – Earth and Environmental Sciences",
       "subfields": [
         {
-          "name": "Geosciences & Climate",
+          "name": "Geosciences and Climate",
           "courses": [
             {
               "course_name": "Earth and Climate Dynamics",
@@ -153,7 +157,7 @@
       ]
     },
     {
-      "name": "STEM – Mathematics & Statistics",
+      "name": "STEM – Mathematics and Statistics",
       "subfields": [
         {
           "name": "Statistics",
@@ -171,17 +175,17 @@
       ]
     },
     {
-      "name": "Business, Economics & Management",
+      "name": "Business, Economics and Management",
       "subfields": [
         {
-          "name": "Business Administration & Management",
+          "name": "Business Administration and Management",
           "courses": [
             {
               "course_name": "Business Administration - Business Administration and Management Curriculum",
               "university": "Ca' Foscari University of Venice"
             },
             {
-              "course_name": "Business & Management",
+              "course_name": "Business and Management",
               "university": "University of Turin"
             },
             {
@@ -199,7 +203,7 @@
           ]
         },
         {
-          "name": "Economics & Finance",
+          "name": "Economics and Finance",
           "courses": [
             {
               "course_name": "Economics and Management. Curriculum : Banking and Finance, Business and Management, Economics and Social Sciences",
@@ -220,7 +224,7 @@
           ]
         },
         {
-          "name": "Digital & Innovation Management",
+          "name": "Digital and Innovation Management",
           "courses": [
             {
               "course_name": "Digital Management",
@@ -231,7 +235,7 @@
       ]
     },
     {
-      "name": "Health & Medical Sciences",
+      "name": "Health and Medical Sciences",
       "subfields": [
         {
           "name": "Medicine",
@@ -262,10 +266,10 @@
       ]
     },
     {
-      "name": "Social Sciences & Humanities",
+      "name": "Social Sciences and Humanities",
       "subfields": [
         {
-          "name": "Law & Legal Studies",
+          "name": "Law and Legal Studies",
           "courses": [
             {
               "course_name": "International, European and Comparative Legal Studies Law",
@@ -299,7 +303,7 @@
           ]
         },
         {
-          "name": "Political Science & International Studies",
+          "name": "Political Science and International Studies",
           "courses": [
             {
               "course_name": "Economics, Politics and Social Sciences",
@@ -320,7 +324,7 @@
           ]
         },
         {
-          "name": "Philosophy & Humanities",
+          "name": "Philosophy and Humanities",
           "courses": [
             {
               "course_name": "Philosophy, International and Economic Studies",
@@ -343,10 +347,10 @@
       ]
     },
     {
-      "name": "Tourism, Hospitality & Cultural Studies",
+      "name": "Tourism, Hospitality and Cultural Studies",
       "subfields": [
         {
-          "name": "Hospitality & Tourism Management",
+          "name": "Hospitality and Tourism Management",
           "courses": [
             {
               "course_name": "Hospitality Innovation and e-Tourism",
@@ -365,10 +369,10 @@
       ]
     },
     {
-      "name": "Agriculture & Animal Sciences",
+      "name": "Agriculture and Animal Sciences",
       "subfields": [
         {
-          "name": "Animal Care & Sciences",
+          "name": "Animal Care and Sciences",
           "courses": [
             {
               "course_name": "Animal Care",
@@ -382,7 +386,7 @@
       "name": "Interdisciplinary Studies",
       "subfields": [
         {
-          "name": "Management & Economics",
+          "name": "Management and Economics",
           "courses": [
             {
               "course_name": "Management and Economics",

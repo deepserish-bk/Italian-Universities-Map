@@ -1,7 +1,7 @@
 {
   "fields": [
     {
-      "name": "STEM – Computer Science & Artificial Intelligence",
+      "name": "STEM – Computer Science and Artificial Intelligence",
       "subfields": [
         {
           "name": "Artificial Intelligence",
@@ -23,7 +23,7 @@
               "university": "Università degli Studi di Pavia"
             },
             {
-              "course_name": "ARTIFICIAL INTELLIGENCE & CYBERSECURITY",
+              "course_name": "ARTIFICIAL INTELLIGENCE and CYBERSECURITY",
               "university": "Università degli Studi di Udine"
             },
             {
@@ -186,7 +186,7 @@
       ]
     },
     {
-      "name": "STEM – Engineering & Technology",
+      "name": "STEM – Engineering and Technology",
       "subfields": [
         {
           "name": "Aerospace Engineering",
@@ -252,7 +252,7 @@
           ]
         },
         {
-          "name": "Electrical & Electronics Engineering",
+          "name": "Electrical and Electronics Engineering",
           "courses": [
             {
               "course_name": "ELECTRICAL ENGINEERING",
@@ -306,7 +306,7 @@
           ]
         },
         {
-          "name": "Automation & Control Engineering",
+          "name": "Automation and Control Engineering",
           "courses": [
             {
               "course_name": "AUTOMATION ENGINEERING",
@@ -335,7 +335,7 @@
           ]
         },
         {
-          "name": "Biomedical & Bioengineering",
+          "name": "Biomedical and Bioengineering",
           "courses": [
             {
               "course_name": "BIOENGINEERING",
@@ -410,7 +410,7 @@
           ]
         },
         {
-          "name": "Materials & Nanotechnology",
+          "name": "Materials and Nanotechnology",
           "courses": [
             {
               "course_name": "MATERIALS ENGINEERING",
@@ -440,10 +440,10 @@
           ]
         },
         {
-          "name": "General & Other Engineering",
+          "name": "General and Other Engineering",
           "courses": [
             {
-              "course_name": "DESIGN & ENGINEERING",
+              "course_name": "DESIGN and ENGINEERING",
               "university": "Politecnico di Milano"
             },
             {
@@ -499,7 +499,7 @@
       ]
     },
     {
-      "name": "STEM – Data Science, Analytics & Mathematics",
+      "name": "STEM – Data Science, Analytics and Mathematics",
       "subfields": [
         {
           "name": "Data Science",
@@ -582,7 +582,7 @@
               "university": "Libera Università di Bolzano"
             },
             {
-              "course_name": "ECONOMICS & DATA SCIENCE",
+              "course_name": "ECONOMICS and DATA SCIENCE",
               "university": "Università degli Studi di Genova"
             },
             {
@@ -681,7 +681,7 @@
       ]
     },
     {
-      "name": "STEM – Physical & Chemical Sciences",
+      "name": "STEM – Physical and Chemical Sciences",
       "subfields": [
         {
           "name": "Physics",
@@ -789,7 +789,7 @@
       ]
     },
     {
-      "name": "STEM – Biological & Life Sciences",
+      "name": "STEM – Biological and Life Sciences",
       "subfields": [
         {
           "name": "Biology",
@@ -928,13 +928,13 @@
       ]
     },
     {
-      "name": "Business, Economics & Management",
+      "name": "Business, Economics and Management",
       "subfields": [
         {
-          "name": "Accounting & Finance",
+          "name": "Accounting and Finance",
           "courses": [
             {
-              "course_name": "ACCOUNTING, FINANCE & BUSINESS CONSULTING",
+              "course_name": "ACCOUNTING, FINANCE and BUSINESS CONSULTING",
               "university": "Università degli Studi di Padova"
             },
             {
@@ -1023,7 +1023,7 @@
               "university": "Università degli Studi di Udine"
             },
             {
-              "course_name": "ECONOMICS & FINANCE",
+              "course_name": "ECONOMICS and FINANCE",
               "university": "Università degli Studi di Bergamo"
             },
             {
@@ -1105,7 +1105,7 @@
           ]
         },
         {
-          "name": "Business Administration & Management",
+          "name": "Business Administration and Management",
           "courses": [
             {
               "course_name": "BUSINESS ADMINISTRATION",
@@ -1186,7 +1186,7 @@
           ]
         },
         {
-          "name": "Marketing & Entrepreneurship",
+          "name": "Marketing and Entrepreneurship",
           "courses": [
             {
               "course_name": "ENTREPRENEURSHIP AND INNOVATION",
@@ -1233,7 +1233,7 @@
       ]
     },
     {
-      "name": "Health & Medical Sciences",
+      "name": "Health and Medical Sciences",
       "subfields": [
         {
           "name": "Medical Sciences",
@@ -1277,7 +1277,7 @@
           ]
         },
         {
-          "name": "Psychology & Neuroscience",
+          "name": "Psychology and Neuroscience",
           "courses": [
             {
               "course_name": "APPLIED DYNAMIC AND CLINICAL PSYCHOLOGY",
@@ -1334,7 +1334,7 @@
           ]
         },
         {
-          "name": "Health Technology & Engineering",
+          "name": "Health Technology and Engineering",
           "courses": [
             {
               "course_name": "ARTIFICIAL INTELLIGENCE FOR BIOMEDICINE AND HEALTHCARE",
@@ -1365,7 +1365,7 @@
       ]
     },
     {
-      "name": "Social Sciences & Humanities",
+      "name": "Social Sciences and Humanities",
       "subfields": [
         {
           "name": "Psychology",
@@ -1401,10 +1401,10 @@
           ]
         },
         {
-          "name": "International Relations & Political Science",
+          "name": "International Relations and Political Science",
           "courses": [
             {
-              "course_name": "AREA & GLOBAL STUDIES FOR INTERNATIONAL COOPERATION",
+              "course_name": "AREA and GLOBAL STUDIES FOR INTERNATIONAL COOPERATION",
               "university": "Università degli Studi di Torino"
             },
             {
@@ -1468,7 +1468,7 @@
               "university": "Università degli Studi di Palermo"
             },
             {
-              "course_name": "INTERNATIONAL RELATIONS, POLITICS & TRADE",
+              "course_name": "INTERNATIONAL RELATIONS, POLITICS and TRADE",
               "university": "Università degli Studi di Palermo"
             },
             {
@@ -1486,7 +1486,7 @@
           ]
         },
         {
-          "name": "Sociology & Development",
+          "name": "Sociology and Development",
           "courses": [
             {
               "course_name": "LOCAL DEVELOPMENT",
@@ -1503,7 +1503,7 @@
           ]
         },
         {
-          "name": "Languages & Literature",
+          "name": "Languages and Literature",
           "courses": [
             {
               "course_name": "ENGLISH AND AMERICAN STUDIES",
@@ -1548,7 +1548,7 @@
           ]
         },
         {
-          "name": "Philosophy & Humanities",
+          "name": "Philosophy and Humanities",
           "courses": [
             {
               "course_name": "DIGITAL AND PUBLIC HUMANITIES",
@@ -1600,10 +1600,10 @@
       ]
     },
     {
-      "name": "Environmental, Sustainability & Agricultural Sciences",
+      "name": "Environmental, Sustainability and Agricultural Sciences",
       "subfields": [
         {
-          "name": "Environmental Science & Engineering",
+          "name": "Environmental Science and Engineering",
           "courses": [
             {
               "course_name": "BIODIVERSITY, CONSERVATION AND ENVIRONMENTAL QUALITY",
@@ -1632,7 +1632,7 @@
           ]
         },
         {
-          "name": "Sustainability & Circular Economy",
+          "name": "Sustainability and Circular Economy",
           "courses": [
             {
               "course_name": "CIRCULAR ECONOMY",
@@ -1649,7 +1649,7 @@
           ]
         },
         {
-          "name": "Agriculture & Food Science",
+          "name": "Agriculture and Food Science",
           "courses": [
             {
               "course_name": "AGRIFOOD SUSTAINABILITY",
@@ -1708,7 +1708,7 @@
       ]
     },
     {
-      "name": "Arts, Architecture & Design",
+      "name": "Arts, Architecture and Design",
       "subfields": [
         {
           "name": "Architecture",
@@ -1777,7 +1777,7 @@
           ]
         },
         {
-          "name": "Art History & Cultural Heritage",
+          "name": "Art History and Cultural Heritage",
           "courses": [
             {
               "course_name": "APPLIED SCIENCES TO CULTURAL HERITAGE, MATERIALS AND SITES",
@@ -1804,10 +1804,10 @@
       ]
     },
     {
-      "name": "Law, Governance & Public Policy",
+      "name": "Law, Governance and Public Policy",
       "subfields": [
         {
-          "name": "Law & Legal Studies",
+          "name": "Law and Legal Studies",
           "courses": [
             {
               "course_name": "EUROPEAN ECONOMY AND BUSINESS LAW",
@@ -1832,7 +1832,7 @@
           ]
         },
         {
-          "name": "Governance & Public Policy",
+          "name": "Governance and Public Policy",
           "courses": [
             {
               "course_name": "HUMAN RIGHTS AND MULTI-LEVEL GOVERNANCE",
@@ -1872,7 +1872,7 @@
       ]
     },
     {
-      "name": "Tourism, Hospitality & Cultural Studies",
+      "name": "Tourism, Hospitality and Cultural Studies",
       "subfields": [
         {
           "name": "Tourism Management",
@@ -1912,7 +1912,7 @@
           ]
         },
         {
-          "name": "Cultural & Heritage Studies",
+          "name": "Cultural and Heritage Studies",
           "courses": [
             {
               "course_name": "CULTURAL HERITAGE AND CREATIVITY FOR TOURISM AND TERRITORIAL DEVELOPMENT",

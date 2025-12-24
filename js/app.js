@@ -1362,31 +1362,31 @@ class DataManager {
     let color;
     if (courseType === 'masters') {
       const colors = {
-        'STEM – Computer Science & Artificial Intelligence': CONFIG.colors.stemCS,
-        'STEM – Engineering & Technology': CONFIG.colors.stemEng,
-        'Business, Economics & Management': CONFIG.colors.business,
-        'Health & Medical Sciences': CONFIG.colors.health,
-        'Social Sciences & Humanities': CONFIG.colors.humanities,
-        'Arts, Architecture & Design': CONFIG.colors.humanities,
-        'STEM – Physical & Chemical Sciences': CONFIG.colors.science,
-        'STEM – Biological & Life Sciences': CONFIG.colors.science,
-        'Environmental, Sustainability & Agricultural Sciences': CONFIG.colors.env,
-        'Law, Governance & Public Policy': CONFIG.colors.law,
-        'Tourism, Hospitality & Cultural Studies': CONFIG.colors.tourism
+        'STEM – Computer Science and Artificial Intelligence': CONFIG.colors.stemCS,
+        'STEM – Engineering and Technology': CONFIG.colors.stemEng,
+        'Business, Economics and Management': CONFIG.colors.business,
+        'Health and Medical Sciences': CONFIG.colors.health,
+        'Social Sciences and Humanities': CONFIG.colors.humanities,
+        'Arts, Architecture and Design': CONFIG.colors.humanities,
+        'STEM – Physical and Chemical Sciences': CONFIG.colors.science,
+        'STEM – Biological and Life Sciences': CONFIG.colors.science,
+        'Environmental, Sustainability and Agricultural Sciences': CONFIG.colors.env,
+        'Law, Governance and Public Policy': CONFIG.colors.law,
+        'Tourism, Hospitality and Cultural Studies': CONFIG.colors.tourism
       };
       color = colors[fieldName] || CONFIG.colors.italyGreen;
     } else {
       const colors = {
-        'STEM – Computer Science & Artificial Intelligence': CONFIG.colors.bachelorStem,
-        'STEM – Engineering & Technology': CONFIG.colors.bachelorStem,
-        'Business, Economics & Management': CONFIG.colors.bachelorBusiness,
-        'Health & Medical Sciences': CONFIG.colors.health,
-        'Social Sciences & Humanities': CONFIG.colors.bachelorHumanities,
-        'STEM – Biological & Life Sciences': CONFIG.colors.bachelorStem,
-        'STEM – Earth & Environmental Sciences': CONFIG.colors.bachelorStem,
-        'STEM – Mathematics & Statistics': CONFIG.colors.bachelorStem,
-        'Agriculture & Animal Sciences': CONFIG.colors.env,
-        'Tourism, Hospitality & Cultural Studies': CONFIG.colors.tourism,
+        'STEM – Computer Science and Artificial Intelligence': CONFIG.colors.bachelorStem,
+        'STEM – Engineering and Technology': CONFIG.colors.bachelorStem,
+        'Business, Economics and Management': CONFIG.colors.bachelorBusiness,
+        'Health and Medical Sciences': CONFIG.colors.health,
+        'Social Sciences and Humanities': CONFIG.colors.bachelorHumanities,
+        'STEM – Biological and Life Sciences': CONFIG.colors.bachelorStem,
+        'STEM – Earth and Environmental Sciences': CONFIG.colors.bachelorStem,
+        'STEM – Mathematics and Statistics': CONFIG.colors.bachelorStem,
+        'Agriculture and Animal Sciences': CONFIG.colors.env,
+        'Tourism, Hospitality and Cultural Studies': CONFIG.colors.tourism,
         'Interdisciplinary Studies': CONFIG.colors.bachelorBusiness
       };
       color = colors[fieldName] || CONFIG.colors.bachelorStem;
@@ -1399,31 +1399,31 @@ class DataManager {
   getFieldIcon(fieldName, courseType) {
     if (courseType === 'masters') {
       const icons = {
-        'STEM – Computer Science & Artificial Intelligence': 'fas fa-microchip',
-        'STEM – Engineering & Technology': 'fas fa-cogs',
-        'Business, Economics & Management': 'fas fa-chart-line',
-        'Health & Medical Sciences': 'fas fa-heartbeat',
-        'Social Sciences & Humanities': 'fas fa-users',
-        'Arts, Architecture & Design': 'fas fa-paint-brush',
-        'STEM – Physical & Chemical Sciences': 'fas fa-flask',
-        'STEM – Biological & Life Sciences': 'fas fa-dna',
-        'Environmental, Sustainability & Agricultural Sciences': 'fas fa-leaf',
-        'Law, Governance & Public Policy': 'fas fa-gavel',
-        'Tourism, Hospitality & Cultural Studies': 'fas fa-umbrella-beach'
+        'STEM – Computer Science and Artificial Intelligence': 'fas fa-microchip',
+        'STEM – Engineering and Technology': 'fas fa-cogs',
+        'Business, Economics and Management': 'fas fa-chart-line',
+        'Health and Medical Sciences': 'fas fa-heartbeat',
+        'Social Sciences and Humanities': 'fas fa-users',
+        'Arts, Architecture and Design': 'fas fa-paint-brush',
+        'STEM – Physical and Chemical Sciences': 'fas fa-flask',
+        'STEM – Biological and Life Sciences': 'fas fa-dna',
+        'Environmental, Sustainability and Agricultural Sciences': 'fas fa-leaf',
+        'Law, Governance and Public Policy': 'fas fa-gavel',
+        'Tourism, Hospitality and Cultural Studies': 'fas fa-umbrella-beach'
       };
       return icons[fieldName] || 'fas fa-graduation-cap';
     } else {
       const icons = {
-        'STEM – Computer Science & Artificial Intelligence': 'fas fa-laptop-code',
-        'STEM – Engineering & Technology': 'fas fa-cogs',
-        'Business, Economics & Management': 'fas fa-chart-line',
-        'Health & Medical Sciences': 'fas fa-heartbeat',
-        'Social Sciences & Humanities': 'fas fa-users',
-        'STEM – Biological & Life Sciences': 'fas fa-dna',
-        'STEM – Earth & Environmental Sciences': 'fas fa-globe-europe',
-        'STEM – Mathematics & Statistics': 'fas fa-calculator',
-        'Agriculture & Animal Sciences': 'fas fa-tractor',
-        'Tourism, Hospitality & Cultural Studies': 'fas fa-umbrella-beach',
+        'STEM – Computer Science and Artificial Intelligence': 'fas fa-laptop-code',
+        'STEM – Engineering and Technology': 'fas fa-cogs',
+        'Business, Economics and Management': 'fas fa-chart-line',
+        'Health and Medical Sciences': 'fas fa-heartbeat',
+        'Social Sciences and Humanities': 'fas fa-users',
+        'STEM – Biological and Life Sciences': 'fas fa-dna',
+        'STEM – Earth and Environmental Sciences': 'fas fa-globe-europe',
+        'STEM – Mathematics and Statistics': 'fas fa-calculator',
+        'Agriculture and Animal Sciences': 'fas fa-tractor',
+        'Tourism, Hospitality and Cultural Studies': 'fas fa-umbrella-beach',
         'Interdisciplinary Studies': 'fas fa-brain'
       };
       return icons[fieldName] || 'fas fa-book-open';
