@@ -122,6 +122,14 @@
             {
               "course_name": "SOFTWARE: SCIENCE AND TECHNOLOGY",
               "university": "Università degli Studi di Firenze"
+            },
+            {
+              "course_name": "Computer Science Engineering",
+              "university": "University of Messina"
+            },
+            {
+              "course_name": "Data Science",
+              "university": "University of Messina"
             }
           ]
         },
@@ -215,6 +223,10 @@
             {
               "course_name": "CIVIL ENGINEERING FOR RISK MITIGATION",
               "university": "Politecnico di Milano"
+            },
+            {
+              "course_name": "Civil Engineering",
+              "university": "University of Messina"
             }
           ]
         },

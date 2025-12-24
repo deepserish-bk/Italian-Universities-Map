@@ -218,6 +218,9 @@ class DataManager {
       
       // University of Salerno variations
       "University gli Studi di SALERNO": "Università degli Studi di Salerno",
+
+      //Univeersity of Messina Variations
+      "University of Messina": "Università degli Study di Messina",
       
       // University of Teramo variations
       "University gli Studi di TERAMO": "Università degli Studi di Teramo",
@@ -614,7 +617,7 @@ class DataManager {
         lat: 41.9028, 
         lng: 12.5140, 
         description: "The largest university in Europe by enrollment, and one of the oldest and most prestigious in the world.",
-        apply_link: "https://www.uniroma1.it/en/admissions"
+        apply_link: "https://sapienza.gomovein.com"
       },
       { 
         id: "torvergata", 
@@ -849,6 +852,19 @@ class DataManager {
         lng: 7.6612, 
         description: "One of the oldest and most prestigious technical universities in Italy, internationally recognized.",
         apply_link: "https://www.polito.it/en/education/applying-studying-graduating/admissions-and-enrolment/master-s-degree-programmes/applicants-with-a-non-italian-qualification"
+      }, 
+      {
+        id: "unime",
+        name: "Università degli Studi di Messina",
+        city: "Messina",
+        region: "Sicily",
+        type: "university",
+        founded: 1548,
+        website: "https://www.unime.it",
+        lat: 38.1952,
+        lng: 15.5529,
+        description: "A public research university located in Messina, Sicily, originally founded in 1548 and refounded in 1838.",
+        apply_link: "https://unime.gomovein.com"
       },
       { 
         id: "upo", 

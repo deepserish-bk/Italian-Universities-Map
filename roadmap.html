@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study in Italy - Process Roadmap | Università d'Italia</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Step-by-step guide to studying in Italy: University shortlisting, application filing, pre-enrollment, scholarship applications, and visa process.">
+    <meta name="keywords" content="study in Italy, Italian university admission, Italy student visa, Italian scholarships, CIMEA, DOV">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Study in Italy - Process Roadmap">
+    <meta property="og:description" content="Your complete 6-step guide to studying in Italy with interactive roadmap">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Study in Italy Roadmap">
+    <meta name="twitter:description" content="Interactive guide to Italian university admission process">
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/roadmap.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="css/roadmap.css" as="style">
+    
+    <!-- Link back to main site -->
+    <link rel="canonical" href="index.html">
+    
+    <style>
+        /* Quick inline styles for immediate rendering */
+        .roadmap-loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loader-flag {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .flag-stripe {
+            width: 80px;
+            height: 20px;
+        }
+        
+        .stripe-1 { background: var(--italy-green); animation: slideInLeft 0.6s ease; }
+        .stripe-2 { background: var(--italy-white); animation: slideInLeft 0.6s ease 0.2s both; }
+        .stripe-3 { background: var(--italy-red); animation: slideInLeft 0.6s ease 0.4s both; }
+        
+        @keyframes slideInLeft {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="roadmap-loading" class="roadmap-loader">
+        <div class="loader-flag">
+            <div class="flag-stripe stripe-1"></div>
+            <div class="flag-stripe stripe-2"></div>
+            <div class="flag-stripe stripe-3"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="roadmap-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" aria-label="Go back to main website">
+                <div class="logo-flag">
+                    <div class="flag-line green"></div>
+                    <div class="flag-line white"></div>
+                    <div class="flag-line red"></div>
+                </div>
+                <span class="logo-text">← Back to Universities</span>
+            </a>
+            
+            <div class="nav-title">
+                <h1>Study in Italy Roadmap</h1>
+                <p>Your 6-step journey to Italian higher education</p>
+                <p>Minimum processing time: 5-6 months</p>
+            </div>
+            
+            <div class="nav-controls">
+                <button id="roadmap-controls-toggle" class="control-btn" aria-label="Roadmap controls">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button id="print-roadmap" class="control-btn" aria-label="Print roadmap">
+                    <i class="fas fa-print"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Controls Panel -->
+    <div id="controls-panel" class="controls-panel">
+        <div class="panel-header">
+            <h3>Roadmap Controls</h3>
+            <button id="close-controls" class="panel-close" aria-label="Close controls">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="panel-content">
+            <div class="control-group">
+                <label for="animation-speed">Animation Speed</label>
+                <select id="animation-speed" class="control-select">
+                    <option value="slow">Slow</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="fast">Fast</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="auto-play">Auto-play Guide</label>
+                <select id="auto-play" class="control-select">
+                    <option value="true">Yes</option>
+                    <option value="false" selected>No</option>
+                </select>
+            </div>
+            <button id="reset-roadmap" class="btn-secondary">
+                <i class="fas fa-sync-alt"></i> Reset Roadmap
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="roadmap-container">
+        <!-- Road Visualization -->
+        <div class="road-visualization">
+            <div class="road-background"></div>
+            <div class="road-path">
+                <div class="path-line"></div>
+                <div class="path-progress" id="path-progress"></div>
+                
+             <!-- Character Container -->
+                <div class="character-container" id="character-container">
+                    <div class="stickman-character" id="stickman-character">
+                       
+                        
+                        
+                        <!-- Head -->
+                        <div class="stickman-head"></div>
+                        
+                        <!-- Body -->
+                        <div class="stickman-body"></div>
+                        
+                        <!-- Arms - One holding flag -->
+                        <div class="stickman-arm left-arm"></div>
+                        <div class="stickman-arm right-arm"></div>
+                        
+                        <!-- Legs -->
+                        <div class="stickman-leg left-leg"></div>
+                        <div class="stickman-leg right-leg"></div>
+                        
+                        <!-- Backpack with Nepal patch -->
+
+                    <div class="backpack">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="32" viewBox="0 0 26 32">
+                        <!-- Top triangle (hypotenuse points up) -->
+                        <polygon points="0,0 26,16 0,16" fill="#003893"/>
+                        <!-- Bottom triangle -->
+                        <polygon points="0,16 26,32 0,32" fill="#003893"/>
+                        
+                        <!-- Red top triangle (hypotenuse points up) -->
+                        <polygon points="1,1 24,15 1,15" fill="#DC143C"/>
+                        <!-- Red bottom triangle -->
+                        <polygon points="1,17 24,31 1,31" fill="#DC143C"/>
+                        
+                        <!-- Moon (Crescent) -->
+                        <circle cx="6" cy="6" r="3" fill="white"/>
+                        <circle cx="7" cy="6" r="2.5" fill="#003893"/> <!-- Small cut-out circle for crescent shape -->
+                        
+                        <!-- Sun -->
+                        <circle cx="6" cy="24" r="3" fill="white"/>
+                        <!-- Simplified rays for the Sun -->
+                        <circle cx="6" cy="24" r="0.5" fill="#003893"/>
+                    </svg>
+
+                    </div>
+                    </div>
+                    <div class="character-shadow"></div>
+                </div>
+                <!-- Step Markers -->
+                <div class="step-marker" data-step="1" style="left: 10%;">
+                    <div class="marker-circle">1</div>
+                    <div class="marker-label">University<br>Shortlisting</div>
+                </div>
+                <div class="step-marker" data-step="2" style="left: 25%;">
+                    <div class="marker-circle">2</div>
+                    <div class="marker-label">Application<br>Filing</div>
+                </div>
+                <div class="step-marker" data-step="3" style="left: 40%;">
+                    <div class="marker-circle">3</div>
+                    <div class="marker-label">Pre-<br>enrollment</div>
+                </div>
+                <div class="step-marker" data-step="4" style="left: 55%;">
+                
+                     <div class="marker-circle">4</div>
+                    <div class="marker-label">DOV/<br>CIMEA</div>
+                </div>
+                <div class="step-marker" data-step="5" style="left: 70%;">
+                    <div class="marker-circle">5</div>
+                     <div class="marker-label">Scholarship<br>Application</div>
+                </div>
+                <div class="step-marker" data-step="6" style="left: 85%;">
+                    <div class="marker-circle">6</div>
+                    <div class="marker-label">Visa<br>Application</div>
+                </div>
+                
+                <!-- Destination Flag -->
+                <div class="destination-flag">
+                    <div class="flag-italy">
+                        <div class="flag-part green"></div>
+                        <div class="flag-part white"></div>
+                        <div class="flag-part red"></div>
+                    </div>
+                    <div class="flag-label">ITALY</div>
+                </div>
+            </div>
+            
+            <!-- Road Scenery -->
+           <!-- Simple Cloud Scenery -->
+            <div class="road-scenery">
+                <div class="scenery-cloud cloud-1"></div>
+                <div class="scenery-cloud cloud-2"></div>
+                <div class="scenery-cloud cloud-3"></div>
+            </div>
+        </div>
+
+        <!-- Step Details Section -->
+        <div class="step-details-container">
+            <div class="step-header">
+                <h2 id="current-step-title">Start Your Journey</h2>
+                <div class="step-progress">
+                    <span id="current-step-number">0</span>/6 Steps
+                </div>
+            </div>
+            
+            <div class="steps-container">
+                <!-- Step 1 -->
+                <div class="step-detail active" data-step="1">
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>University Shortlisting</h3>
+                        <div class="step-timeline">
+                            <span class="timeline-badge">Step 1</span>
+                            <span class="timeline-duration">1 week</span>
+                        </div>
+                        <p>Research and select Italian universities based on your academic profile, preferred courses, and location preferences.</p>
+                        <div class="step-actions">
+                            <button class="btn-action" data-action="explore">
+                                <i class="fas fa-university"></i> Explore Universities
+                            </button>
+                            <button class="btn-action" data-action="tips">
+                                <i class="fas fa-lightbulb"></i> Selection Tips
+                            </button>
+                        </div>
+                        <div class="step-checklist">
+                            <h4>Checklist:</h4>
+                            <ul>
+                                <li><i class="fas fa-check-circle"></i> Identify 5-6 target universities</li>
+                                <li><i class="fas fa-check-circle"></i> Check admission requirements</li>
+                                <li><i class="fas fa-check-circle"></i> Verify English-taught programs</li>
+                                <li><i class="fas fa-check-circle"></i> Review tuition fees & scholarships</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="step-detail" data-step="2">
+                    <div class="step-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>Application Filing (Offer Letter)</h3>
+                        <div class="step-timeline">
+                            <span class="timeline-badge">Step 2</span>
+                            <span class="timeline-duration">1.5-3 months</span>
+                        </div>
+                        <p>Prepare and submit your application documents to selected universities to receive offer letters. The documents you present decide your admission chances. Make sure you have distinctive CV and SOP.</p>
+                        <div class="step-actions">
+                            <button class="btn-action" data-action="documents">
+                                <i class="fas fa-folder-open"></i> Required Documents
+                            </button>
+                            <button class="btn-action" data-action="deadlines">
+                                <i class="fas fa-calendar-alt"></i> Application Deadlines
+                            </button>
+                        </div>
+                        <div class="step-checklist">
+                            <h4>Documents Needed:</h4>
+                            <ul>
+                                <li><i class="fas fa-file-pdf"></i> Academic transcripts</li>
+                                <li><i class="fas fa-language"></i> English proficiency proof</li>
+                                <li><i class="fas fa-edit"></i> ⚠️Statement of Purpose</li>
+                                <li><i class="fas fa-edit"></i> ⚠️CV</li>
+                                <li><i class="fas fa-user"></i> Letters of Recommendation</li>
+                                <li><i class="fas fa-passport"></i> Passport copy</li>
+                                <li><i class="fas fa-passport"></i> Passport size photo</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="step-detail" data-step="3">
+                    <div class="step-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>Pre-enrollment</h3>
+                        <div class="step-timeline">
+                            <span class="timeline-badge">Step 3</span>
+                            <span class="timeline-duration">1-3 month</span>
+                        </div>
+                        <p>Complete pre-enrollment procedures on the Universitaly platform to formalize your acceptance.</p>
+                        <div class="step-actions">
+                            <button class="btn-action" data-action="universitaly">
+                                <i class="fas fa-external-link-alt"></i> Go to Universitaly
+                            </button>
+                            <button class="btn-action" data-action="guide">
+                                <i class="fas fa-book"></i> Pre-enrollment Guide
+                            </button>
+                        </div>
+                        <div class="step-checklist">
+                            <h4>Key Actions:</h4>
+                            <ul>
+                                <li><i class="fas fa-check-circle"></i> Create Universitaly account</li>
+                                <li><i class="fas fa-check-circle"></i> Submit pre-enrollment application</li>
+                                <li><i class="fas fa-check-circle"></i> Upload required documents</li>
+                                <li><i class="fas fa-check-circle"></i> Pay application fees (if any)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                     
+                <!-- Step 4 -->
+                <div class="step-detail" data-step="4">
+                    <div class="step-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>DOV / CIMEA</h3>
+                        <div class="step-timeline">
+                            <span class="timeline-badge">Step 4</span>
+                            <span class="timeline-duration">4-8 weeks</span>
+                        </div>
+                        <p>Obtain Declaration of Value (DOV) or CIMEA certification for your academic qualifications.</p>
+                        <div class="step-actions">
+                            <button class="btn-action" data-action="cimea">
+                                <i class="fas fa-external-link-alt"></i> CIMEA Website
+                            </button>
+                            <button class="btn-action" data-action="help">
+                                <i class="fas fa-question-circle"></i> DOV Assistance
+                            </button>
+                             <button class="btn-action" data-action="appointment">
+                                <i class="fas fa-passport"></i> DOV Appointment
+                            </button>
+                        </div>
+                        <div class="step-checklist">
+                            <h4>Document Legalization:</h4>
+                            <ul>
+                                <li><i class="fas fa-passport"></i> Passport copy</li>
+                                <li><i class="fas fa-file-certificate"></i> Degree certificates</li>
+                                <li><i class="fas fa-file-invoice"></i> Academic transcripts</li>
+                                <li><i class="fas fa-stamp"></i> Apostille/legalization</li>
+                                <li><i class="fas fa-language"></i> Official translations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 5 -->
+                <div class="step-detail" data-step="5">
+                    <div class="step-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>Regional Scholarship Application</h3>
+                        <div class="step-timeline">
+                            <span class="timeline-badge">Step 5</span>
+                            <span class="timeline-duration">1-2 months</span>
+                        </div>
+                        <p>Apply for regional scholarships (DSU) and other financial aid opportunities available in Italy.</p>
+                        <div class="step-actions">
+                            <button class="btn-action" data-action="scholarships">
+                                <i class="fas fa-search-dollar"></i> Find Scholarships
+                            </button>
+                            <button class="btn-action" data-action="deadlines">
+                                <i class="fas fa-clock"></i> Scholarship Deadlines
+                            </button>
+                        </div>
+                        <div class="step-checklist">
+                            <h4>Scholarship Types:</h4>
+                            <ul>
+                                <li><i class="fas fa-university"></i> Regional (DSU) Scholarships</li>
+                                <li><i class="fas fa-globe-europe"></i> Italian Government Scholarships</li>
+                                <li><i class="fas fa-building"></i> University-specific Scholarships</li>
+                                <li><i class="fas fa-handshake"></i> Erasmus+ Grants</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+           
+                
+                <!-- Step 6 -->
+                <div class="step-detail" data-step="6">
+                    <div class="step-icon">
+                        <i class="fas fa-plane-departure"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>Visa Application</h3>
+                        <div class="step-timeline">
+                            <span class="timeline-badge">Step 6</span>
+                            <span class="timeline-duration">Normally: 45 business days</span>
+                        </div>
+                        <p>Apply for your Italian student visa (Type D) at the Italian Embassy/Consulate in your country.</p>
+                        <div class="step-actions">
+                            <button class="btn-action" data-action="visa">
+                                <i class="fas fa-file-contract"></i> Visa Requirements
+                            </button>
+                            <button class="btn-action" data-action="appointment">
+                                <i class="fas fa-calendar-check"></i> Book Appointment
+                            </button>
+                        </div>
+                        <div class="step-checklist">
+                            <h4>Visa Documents:</h4>
+                            <ul>
+                                <li><i class="fas fa-file-alt"></i> Completed visa application form</li>
+                                <li><i class="fas fa-passport"></i> Valid passport</li>
+                                <li><i class="fas fa-university"></i> University acceptance letter</li>
+                                <li><i class="fas fa-money-check-alt"></i> Proof of financial means</li>
+                                <li><i class="fas fa-home"></i> Accommodation proof</li>
+                                <li><i class="fas fa-heartbeat"></i> Health insurance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Controls -->
+            <div class="step-navigation">
+                <button id="prev-step" class="nav-btn" disabled>
+                    <i class="fas fa-chevron-left"></i> Previous Step
+                </button>
+                
+                <div class="step-indicators">
+                    <button class="step-indicator active" data-step="1">1</button>
+                    <button class="step-indicator" data-step="2">2</button>
+                    <button class="step-indicator" data-step="3">3</button>
+                    <button class="step-indicator" data-step="4">4</button>
+                    <button class="step-indicator" data-step="5">5</button>
+                    <button class="step-indicator" data-step="6">6</button>
+                </div>
+                
+                <button id="next-step" class="nav-btn">
+                    Next Step <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="roadmap-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>थाहा सबै भयो तर कसरी गर्ने ?</h3>
+                <p>Get personalized assistance with university selection, application processes, visa requirements, and more.</p>
+                <div class="contact-options">
+                    <a href="mailto:deepserish2023@teachfornepal.org" class="contact-link">
+                        <i class="fas fa-envelope"></i> Email Assistance
+                    </a>
+                    <a href="https://wa.me/9779860752277" target="_blank" class="contact-link">
+                        <i class="fab fa-whatsapp"></i> WhatsApp Support
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <div class="italy-flag">
+                    <div class="flag-stripe green"></div>
+                    <div class="flag-stripe white"></div>
+                    <div class="flag-stripe red"></div>
+                </div>
+                <p class="footer-credit">
+                    Made with <i class="fas fa-heart" style="color: var(--italy-red);"></i> for students aspiring to study in Italy
+                </p>
+                <p class="footer-author">दिपशिरिष बि क🇳🇵</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/roadmap.js"></script>
+    
+    <script>
+        // Hide loading screen when page loads
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('roadmap-loading').style.display = 'none';
+            }, 800);
+        });
+    </script>
+</body>
+</html>

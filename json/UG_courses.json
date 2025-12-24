@@ -68,6 +68,10 @@
             {
               "course_name": "Civil and Environmental Engineering",
               "university": "Politecnico di Torino"
+            },
+            {
+              "course_name": "Civil Engineering",
+              "university": "University of Messina"
             }
           ]
         },
@@ -199,6 +203,14 @@
             {
               "course_name": "Business Administration and Economics",
               "university": "Tor Vergata University of Rome"
+            },
+            {
+              "course_name": "Business Management",
+              "university": "University of Messina"
+            },
+            {
+              "course_name": "Data Analytics",
+              "university": "University of Messina"
             }
           ]
         },

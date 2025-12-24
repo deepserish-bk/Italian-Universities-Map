@@ -96,6 +96,66 @@
         <h1>Università d'Italia</h1>
         <div class="hero-subtitle">
           <p>Tailored for Students seeking English-taught programs in Italy.</p>
+          <a href="roadmap.html" 
+   style="
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin: 20px 0 25px 0;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, 
+            rgba(0, 140, 69, 0.2) 0%, 
+            rgba(244, 245, 240, 0.1) 50%,
+            rgba(205, 33, 42, 0.2) 100%
+        );
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        border-radius: 50px;
+        color: white;
+        text-decoration: none;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        -webkit-background-filter: blur(10px);
+        box-shadow: 
+            0 4px 15px rgba(0, 0, 0, 0.2),
+            0 1px 3px rgba(255, 255, 255, 0.1) inset,
+            0 -1px 2px rgba(0, 0, 0, 0.1) inset;
+        animation: pulseGlow 3s infinite ease-in-out;
+    "
+   onmouseover="
+        this.style.background = 'linear-gradient(135deg, rgba(0, 140, 69, 0.3) 0%, rgba(244, 245, 240, 0.2) 50%, rgba(205, 33, 42, 0.3) 100%)';
+        this.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+        this.style.transform = 'translateY(-4px) scale(1.02)';
+        this.style.boxShadow = '0 12px 30px rgba(0, 140, 69, 0.4), 0 8px 20px rgba(205, 33, 42, 0.3), 0 2px 8px rgba(255, 255, 255, 0.12) inset, 0 -1px 2px rgba(0, 0, 0, 0.15) inset';
+        this.style.letterSpacing = '0.8px';
+        this.querySelector('i').style.color = 'white';
+        this.querySelector('i').style.transform = 'rotate(-15deg) scale(1.2)';
+        this.querySelector('i').style.textShadow = '0 0 10px rgba(0, 140, 69, 0.7)';
+    "
+   onmouseout="
+        this.style.background = 'linear-gradient(135deg, rgba(0, 140, 69, 0.2) 0%, rgba(244, 245, 240, 0.1) 50%, rgba(205, 33, 42, 0.2) 100%)';
+        this.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+        this.style.transform = 'translateY(0) scale(1)';
+        this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(255, 255, 255, 0.1) inset, 0 -1px 2px rgba(0, 0, 0, 0.1) inset';
+        this.style.letterSpacing = '0.5px';
+        this.querySelector('i').style.color = '#008C45';
+        this.querySelector('i').style.transform = 'rotate(0) scale(1)';
+        this.querySelector('i').style.textShadow = 'none';
+    ">
+    <i class="fas fa-road" 
+       style="
+            font-size: 1.1rem;
+            color: #008C45;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: roadMove 2s infinite ease-in-out;
+       "></i>
+    Study Process Roadmap
+</a>
           <div class="hero-stats">
             <span><i class="fas fa-university" aria-hidden="true"></i> 60+ Universities</span>
             <span><i class="fas fa-graduation-cap" aria-hidden="true"></i> 300+ Master Courses</span>
