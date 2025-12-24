@@ -51,6 +51,48 @@ const CONFIG = {
   }
 };
 
+// ===== SECURITY & PERFORMANCE HELPERS =====
+class SecurityHelper {
+  static sanitizeHTML(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+  
+  static escapeRegex(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+}
+
+class PerformanceHelper {
+  static debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+  
+  static memoize(fn) {
+    const cache = new Map();
+    return (...args) => {
+      const key = JSON.stringify(args);
+      if (cache.has(key)) return cache.get(key);
+      const result = fn(...args);
+      cache.set(key, result);
+      return result;
+    };
+  }
+}
+
+// Cache for field colors to avoid recreating objects
+const fieldColorCache = new Map();
+
 // ===== DATA MANAGER =====
 class DataManager {
   constructor() {
@@ -1135,42 +1177,55 @@ class DataManager {
 
   // Process course data (unified for masters/bachelors)
   processCourseData(rawData, courseType) {
-    const fields = rawData.fields.map(field => ({
-      id: this.slugify(field.name),
-      name: field.name,
-      color: this.getFieldColor(field.name, courseType),
-      icon: this.getFieldIcon(field.name, courseType),
-      subfields: field.subfields.map(subfield => ({
-        id: this.slugify(subfield.name),
-        name: subfield.name,
-        courses: subfield.courses.map(course => ({
-          id: this.slugify(course.course_name + ' ' + course.university),
-          name: course.course_name,
-          university: course.university,
-          universityId: null,
-          coordinates: null,
-          city: null,
-          region: null,
-          duration: CONFIG.courseTypes[courseType].duration,
-          language: "English",
-          courseType: CONFIG.courseTypes[courseType].degree,
-          field: field.name,
-          subfield: subfield.name,
-          matchedUniversity: null,
-          exactUniversityName: null,
-          type: courseType
+    // Validate data structure
+    if (!rawData || !rawData.fields || !Array.isArray(rawData.fields)) {
+      console.error('Invalid course data structure');
+      return;
+    }
+    
+    const fields = rawData.fields.map(field => {
+      // Sanitize field name
+      const fieldName = SecurityHelper.sanitizeHTML(field.name);
+      
+      return {
+        id: this.slugify(fieldName),
+        name: fieldName,
+        color: this.getFieldColor(fieldName, courseType),
+        icon: this.getFieldIcon(fieldName, courseType),
+        subfields: (field.subfields || []).map(subfield => ({
+          id: this.slugify(SecurityHelper.sanitizeHTML(subfield.name)),
+          name: SecurityHelper.sanitizeHTML(subfield.name),
+          courses: (subfield.courses || []).map(course => ({
+            id: this.slugify(
+              SecurityHelper.sanitizeHTML(course.course_name + ' ' + course.university)
+            ),
+            name: SecurityHelper.sanitizeHTML(course.course_name),
+            university: SecurityHelper.sanitizeHTML(course.university),
+            universityId: null,
+            coordinates: null,
+            city: null,
+            region: null,
+            duration: CONFIG.courseTypes[courseType].duration,
+            language: "English",
+            courseType: CONFIG.courseTypes[courseType].degree,
+            field: fieldName,
+            subfield: SecurityHelper.sanitizeHTML(subfield.name),
+            matchedUniversity: null,
+            exactUniversityName: null,
+            type: courseType
+          }))
         }))
-      }))
-    }));
+      };
+    });
     
     this.courses[courseType].fields = fields;
     
     // Calculate stats
-    this.courses[courseType].stats.total_courses = rawData.fields.reduce((total, field) => 
+    this.courses[courseType].stats.total_courses = fields.reduce((total, field) => 
       total + field.subfields.reduce((subTotal, subfield) => 
         subTotal + subfield.courses.length, 0), 0);
-    this.courses[courseType].stats.total_fields = rawData.fields.length;
-    this.courses[courseType].stats.total_subfields = rawData.fields.reduce((total, field) => 
+    this.courses[courseType].stats.total_fields = fields.length;
+    this.courses[courseType].stats.total_subfields = fields.reduce((total, field) => 
       total + field.subfields.length, 0);
   }
 
@@ -1298,6 +1353,13 @@ class DataManager {
   }
 
   getFieldColor(fieldName, courseType) {
+    const cacheKey = `${courseType}-${fieldName}`;
+    
+    if (fieldColorCache.has(cacheKey)) {
+      return fieldColorCache.get(cacheKey);
+    }
+    
+    let color;
     if (courseType === 'masters') {
       const colors = {
         'STEM – Computer Science & Artificial Intelligence': CONFIG.colors.stemCS,
@@ -1312,7 +1374,7 @@ class DataManager {
         'Law, Governance & Public Policy': CONFIG.colors.law,
         'Tourism, Hospitality & Cultural Studies': CONFIG.colors.tourism
       };
-      return colors[fieldName] || CONFIG.colors.italyGreen;
+      color = colors[fieldName] || CONFIG.colors.italyGreen;
     } else {
       const colors = {
         'STEM – Computer Science & Artificial Intelligence': CONFIG.colors.bachelorStem,
@@ -1327,8 +1389,11 @@ class DataManager {
         'Tourism, Hospitality & Cultural Studies': CONFIG.colors.tourism,
         'Interdisciplinary Studies': CONFIG.colors.bachelorBusiness
       };
-      return colors[fieldName] || CONFIG.colors.bachelorStem;
+      color = colors[fieldName] || CONFIG.colors.bachelorStem;
     }
+    
+    fieldColorCache.set(cacheKey, color);
+    return color;
   }
 
   getFieldIcon(fieldName, courseType) {
@@ -1406,6 +1471,7 @@ class UIManager {
 
     this.initializeUI();
   }
+  
   // ===== SCROLL BEHAVIOR FOR STICKY NAV =====
   setupScrollBehavior() {
     const heroSection = document.querySelector('.hero-section');
@@ -1415,60 +1481,31 @@ class UIManager {
     if (!heroSection || !navContainer || !viewToggle) return;
     
     const heroHeight = heroSection.offsetHeight;
-    const transitionThreshold = heroHeight * 0.7; // Start earlier for smoother feel
+    const transitionThreshold = heroHeight * 0.7;
     let isScrolled = false;
-    let animationFrame = null;
     
-    const updateNavPosition = () => {
+    const updateNavPosition = PerformanceHelper.debounce(() => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      
-      // Check if we're past the transition point
       const shouldBeScrolled = scrollTop > transitionThreshold;
       
-      // Only update if state changed
       if (shouldBeScrolled !== isScrolled) {
         isScrolled = shouldBeScrolled;
         
         if (isScrolled) {
           navContainer.classList.add('scrolled');
+          // Update ARIA attributes for accessibility
+          document.getElementById('toggle-sidebar')?.setAttribute('aria-expanded', 'false');
         } else {
           navContainer.classList.remove('scrolled');
-          viewToggle.style.pointerEvents = '';
-      
-        }
-        
-        // Add a subtle opacity effect during transition
-        if (isScrolled) {
-          viewToggle.style.opacity = '0.9';
-          viewToggle.style.transform = 'translateX(-50%) scale(0.98)';
-        } else {
-          viewToggle.style.opacity = '1';
-          viewToggle.style.transform = 'translateX(-50%) scale(1)';
         }
       }
-    };
+    }, 100);
     
-    // Smooth scrolling update
-    const smoothUpdate = () => {
-      updateNavPosition();
-      animationFrame = null;
-    };
-    
-    // Throttle scroll events for performance
-    window.addEventListener('scroll', () => {
-      if (!animationFrame) {
-        animationFrame = requestAnimationFrame(smoothUpdate);
-      }
-    });
-    
-    // Initial update
+    window.addEventListener('scroll', updateNavPosition);
+    window.addEventListener('resize', updateNavPosition);
     updateNavPosition();
-    
-    // Update on resize
-    window.addEventListener('resize', () => {
-      updateNavPosition();
-    });
   }
+  
   initializeUI() {
     console.log('🔄 Initializing UI...');
     
@@ -1495,7 +1532,7 @@ class UIManager {
           </div>
         `;
       }
-      setTimeout(() => this.initializeUI(), 100); // Retry after delay
+      setTimeout(() => this.initializeUI(), 100);
       return;
     }
     
@@ -1566,8 +1603,8 @@ class UIManager {
         // 1. National border - Green (like Italian flag)
         L.geoJSON(geojson, {
           style: {
-            color: '#efff09ff', // Italian green
-            weight: 1.75, // Moderate thickness for national border
+            color: '#efff09ff',
+            weight: 1.75,
             opacity: 0.9,
             fillColor: 'transparent',
             fillOpacity: 0,
@@ -1579,16 +1616,16 @@ class UIManager {
         // 2. Region borders - Red (like Italian flag)
         const regionsLayer = L.geoJSON(geojson, {
           style: {
-            color: '#CD212A', // Italian red
-            weight: 1.5, // Thin for internal borders
+            color: '#CD212A',
+            weight: 1.5,
             opacity: 0.7,
-            fillColor: '#F4F5F0', // Off-white background
-            fillOpacity: 0.15, // Very light fill
+            fillColor: '#F4F5F0',
+            fillOpacity: 0.15,
             lineCap: 'round',
             lineJoin: 'round'
           },
           onEachFeature: (feature, layer) => {
-            const regionName = feature.properties.reg_name || feature.properties.NAME_1;
+            const regionName = SecurityHelper.sanitizeHTML(feature.properties.reg_name || feature.properties.NAME_1);
             
             layer.bindPopup(`
               <div style="padding: 10px; font-family: 'Inter', sans-serif; min-width: 180px;">
@@ -1608,8 +1645,8 @@ class UIManager {
             // Subtle hover effects
             layer.on('mouseover', function() {
               this.setStyle({
-                weight: 2.5, // Slightly thicker on hover
-                color: '#CD212A', // Keep red color
+                weight: 2.5,
+                color: '#CD212A',
                 opacity: 1,
                 fillOpacity: 0.25
               });
@@ -1678,11 +1715,16 @@ class UIManager {
       const mastersCount = uni.mastersCourses ? uni.mastersCourses.length : 0;
       const bachelorsCount = uni.bachelorsCourses ? uni.bachelorsCourses.length : 0;
       
+      // Sanitize data for security
+      const uniName = SecurityHelper.sanitizeHTML(uni.name);
+      const uniCity = SecurityHelper.sanitizeHTML(uni.city);
+      const uniRegion = SecurityHelper.sanitizeHTML(uni.region);
+      
       marker.bindPopup(`
         <div style="padding: 10px; font-family: 'Inter', sans-serif; max-width: 250px;">
-          <h3 style="margin: 0 0 8px 0; color: #008C45; font-size: 16px; font-weight: 600;">${uni.name}</h3>
+          <h3 style="margin: 0 0 8px 0; color: #008C45; font-size: 16px; font-weight: 600;">${uniName}</h3>
           <p style="margin: 0 0 5px 0; color: #666; font-size: 14px;">
-            <i class="fas fa-map-marker-alt"></i> ${uni.city}, ${uni.region}
+            <i class="fas fa-map-marker-alt"></i> ${uniCity}, ${uniRegion}
           </p>
           <p style="margin: 0 0 5px 0; color: #666; font-size: 14px;">
             <i class="fas fa-calendar-alt"></i> Founded: ${uni.founded}
@@ -1745,14 +1787,14 @@ class UIManager {
       
       const marker = L.marker(course.coordinates, { icon });
       
-      const universityName = course.exactUniversityName || course.university;
+      const universityName = SecurityHelper.sanitizeHTML(course.exactUniversityName || course.university);
       const locationText = course.city && course.region ? 
-        `${course.city}, ${course.region}` : 
+        `${SecurityHelper.sanitizeHTML(course.city)}, ${SecurityHelper.sanitizeHTML(course.region)}` : 
         'Approximate location';
       
       marker.bindPopup(`
         <div style="padding: 10px; font-family: 'Inter', sans-serif; max-width: 250px;">
-          <h3 style="margin: 0 0 8px 0; color: #008C45; font-size: 16px; font-weight: 600;">${course.name}</h3>
+          <h3 style="margin: 0 0 8px 0; color: #008C45; font-size: 16px; font-weight: 600;">${SecurityHelper.sanitizeHTML(course.name)}</h3>
           <p style="margin: 0 0 5px 0; color: #666; font-size: 14px;">
             <i class="fas fa-university"></i> ${universityName}
           </p>
@@ -1760,7 +1802,7 @@ class UIManager {
             <i class="fas fa-map-marker-alt"></i> ${locationText}
           </p>
           <p style="margin: 0 0 5px 0; color: #666; font-size: 14px;">
-            <i class="fas fa-tag"></i> ${course.field}
+            <i class="fas fa-tag"></i> ${SecurityHelper.sanitizeHTML(course.field)}
           </p>
           <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">
             <i class="fas fa-clock"></i> ${course.duration}
@@ -1827,9 +1869,11 @@ class UIManager {
     
     this.currentView = viewType;
     
-    // Update toggle buttons
+    // Update toggle buttons with accessibility
     document.querySelectorAll('.view-option').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.view === viewType);
+      const isActive = btn.dataset.view === viewType;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-pressed', isActive);
     });
     
     // Show/hide control groups
@@ -1864,27 +1908,25 @@ class UIManager {
         this.filteredCourses = [];
       }
       
-      // Ensure the courses panel is open
-      if (!this.coursesPanelOpen) {
-        this.openCoursesPanel();
-      }
-        // MOBILE FIX: Force open panel on mobile
+      // MOBILE FIXED VERSION: Handle mobile panels properly
       if (window.innerWidth <= 768) {
-      // Close universities sidebar if open
-      if (this.sidebarOpen) {
-        this.closeSidebar();
-      }
-
-      // Open courses panel on mobile
-      this.openCoursesPanel();
-
-      // DO NOT add scroll-locking class
-      } else {
-      // Desktop behavior
-      if (!this.coursesPanelOpen) {
+        // Close universities sidebar if open
+        if (this.sidebarOpen) {
+          this.closeSidebar();
+        }
+        
+        // Open courses panel on mobile
         this.openCoursesPanel();
+        
+        // Mobile: DO NOT add body.panel-open class that locks scrolling
+        // This is the key fix for scroll locking
+      } else {
+        // Desktop behavior
+        if (!this.coursesPanelOpen) {
+          this.openCoursesPanel();
+        }
       }
-}
+      
       // Load the appropriate view
       this.loadFieldsView();
     } else {
@@ -1893,6 +1935,26 @@ class UIManager {
     }
     
     this.updateMapForCurrentView();
+    
+    // Announce view change for screen readers
+    this.announceToScreenReader(`Switched to ${viewType} view`);
+  }
+
+  // Screen reader announcement helper
+  announceToScreenReader(message) {
+    const announcement = document.createElement('div');
+    announcement.setAttribute('aria-live', 'polite');
+    announcement.setAttribute('aria-atomic', 'true');
+    announcement.classList.add('sr-only');
+    announcement.textContent = message;
+    
+    document.body.appendChild(announcement);
+    
+    setTimeout(() => {
+      if (announcement.parentNode) {
+        document.body.removeChild(announcement);
+      }
+    }, 1000);
   }
 
   updateMapForCurrentView() {
@@ -1967,12 +2029,14 @@ class UIManager {
     if (this.sidebarOpen) {
       sidebar.classList.add('open');
       toggleBtn.innerHTML = '<i class="fas fa-times"></i>';
+      toggleBtn.setAttribute('aria-expanded', 'true');
       if (window.innerWidth > 768) {
         toggleBtn.innerHTML = '<i class="fas fa-times"></i><span class="btn-text">Close List</span>';
       }
     } else {
       sidebar.classList.remove('open');
       toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+      toggleBtn.setAttribute('aria-expanded', 'false');
       if (window.innerWidth > 768) {
         toggleBtn.innerHTML = '<i class="fas fa-bars"></i><span class="btn-text">Universities List</span>';
       }
@@ -1996,42 +2060,43 @@ class UIManager {
         panel.style.right = '0';
         panel.style.display = 'flex';
         
+        // Update ARIA attributes
+        document.getElementById('courses-panel-close')?.setAttribute('aria-expanded', 'true');
+        
         // Ensure body scroll is never locked
         document.body.style.overflow = 'auto';
       } else {
         panel.style.right = '-100%';
+        document.getElementById('courses-panel-close')?.setAttribute('aria-expanded', 'false');
       }
     }
   }
+
   openCoursesPanel() {
     if (!this.coursesPanelOpen) {
+      // Use toggle to properly set the state
       this.toggleCoursesPanel();
-    } else {
-      // Ensure panel is visible on mobile
-      const panel = document.getElementById('courses-panel');
-      if (panel && window.innerWidth <= 768) {
-        panel.style.right = '0';
-        panel.style.display = 'flex';
-      }
     }
-  
-  // CRITICAL: Never add panel-open class
-  document.body.classList.remove('panel-open');
-  
-  if (this.currentCourseType) {
-    this.loadFieldsView();
+    
+    // CRITICAL: Clean up any scroll locking
+    document.body.classList.remove('panel-open');
+    document.body.style.overflow = 'auto';
+    
+    if (this.currentCourseType) {
+      this.loadFieldsView();
+    }
   }
-}
 
-closeCoursesPanel() {
-  if (this.coursesPanelOpen) {
-    this.toggleCoursesPanel();
+  closeCoursesPanel() {
+    if (this.coursesPanelOpen) {
+      this.toggleCoursesPanel();
+    }
+    
+    // Ensure scroll is never locked
+    document.body.classList.remove('panel-open');
+    document.body.style.overflow = 'auto';
   }
-  
-  // Ensure scroll is never locked
-  document.body.classList.remove('panel-open');
-  document.body.style.overflow = 'auto';
-}
+
   // ===== UNIVERSITIES LIST FUNCTIONS =====
   renderUniversitiesList() {
     const container = document.getElementById('university-list');
@@ -2067,12 +2132,17 @@ closeCoursesPanel() {
   }
 
   renderSimpleList(universities) {
-    return universities.map((uni, index) => `
+    return universities.map((uni, index) => {
+      const uniName = SecurityHelper.sanitizeHTML(uni.name);
+      const uniCity = SecurityHelper.sanitizeHTML(uni.city);
+      const uniRegion = SecurityHelper.sanitizeHTML(uni.region);
+      
+      return `
       <div class="university-card" data-id="${uni.id}" style="animation-delay: ${index * 0.05}s">
-        <h3>${uni.name}</h3>
+        <h3>${uniName}</h3>
         <div class="location">
           <i class="fas fa-map-marker-alt"></i>
-          ${uni.city}, ${uni.region}
+          ${uniCity}, ${uniRegion}
         </div>
         <div class="meta">
           <span class="year">
@@ -2098,7 +2168,7 @@ closeCoursesPanel() {
           ` : ''}
         </div>
       </div>
-    `).join('');
+    `}).join('');
   }
 
   renderGroupedByRegion(universities) {
@@ -2120,18 +2190,23 @@ closeCoursesPanel() {
     
     regionOrder.forEach(region => {
       if (grouped[region] && grouped[region].length > 0) {
+        const regionName = SecurityHelper.sanitizeHTML(region);
         html += `
           <div class="region-group">
             <div class="region-header">
-              ${region}
+              ${regionName}
               <span class="region-count">${grouped[region].length}</span>
             </div>
-            ${grouped[region].map(uni => `
+            ${grouped[region].map(uni => {
+              const uniName = SecurityHelper.sanitizeHTML(uni.name);
+              const uniCity = SecurityHelper.sanitizeHTML(uni.city);
+              
+              return `
               <div class="university-card" data-id="${uni.id}" style="animation-delay: ${cardIndex++ * 0.05}s">
-                <h4>${uni.name}</h4>
+                <h4>${uniName}</h4>
                 <div class="location">
                   <i class="fas fa-map-marker-alt"></i>
-                  ${uni.city}
+                  ${uniCity}
                 </div>
                 <div class="meta">
                   <span class="year">
@@ -2157,7 +2232,7 @@ closeCoursesPanel() {
                   ` : ''}
                 </div>
               </div>
-            `).join('')}
+            `}).join('')}
           </div>
         `;
       }
@@ -2206,49 +2281,50 @@ closeCoursesPanel() {
     this.updateResultsCount();
   }
 
-filterUniversitiesByRegion(region) {
-  // Map region names (Italian to English)
-  const regionMap = {
-    'Toscana': 'Tuscany',
-    'Piemonte': 'Piedmont',
-    'Lombardia': 'Lombardy',
-    'Veneto': 'Veneto',
-    'Lazio': 'Lazio',
-    'Campania': 'Campania',
-    'Sicilia': 'Sicily',
-    'Sardegna': 'Sardinia',
-    'Emilia-Romagna': 'Emilia-Romagna',
-    'Friuli-Venezia Giulia': 'Friuli-Venezia Giulia',
-    'Trentino-Alto Adige': 'Trentino-Alto Adige',
-    'Valle d\'Aosta': 'Aosta Valley',
-    'Marche': 'Marche',
-    'Umbria': 'Umbria',
-    'Abruzzo': 'Abruzzo',
-    'Molise': 'Molise',
-    'Puglia': 'Apulia',
-    'Basilicata': 'Basilicata',
-    'Calabria': 'Calabria',
-    'Liguria': 'Liguria'
-  };
-  
-  // Get both possible region names
-  const englishRegion = regionMap[region] || region;
-  const italianRegion = Object.keys(regionMap).find(key => regionMap[key] === region) || region;
-  
-  this.selectedRegion = englishRegion; // Store as English for consistency
-  
-  document.getElementById('sidebar-title').textContent = `${region} Universities`;
-  
-  // Filter by both English and Italian region names
-  let filtered = [...this.dataManager.universities].filter(uni => 
-    uni.region === englishRegion || uni.region === italianRegion
-  );
-  
-  this.filteredUniversities = filtered;
-  this.renderUniversitiesList();
-  this.renderUniversityMarkers(filtered);
-  this.updateResultsCount();
-}
+  filterUniversitiesByRegion(region) {
+    // Map region names (Italian to English)
+    const regionMap = {
+      'Toscana': 'Tuscany',
+      'Piemonte': 'Piedmont',
+      'Lombardia': 'Lombardy',
+      'Veneto': 'Veneto',
+      'Lazio': 'Lazio',
+      'Campania': 'Campania',
+      'Sicilia': 'Sicily',
+      'Sardegna': 'Sardinia',
+      'Emilia-Romagna': 'Emilia-Romagna',
+      'Friuli-Venezia Giulia': 'Friuli-Venezia Giulia',
+      'Trentino-Alto Adige': 'Trentino-Alto Adige',
+      'Valle d\'Aosta': 'Aosta Valley',
+      'Marche': 'Marche',
+      'Umbria': 'Umbria',
+      'Abruzzo': 'Abruzzo',
+      'Molise': 'Molise',
+      'Puglia': 'Apulia',
+      'Basilicata': 'Basilicata',
+      'Calabria': 'Calabria',
+      'Liguria': 'Liguria'
+    };
+    
+    // Get both possible region names
+    const englishRegion = regionMap[region] || region;
+    const italianRegion = Object.keys(regionMap).find(key => regionMap[key] === region) || region;
+    
+    this.selectedRegion = englishRegion;
+    
+    const regionName = SecurityHelper.sanitizeHTML(region);
+    document.getElementById('sidebar-title').textContent = `${regionName} Universities`;
+    
+    // Filter by both English and Italian region names
+    let filtered = [...this.dataManager.universities].filter(uni => 
+      uni.region === englishRegion || uni.region === italianRegion
+    );
+    
+    this.filteredUniversities = filtered;
+    this.renderUniversitiesList();
+    this.renderUniversityMarkers(filtered);
+    this.updateResultsCount();
+  }
 
   updateResultsCount() {
     const total = this.dataManager.universities.length;
@@ -2322,7 +2398,7 @@ filterUniversitiesByRegion(region) {
         <div class="field-icon" style="background: ${field.color}; color: white;">
           <i class="${field.icon}"></i>
         </div>
-        <h3>${field.name}</h3>
+        <h3>${SecurityHelper.sanitizeHTML(field.name)}</h3>
         <p style="color: var(--text-tertiary); font-size: 0.9rem; margin-bottom: var(--spacing-sm);">
           Explore ${field.subfields.reduce((total, subfield) => total + subfield.courses.length, 0)} ${this.currentCourseType} courses
         </p>
@@ -2356,7 +2432,7 @@ filterUniversitiesByRegion(region) {
     const subfieldsList = document.getElementById('subfields-list');
     subfieldsList.innerHTML = field.subfields.map(subfield => `
       <div class="subfield-card" data-subfield-id="${subfield.id}">
-        <h4>${subfield.name}</h4>
+        <h4>${SecurityHelper.sanitizeHTML(subfield.name)}</h4>
         <div class="course-count">
           <i class="fas ${this.currentCourseType === 'masters' ? 'fa-graduation-cap' : 'fa-book-open'}"></i>
           ${subfield.courses.length} courses available
@@ -2426,12 +2502,18 @@ filterUniversitiesByRegion(region) {
       emptyState.style.display = 'block';
     } else {
       emptyState.style.display = 'none';
-      coursesList.innerHTML = filtered.map((course, index) => `
+      coursesList.innerHTML = filtered.map((course, index) => {
+        const courseName = SecurityHelper.sanitizeHTML(course.name);
+        const uniName = SecurityHelper.sanitizeHTML(course.exactUniversityName || course.university);
+        const city = course.city && course.city !== 'Unknown (approximate location)' ? SecurityHelper.sanitizeHTML(course.city) : '';
+        const region = course.region ? SecurityHelper.sanitizeHTML(course.region) : '';
+        
+        return `
         <div class="course-card" data-course-id="${course.id}" style="animation-delay: ${index * 0.05}s">
-          <h4>${course.name}</h4>
+          <h4>${courseName}</h4>
           <div class="university-name">
             <i class="fas fa-university"></i>
-            ${course.exactUniversityName || course.university}
+            ${uniName}
           </div>
           <div class="course-meta">
             <span class="course-duration">
@@ -2442,14 +2524,14 @@ filterUniversitiesByRegion(region) {
               ${course.language}
             </span>
           </div>
-          ${course.city && course.city !== 'Unknown (approximate location)' ? `
+          ${city ? `
             <div class="location-info" style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 5px;">
               <i class="fas fa-map-marker-alt"></i>
-              ${course.city}, ${course.region}
+              ${city}, ${region}
             </div>
           ` : ''}
         </div>
-      `).join('');
+      `}).join('');
       
       coursesList.querySelectorAll('.course-card').forEach(card => {
         card.addEventListener('click', () => this.selectCourse(card.dataset.courseId));
@@ -2533,7 +2615,7 @@ filterUniversitiesByRegion(region) {
         emptyState.style.display = 'none';
         subfieldsList.innerHTML = subfieldsToShow.map(subfield => `
           <div class="subfield-card" data-subfield-id="${subfield.id}">
-            <h4>${subfield.name}</h4>
+            <h4>${SecurityHelper.sanitizeHTML(subfield.name)}</h4>
             <div class="course-count">
               <i class="fas ${this.currentCourseType === 'masters' ? 'fa-graduation-cap' : 'fa-book-open'}"></i>
               ${subfield.courses.length} courses available
@@ -2559,7 +2641,7 @@ filterUniversitiesByRegion(region) {
         <div class="field-icon" style="background: ${field.color}; color: white;">
           <i class="${field.icon}"></i>
         </div>
-        <h3>${field.name}</h3>
+        <h3>${SecurityHelper.sanitizeHTML(field.name)}</h3>
         <p style="color: var(--text-tertiary); font-size: 0.9rem; margin-bottom: var(--spacing-sm);">
           Explore ${field.subfields.reduce((total, subfield) => total + subfield.courses.length, 0)} ${this.currentCourseType} courses
         </p>
@@ -2661,6 +2743,12 @@ filterUniversitiesByRegion(region) {
     const bachelorsCount = university.bachelorsCourses ? university.bachelorsCourses.length : 0;
     const totalCourses = mastersCount + bachelorsCount;
     
+    // Sanitize data
+    const uniName = SecurityHelper.sanitizeHTML(university.name);
+    const uniCity = SecurityHelper.sanitizeHTML(university.city);
+    const uniRegion = SecurityHelper.sanitizeHTML(university.region);
+    const uniDescription = SecurityHelper.sanitizeHTML(university.description);
+    
     // Create courses HTML if available
     let coursesHTML = '';
     if (totalCourses > 0) {
@@ -2671,19 +2759,22 @@ filterUniversitiesByRegion(region) {
             ${mastersCount > 0 ? `
               <div class="course-category">
                 <h4><i class="fas fa-graduation-cap"></i> Master Degrees (${mastersCount})</h4>
-                ${university.mastersCourses.slice(0, 5).map(course => `
+                ${university.mastersCourses.slice(0, 5).map(course => {
+                  const courseName = SecurityHelper.sanitizeHTML(course.name);
+                  const fieldName = SecurityHelper.sanitizeHTML(course.field);
+                  return `
                   <div class="modal-course-item" data-course-id="${course.id}" data-course-type="masters">
-                    <h4>${course.name}</h4>
+                    <h4>${courseName}</h4>
                     <div class="course-meta">
                       <span class="course-field-badge" style="background: ${this.dataManager.getFieldColor(course.field, 'masters')}">
-                        ${course.field.split('–')[0].trim()}
+                        ${fieldName.split('–')[0].trim()}
                       </span>
                       <span class="course-duration">
                         <i class="fas fa-clock"></i> ${course.duration}
                       </span>
                     </div>
                   </div>
-                `).join('')}
+                `}).join('')}
                 ${mastersCount > 5 ? `
                   <div class="show-more">
                     <span>+ ${mastersCount - 5} more master courses</span>
@@ -2695,19 +2786,22 @@ filterUniversitiesByRegion(region) {
             ${bachelorsCount > 0 ? `
               <div class="course-category">
                 <h4><i class="fas fa-book-open"></i> Bachelor Degrees (${bachelorsCount})</h4>
-                ${university.bachelorsCourses.slice(0, 5).map(course => `
+                ${university.bachelorsCourses.slice(0, 5).map(course => {
+                  const courseName = SecurityHelper.sanitizeHTML(course.name);
+                  const fieldName = SecurityHelper.sanitizeHTML(course.field);
+                  return `
                   <div class="modal-course-item" data-course-id="${course.id}" data-course-type="bachelors">
-                    <h4>${course.name}</h4>
+                    <h4>${courseName}</h4>
                     <div class="course-meta">
                       <span class="course-field-badge" style="background: ${this.dataManager.getFieldColor(course.field, 'bachelors')}">
-                        ${course.field.split('–')[0].trim()}
+                        ${fieldName.split('–')[0].trim()}
                       </span>
                       <span class="course-duration">
                         <i class="fas fa-clock"></i> ${course.duration}
                       </span>
                     </div>
                   </div>
-                `).join('')}
+                `}).join('')}
                 ${bachelorsCount > 5 ? `
                   <div class="show-more">
                     <span>+ ${bachelorsCount - 5} more bachelor courses</span>
@@ -2740,7 +2834,7 @@ filterUniversitiesByRegion(region) {
     
     // Create modal HTML
     const modalHTML = `
-      <div id="university-modal" class="modal">
+      <div id="university-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-name">
         <div class="modal-overlay"></div>
         <div class="modal-content">
           <button class="modal-close" id="university-modal-close" aria-label="Close modal">
@@ -2759,11 +2853,11 @@ filterUniversitiesByRegion(region) {
           </div>
           
           <div class="modal-body">
-            <h2 id="modal-name">${university.name}</h2>
+            <h2 id="modal-name">${uniName}</h2>
             <div class="modal-location">
               <i class="fas fa-map-marker-alt"></i>
-              <span id="modal-city">${university.city}</span>, 
-              <span id="modal-region">${university.region}</span>
+              <span id="modal-city">${uniCity}</span>, 
+              <span id="modal-region">${uniRegion}</span>
             </div>
             
             <div class="modal-stats">
@@ -2782,7 +2876,7 @@ filterUniversitiesByRegion(region) {
                 </div>
                 <div class="stat-content">
                   <div class="stat-label">Region</div>
-                  <div class="stat-value" id="modal-region-full">${university.region}</div>
+                  <div class="stat-value" id="modal-region-full">${uniRegion}</div>
                 </div>
               </div>
               <div class="stat">
@@ -2798,7 +2892,7 @@ filterUniversitiesByRegion(region) {
             
             <div class="modal-description">
               <h3>About</h3>
-              <p id="modal-description">${university.description}</p>
+              <p id="modal-description">${uniDescription}</p>
             </div>
             
             ${coursesHTML}
@@ -2838,7 +2932,11 @@ filterUniversitiesByRegion(region) {
     const closeModal = () => {
       modal.style.display = 'none';
       document.body.style.overflow = '';
-      setTimeout(() => modal.remove(), 300);
+      setTimeout(() => {
+        if (modal.parentNode) {
+          modal.remove();
+        }
+      }, 300);
     };
     
     closeBtn.addEventListener('click', closeModal);
@@ -2913,9 +3011,12 @@ filterUniversitiesByRegion(region) {
 
   createCourseModal(course) {
     const university = this.dataManager.universities.find(u => u.id === course.universityId);
-    const universityName = university ? university.name : course.exactUniversityName || course.university;
-    const locationText = university ? `${university.city}, ${university.region}` : 
-      (course.city && course.region ? `${course.city}, ${course.region}` : 'Location information not available');
+    const universityName = SecurityHelper.sanitizeHTML(university ? university.name : course.exactUniversityName || course.university);
+    const locationText = university ? 
+      `${SecurityHelper.sanitizeHTML(university.city)}, ${SecurityHelper.sanitizeHTML(university.region)}` : 
+      (course.city && course.region ? 
+        `${SecurityHelper.sanitizeHTML(course.city)}, ${SecurityHelper.sanitizeHTML(course.region)}` : 
+        'Location information not available');
     
     const courseType = course.type || this.currentCourseType;
     const isMasters = courseType === 'masters';
@@ -2946,7 +3047,7 @@ filterUniversitiesByRegion(region) {
     description += ' (Note: University location is approximate based on city name matching.)';
     
     const modalHTML = `
-      <div id="${modalId}" class="modal">
+      <div id="${modalId}" class="modal" role="dialog" aria-modal="true" aria-labelledby="${modalId}-name">
         <div class="modal-overlay"></div>
         <div class="modal-content">
           <button class="modal-close" id="${modalId}-close" aria-label="Close modal">
@@ -2954,12 +3055,12 @@ filterUniversitiesByRegion(region) {
           </button>
           
           <div class="modal-header">
-            <div class="course-field" id="${modalId}-field" style="background: ${fieldColor};">${course.field}</div>
+            <div class="course-field" id="${modalId}-field" style="background: ${fieldColor};">${SecurityHelper.sanitizeHTML(course.field)}</div>
             <div class="course-language" id="${modalId}-language">${course.language}</div>
           </div>
           
           <div class="modal-body">
-            <h2 id="${modalId}-name">${course.name}</h2>
+            <h2 id="${modalId}-name">${SecurityHelper.sanitizeHTML(course.name)}</h2>
             <div class="modal-location">
               <i class="fas fa-university"></i>
               <span id="${modalId}-university">${universityName}</span>
@@ -3000,7 +3101,7 @@ filterUniversitiesByRegion(region) {
             
             <div class="modal-description">
               <h3>About this Program</h3>
-              <p id="${modalId}-description">${description}</p>
+              <p id="${modalId}-description">${SecurityHelper.sanitizeHTML(description)}</p>
             </div>
             
             <div class="modal-actions">
@@ -3040,7 +3141,11 @@ filterUniversitiesByRegion(region) {
     const closeModal = () => {
       modal.style.display = 'none';
       document.body.style.overflow = '';
-      setTimeout(() => modal.remove(), 300);
+      setTimeout(() => {
+        if (modal.parentNode) {
+          modal.remove();
+        }
+      }, 300);
     };
     
     closeBtn.addEventListener('click', closeModal);
@@ -3119,7 +3224,9 @@ filterUniversitiesByRegion(region) {
     document.getElementById('view-bachelors').addEventListener('click', () => this.switchView('bachelors'));
     
     // Universities view
-    document.getElementById('search-input').addEventListener('input', this.debounce(() => this.filterUniversities(), 300));
+    document.getElementById('search-input').addEventListener('input', 
+      PerformanceHelper.debounce(() => this.filterUniversities(), 300)
+    );
     document.getElementById('clear-search').addEventListener('click', () => {
       document.getElementById('search-input').value = '';
       this.filterUniversities();
@@ -3144,7 +3251,9 @@ filterUniversitiesByRegion(region) {
     }
     
     if (resetMasters) resetMasters.addEventListener('click', () => this.resetCoursesView());
-    if (mastersSearch) mastersSearch.addEventListener('input', this.debounce(() => this.filterCourses(), 300));
+    if (mastersSearch) mastersSearch.addEventListener('input', 
+      PerformanceHelper.debounce(() => this.filterCourses(), 300)
+    );
     
     // Bachelors view
     const clearBachelorsSearch = document.getElementById('clear-bachelors-search');
@@ -3159,7 +3268,9 @@ filterUniversitiesByRegion(region) {
     }
     
     if (resetBachelors) resetBachelors.addEventListener('click', () => this.resetCoursesView());
-    if (bachelorsSearch) bachelorsSearch.addEventListener('input', this.debounce(() => this.filterCourses(), 300));
+    if (bachelorsSearch) bachelorsSearch.addEventListener('input', 
+      PerformanceHelper.debounce(() => this.filterCourses(), 300)
+    );
     
     // Field filter for courses panel (shared between masters and bachelors)
     const coursesFieldFilter = document.getElementById('courses-field-filter');
@@ -3195,55 +3306,33 @@ filterUniversitiesByRegion(region) {
     // Breadcrumb listeners
     this.setupBreadcrumbListeners();
     
-// ===== MOBILE-SPECIFIC EVENT HANDLERS =====
-// MOBILE: Handle closing panels when tapping outside
-// MOBILE: Handle closing panels when tapping outside
-if (window.innerWidth <= 768) {
-  const ui = this; // Store reference
-  
-  document.addEventListener('click', function(e) {
-    const sidebar = document.getElementById('sidebar');
-    const coursesPanel = document.getElementById('courses-panel');
-    const toggleBtn = document.getElementById('toggle-sidebar');
+    // Mobile-specific event handling
+    this.setupMobileEventListeners();
     
-    // Don't close if clicking on view toggle buttons
-    const clickedMasters = e.target.closest('#view-masters');
-    const clickedBachelors = e.target.closest('#view-bachelors');
-    
-    // Close sidebar if clicking outside
-    if (ui.sidebarOpen && sidebar && !sidebar.contains(e.target) && 
-        toggleBtn && !toggleBtn.contains(e.target)) {
-      ui.closeSidebar();
+    console.log('✅ Event listeners setup complete');
+  }
+
+  setupMobileEventListeners() {
+    // Mobile-specific: Close courses panel when tapping outside
+    if (window.innerWidth <= 768) {
+      document.addEventListener('click', (e) => {
+        const coursesPanel = document.getElementById('courses-panel');
+        const mastersBtn = document.getElementById('view-masters');
+        const bachelorsBtn = document.getElementById('view-bachelors');
+        
+        // Check if click is outside courses panel
+        if (this.coursesPanelOpen && 
+            coursesPanel && 
+            !coursesPanel.contains(e.target) &&
+            e.target !== mastersBtn && 
+            e.target !== bachelorsBtn &&
+            !mastersBtn.contains(e.target) &&
+            !bachelorsBtn.contains(e.target)) {
+          this.closeCoursesPanel();
+        }
+      });
     }
-    
-    // Close courses panel if clicking outside
-    if (ui.coursesPanelOpen && coursesPanel && 
-        !coursesPanel.contains(e.target) &&
-        !clickedMasters && !clickedBachelors) {
-      ui.closeCoursesPanel();
-    }
-  });
-}console.log('✅ Event listeners setup complete');
-  
-// Mobile-specific: Close courses panel when tapping outside
-if (window.innerWidth <= 768) {
-  document.addEventListener('click', (e) => {
-    const coursesPanel = document.getElementById('courses-panel');
-    const mastersBtn = document.getElementById('view-masters');
-    const bachelorsBtn = document.getElementById('view-bachelors');
-    
-    // Check if click is outside courses panel
-    if (this.coursesPanelOpen && 
-        coursesPanel && 
-        !coursesPanel.contains(e.target) &&
-        e.target !== mastersBtn && 
-        e.target !== bachelorsBtn &&
-        !mastersBtn.contains(e.target) &&
-        !bachelorsBtn.contains(e.target)) {
-      this.closeCoursesPanel();
-    }
-  });
-}}
+  }
 
   setupBreadcrumbListeners() {
     // Masters breadcrumb
@@ -3311,18 +3400,6 @@ if (window.innerWidth <= 768) {
       this.closeCoursesPanel();
     }
   }
-
-  debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  }
 }
 
 // ===== GLOBAL APP INSTANCE =====
@@ -3336,58 +3413,36 @@ const app = {
     try {
       this.dataManager = new DataManager();
       
-      // 1. FIRST load universities (synchronous)
+      // 1. Load universities
       this.dataManager.loadUniversities();
       
-      // 2. Verify universities are loaded BEFORE proceeding
       if (!this.dataManager.universities || this.dataManager.universities.length === 0) {
-        console.error('❌ No universities loaded!');
-        const loading = document.getElementById('loading');
-        if (loading) {
-          loading.innerHTML = `
-            <div class="loading-content">
-              <div class="loading-logo">
-                <div class="flag-stripes">
-                  <div class="stripe green"></div>
-                  <div class="stripe white"></div>
-                  <div class="stripe red"></div>
-                </div>
-                <h1>Università d'Italia</h1>
-              </div>
-              <p class="loading-text" style="color: var(--italy-red);">
-                <i class="fas fa-exclamation-triangle"></i>
-                Failed to load universities. Please refresh.
-              </p>
-            </div>
-          `;
-        }
-        return;
+        throw new Error('No universities loaded');
       }
       
       console.log(`✅ Loaded ${this.dataManager.universities.length} universities`);
       
-      // 3. Load courses data (async - don't block UI)
-      this.dataManager.loadCoursesData().then(loaded => {
+      // 2. Load courses data with better error handling
+      try {
+        const loaded = await this.dataManager.loadCoursesData();
         if (loaded) {
           console.log(`📊 Courses data loaded successfully`);
         } else {
-          console.log('⚠️ Courses data not available, continuing with universities only');
+          console.warn('⚠️ Courses data not available, continuing with universities only');
+          this.showUserNotification('Courses data could not be loaded. Some features may be limited.', 'warning');
         }
-      }).catch(err => {
-        console.log('⚠️ Courses data loading failed, continuing with universities only');
-      });
+      } catch (courseError) {
+        console.warn('⚠️ Courses data loading failed:', courseError);
+        this.showUserNotification('Unable to load course data. Universities map is still available.', 'info');
+      }
       
-      // 4. Initialize UI IMMEDIATELY after universities are loaded
+      // 3. Initialize UI
       this.ui = new UIManager(this.dataManager);
       
-      // 5. Quick validation check
+      // 4. Validate data
       setTimeout(() => {
-        console.log('🔍 Validation Check:');
-        console.log(`   Universities in DataManager: ${this.dataManager.universities.length}`);
-        console.log(`   Filtered universities in UI: ${this.ui.filteredUniversities.length}`);
-        
         if (this.ui.filteredUniversities.length === 0) {
-          console.warn('⚠️ WARNING: filteredUniversities is empty! Forcing reload...');
+          console.warn('⚠️ filteredUniversities is empty! Forcing reload...');
           this.ui.filteredUniversities = [...this.dataManager.universities];
           this.ui.renderUniversitiesList();
           this.ui.updateResultsCount();
@@ -3397,7 +3452,8 @@ const app = {
       
     } catch (error) {
       console.error('❌ Initialization failed:', error);
-      // Show error to user
+      this.showUserNotification('Failed to load application data. Please refresh the page.', 'error');
+      
       const loading = document.getElementById('loading');
       if (loading) {
         loading.innerHTML = `
@@ -3414,10 +3470,66 @@ const app = {
               <i class="fas fa-exclamation-triangle"></i>
               Failed to load data. Please refresh the page.
             </p>
+            <button onclick="location.reload()" style="
+              background: var(--italy-green);
+              color: white;
+              border: none;
+              padding: 10px 20px;
+              border-radius: 6px;
+              cursor: pointer;
+              margin-top: 20px;
+              font-family: 'Inter', sans-serif;
+            ">
+              Reload Page
+            </button>
           </div>
         `;
       }
     }
+  },
+
+  // User notification helper
+  showUserNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `user-notification ${type}`;
+    notification.innerHTML = `
+      <i class="fas fa-${type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+      <span>${SecurityHelper.sanitizeHTML(message)}</span>
+      <button class="notification-close" aria-label="Close notification">
+        <i class="fas fa-times"></i>
+      </button>
+    `;
+    
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${type === 'error' ? 'var(--italy-red)' : type === 'warning' ? 'var(--field-business)' : 'var(--italy-green)'};
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 2000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      animation: slideInRight 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+      }
+    }, 5000);
+    
+    // Close button
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+      notification.remove();
+    });
   }
 };
 
@@ -3436,7 +3548,7 @@ window.debugApp = function() {
   // Force reload if needed
   if (app.ui && app.ui.filteredUniversities.length === 0 && app.dataManager?.universities?.length > 0) {
     console.log('⚠️ Forcing reload of filteredUniversities...');
-    app.ui.filteredUniversities = [...app.dataManager.universities];
+    app.ui.filteredUniversities = [...this.dataManager.universities];
     app.ui.renderUniversitiesList();
     app.ui.updateResultsCount();
     app.ui.renderUniversityMarkers(app.ui.filteredUniversities);

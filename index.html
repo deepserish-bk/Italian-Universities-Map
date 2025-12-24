@@ -4,6 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Università d'Italia - Italian Higher Education</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Explore 60+ Italian universities, 300+ Master courses, and 50+ Bachelor courses in English. Interactive map of Italy's academic institutions.">
+  <meta name="keywords" content="Italian universities, study in Italy, Masters Italy, Bachelors Italy, Italian education">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Universit&agrave; d'Italia - Italian Higher Education">
+  <meta property="og:description" content="Interactive map of Italian universities and English-taught courses">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://your-domain.com">
+  <meta property="og:image" content="https://your-domain.com/images/italy-universities-preview.jpg">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Universit&agrave; d'Italia">
+  <meta name="twitter:description" content="Explore Italian universities and courses">
+  
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Universit&agrave; d'Italia",
+    "description": "Interactive map of Italian universities and English-taught courses",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any",
+    "url": "https://your-domain.com",
+    "author": {
+      "@type": "Person",
+      "name": "Deepserish B K"
+    }
+  }
+  </script>
+  
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
@@ -11,10 +45,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Preload critical resources -->
+  <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style">
+  <link rel="preload" href="css/style.css" as="style">
 </head>
 <body>
   <!-- Loading Screen -->
-  <div id="loading">
+  <div id="loading" aria-live="polite" aria-label="Loading Italian universities data">
     <div class="loading-content">
       <div class="loading-logo">
         <div class="flag-stripes">
@@ -30,24 +68,24 @@
   </div>
 
   <!-- View Toggle -->
-<div class="sticky-nav-container">
-  <div class="view-toggle">
-    <div class="toggle-container">
-      <button class="view-option active" id="view-universities" data-view="universities">
-        <i class="fas fa-university"></i>
-        <span>Universities</span>
-      </button>
-      <button class="view-option" id="view-masters" data-view="masters">
-        <i class="fas fa-graduation-cap"></i>
-        <span>Master Degrees</span>
-      </button>
-      <button class="view-option" id="view-bachelors" data-view="bachelors">
-        <i class="fas fa-book-open"></i>
-        <span>Bachelor Degrees</span>
-      </button>
-    </div>
+  <div class="sticky-nav-container">
+    <nav class="view-toggle" aria-label="Main navigation">
+      <div class="toggle-container">
+        <button class="view-option active" id="view-universities" data-view="universities" aria-label="View universities map" aria-pressed="true">
+          <i class="fas fa-university" aria-hidden="true"></i>
+          <span>Universities</span>
+        </button>
+        <button class="view-option" id="view-masters" data-view="masters" aria-label="View master degree courses" aria-pressed="false">
+          <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+          <span>Master Degrees</span>
+        </button>
+        <button class="view-option" id="view-bachelors" data-view="bachelors" aria-label="View bachelor degree courses" aria-pressed="false">
+          <i class="fas fa-book-open" aria-hidden="true"></i>
+          <span>Bachelor Degrees</span>
+        </button>
+      </div>
+    </nav>
   </div>
-</div>
 
   <!-- Hero Section -->
   <section class="hero-section">
@@ -58,18 +96,18 @@
         <div class="hero-subtitle">
           <p>An interactive journey through Italy's academic heritage</p>
           <div class="hero-stats">
-            <span><i class="fas fa-university"></i> 60+ Universities</span>
-            <span><i class="fas fa-graduation-cap"></i> 300+ Master Courses</span>
-            <span><i class="fas fa-book-open"></i> 50+ Bachelor Courses</span>
-            <span><i class="fas fa-landmark"></i> Since 962 AD</span>
+            <span><i class="fas fa-university" aria-hidden="true"></i> 60+ Universities</span>
+            <span><i class="fas fa-graduation-cap" aria-hidden="true"></i> 300+ Master Courses</span>
+            <span><i class="fas fa-book-open" aria-hidden="true"></i> 50+ Bachelor Courses</span>
+            <span><i class="fas fa-landmark" aria-hidden="true"></i> Since 962 AD</span>
           </div>
         </div>
       </div>
       
       <div class="hero-actions">
-        <button id="explore-btn" class="btn-explore">
+        <button id="explore-btn" class="btn-explore" aria-label="Explore the interactive map">
           <span>Explore the Map</span>
-          <i class="fas fa-chevron-down"></i>
+          <i class="fas fa-chevron-down" aria-hidden="true"></i>
         </button>
       </div>
       
@@ -87,71 +125,70 @@
     <!-- Map Controls -->
     <div class="map-controls">
       <!-- Universities View Controls -->
-       
       <div class="control-group universities-view">
-        <button id="toggle-sidebar" class="control-btn" aria-label="Toggle sidebar">
-          <i class="fas fa-bars"></i>
+        <button id="toggle-sidebar" class="control-btn" aria-label="Toggle universities list" aria-expanded="false" aria-controls="sidebar">
+          <i class="fas fa-bars" aria-hidden="true"></i>
           <span class="btn-text">Universities List</span>
         </button>
         
         <div class="search-container">
           <input type="text" id="search-input" placeholder="Search university or city..." aria-label="Search universities" />
           <button id="clear-search" class="clear-btn" aria-label="Clear search">
-            <i class="fas fa-times"></i>
+            <i class="fas fa-times" aria-hidden="true"></i>
           </button>
-          <i class="fas fa-search search-icon"></i>
+          <i class="fas fa-search search-icon" aria-hidden="true"></i>
         </div>
         
-        <button id="reset-view" class="control-btn" aria-label="Reset view">
-          <i class="fas fa-sync-alt"></i>
+        <button id="reset-view" class="control-btn" aria-label="Reset map view">
+          <i class="fas fa-sync-alt" aria-hidden="true"></i>
           <span class="btn-text">Reset View</span>
         </button>
       </div>
 
       <!-- Masters View Controls -->
       <div class="control-group masters-view" style="display: none;">
-        <div class="courses-breadcrumb">
-          <button class="breadcrumb-item" data-level="field" id="masters-breadcrumb-field">All Fields</button>
-          <span class="breadcrumb-separator">/</span>
-          <button class="breadcrumb-item" data-level="subfield" id="masters-breadcrumb-subfield" disabled>Subfield</button>
-          <span class="breadcrumb-separator">/</span>
-          <button class="breadcrumb-item" data-level="course" id="masters-breadcrumb-course" disabled>Course</button>
+        <div class="courses-breadcrumb" aria-label="Navigation breadcrumb">
+          <button class="breadcrumb-item" data-level="field" id="masters-breadcrumb-field" aria-label="All master fields">All Fields</button>
+          <span class="breadcrumb-separator" aria-hidden="true">/</span>
+          <button class="breadcrumb-item" data-level="subfield" id="masters-breadcrumb-subfield" disabled aria-label="Select subfield">Subfield</button>
+          <span class="breadcrumb-separator" aria-hidden="true">/</span>
+          <button class="breadcrumb-item" data-level="course" id="masters-breadcrumb-course" disabled aria-label="Select course">Course</button>
         </div>
         
         <div class="search-container">
           <input type="text" id="masters-search" placeholder="Search master course..." aria-label="Search master courses" />
           <button id="clear-masters-search" class="clear-btn" aria-label="Clear search">
-            <i class="fas fa-times"></i>
+            <i class="fas fa-times" aria-hidden="true"></i>
           </button>
-          <i class="fas fa-search search-icon"></i>
+          <i class="fas fa-search search-icon" aria-hidden="true"></i>
         </div>
         
-        <button id="reset-masters" class="control-btn" aria-label="Reset courses">
-          <i class="fas fa-sync-alt"></i>
+        <button id="reset-masters" class="control-btn" aria-label="Reset masters filters">
+          <i class="fas fa-sync-alt" aria-hidden="true"></i>
           <span class="btn-text">Reset</span>
         </button>
       </div>
 
       <!-- Bachelors View Controls -->
       <div class="control-group bachelors-view" style="display: none;">
-        <div class="courses-breadcrumb">
-          <button class="breadcrumb-item" data-level="field" id="bachelors-breadcrumb-field">All Fields</button>
-          <span class="breadcrumb-separator">/</span>
-          <button class="breadcrumb-item" data-level="subfield" id="bachelors-breadcrumb-subfield" disabled>Subfield</button>
-          <span class="breadcrumb-separator">/</span>
-          <button class="breadcrumb-item" data-level="course" id="bachelors-breadcrumb-course" disabled>Course</button>
+        <div class="courses-breadcrumb" aria-label="Navigation breadcrumb">
+          <button class="breadcrumb-item" data-level="field" id="bachelors-breadcrumb-field" aria-label="All bachelor fields">All Fields</button>
+          <span class="breadcrumb-separator" aria-hidden="true">/</span>
+          <button class="breadcrumb-item" data-level="subfield" id="bachelors-breadcrumb-subfield" disabled aria-label="Select subfield">Subfield</button>
+          <span class="breadcrumb-separator" aria-hidden="true">/</span>
+          <button class="breadcrumb-item" data-level="course" id="bachelors-breadcrumb-course" disabled aria-label="Select course">Course</button>
         </div>
         
         <div class="search-container">
           <input type="text" id="bachelors-search" placeholder="Search bachelor course..." aria-label="Search bachelor courses" />
           <button id="clear-bachelors-search" class="clear-btn" aria-label="Clear search">
-            <i class="fas fa-times"></i>
+            <i class="fas fa-times" aria-hidden="true"></i>
           </button>
-          <i class="fas fa-search search-icon"></i>
+          <i class="fas fa-search search-icon" aria-hidden="true"></i>
         </div>
         
-        <button id="reset-bachelors" class="control-btn" aria-label="Reset courses">
-          <i class="fas fa-sync-alt"></i>
+        <button id="reset-bachelors" class="control-btn" aria-label="Reset bachelors filters">
+          <i class="fas fa-sync-alt" aria-hidden="true"></i>
           <span class="btn-text">Reset</span>
         </button>
       </div>
@@ -159,22 +196,22 @@
 
     <!-- Map Section -->
     <section class="map-section">
-      <div id="map"></div>
+      <div id="map" role="application" aria-label="Interactive map of Italian universities"></div>
       
       <!-- Universities Map Legend -->
       <div class="map-legend" id="universities-legend">
         <div class="legend-title">University Types</div>
         <div class="legend-items">
           <div class="legend-item">
-            <span class="legend-color university"></span>
+            <span class="legend-color university" aria-hidden="true"></span>
             <span>University</span>
           </div>
           <div class="legend-item">
-            <span class="legend-color polytechnic"></span>
+            <span class="legend-color polytechnic" aria-hidden="true"></span>
             <span>Polytechnic</span>
           </div>
           <div class="legend-item">
-            <span class="legend-color special"></span>
+            <span class="legend-color special" aria-hidden="true"></span>
             <span>Special Statute</span>
           </div>
         </div>
@@ -185,19 +222,19 @@
         <div class="legend-title">Master Course Fields</div>
         <div class="legend-items">
           <div class="legend-item">
-            <span class="legend-color" style="background: var(--field-stem-cs);"></span>
+            <span class="legend-color" style="background: var(--field-stem-cs);" aria-hidden="true"></span>
             <span>STEM - CS & AI</span>
           </div>
           <div class="legend-item">
-            <span class="legend-color" style="background: var(--field-stem-eng);"></span>
+            <span class="legend-color" style="background: var(--field-stem-eng);" aria-hidden="true"></span>
             <span>STEM - Engineering</span>
           </div>
           <div class="legend-item">
-            <span class="legend-color" style="background: var(--field-business);"></span>
+            <span class="legend-color" style="background: var(--field-business);" aria-hidden="true"></span>
             <span>Business & Economics</span>
           </div>
           <div class="legend-item">
-            <span class="legend-color" style="background: var(--field-health);"></span>
+            <span class="legend-color" style="background: var(--field-health);" aria-hidden="true"></span>
             <span>Health & Medical</span>
           </div>
         </div>
@@ -208,15 +245,15 @@
         <div class="legend-title">Bachelor Course Fields</div>
         <div class="legend-items">
           <div class="legend-item">
-            <span class="legend-color" style="background: var(--field-bachelor-stem);"></span>
+            <span class="legend-color" style="background: var(--field-bachelor-stem);" aria-hidden="true"></span>
             <span>STEM Programs</span>
           </div>
           <div class="legend-item">
-            <span class="legend-color" style="background: var(--field-bachelor-business);"></span>
+            <span class="legend-color" style="background: var(--field-bachelor-business);" aria-hidden="true"></span>
             <span>Business & Economics</span>
           </div>
           <div class="legend-item">
-            <span class="legend-color" style="background: var(--field-bachelor-humanities);"></span>
+            <span class="legend-color" style="background: var(--field-bachelor-humanities);" aria-hidden="true"></span>
             <span>Humanities & Social Sciences</span>
           </div>
         </div>
@@ -224,25 +261,25 @@
     </section>
 
     <!-- Universities Sidebar -->
-    <aside id="sidebar" class="sidebar">
+    <aside id="sidebar" class="sidebar" role="complementary" aria-label="Universities list">
       <div class="sidebar-header">
         <h2>
-          <i class="fas fa-university"></i>
+          <i class="fas fa-university" aria-hidden="true"></i>
           <span id="sidebar-title">Italian Universities</span>
         </h2>
-        <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
-          <i class="fas fa-times"></i>
+        <button class="sidebar-close" id="sidebar-close" aria-label="Close universities list">
+          <i class="fas fa-times" aria-hidden="true"></i>
         </button>
       </div>
 
       <div class="sidebar-filters">
-        <select id="type-filter" class="filter-select">
+        <select id="type-filter" class="filter-select" aria-label="Filter by university type">
           <option value="all">All Types</option>
           <option value="university">University</option>
           <option value="polytechnic">Polytechnic</option>
           <option value="special">Special Statute</option>
         </select>
-        <select id="sort-filter" class="filter-select">
+        <select id="sort-filter" class="filter-select" aria-label="Sort universities">
           <option value="name">Name (A-Z)</option>
           <option value="founded">Oldest First</option>
           <option value="region">By Region</option>
@@ -252,21 +289,21 @@
       <div class="sidebar-content">
         <div class="results-info">
           <span id="results-count">Loading universities...</span>
-          <button id="reset-filters" class="btn-text">
-            <i class="fas fa-filter"></i>
+          <button id="reset-filters" class="btn-text" aria-label="Reset all filters">
+            <i class="fas fa-filter" aria-hidden="true"></i>
             <span>Reset Filters</span>
           </button>
         </div>
 
-        <div id="university-list" class="university-list">
+        <div id="university-list" class="university-list" role="list" aria-label="List of universities">
           <!-- Universities loaded here -->
         </div>
         
-        <div id="empty-state" class="empty-state">
-          <i class="fas fa-search"></i>
+        <div id="empty-state" class="empty-state" role="status" aria-live="polite">
+          <i class="fas fa-search" aria-hidden="true"></i>
           <h3>No universities found</h3>
           <p>Try adjusting your search or filters</p>
-          <button id="reset-filters-empty" class="btn-text">
+          <button id="reset-filters-empty" class="btn-text" aria-label="Reset filters">
             Reset all filters
           </button>
         </div>
@@ -274,19 +311,19 @@
     </aside>
 
     <!-- Courses Panel (Used for both Masters and Bachelors) -->
-    <aside id="courses-panel" class="sidebar" style="right: -100%;">
+    <aside id="courses-panel" class="sidebar" style="right: -100%;" role="complementary" aria-label="Courses list">
       <div class="sidebar-header">
         <h2>
-          <i class="fas fa-graduation-cap" id="courses-panel-icon"></i>
+          <i class="fas fa-graduation-cap" id="courses-panel-icon" aria-hidden="true"></i>
           <span id="courses-panel-title">Degree Courses</span>
         </h2>
         <button class="sidebar-close" id="courses-panel-close" aria-label="Close courses panel">
-          <i class="fas fa-times"></i>
+          <i class="fas fa-times" aria-hidden="true"></i>
         </button>
       </div>
 
       <div class="sidebar-filters">
-        <select id="courses-field-filter" class="filter-select">
+        <select id="courses-field-filter" class="filter-select" aria-label="Filter by field of study">
           <option value="all">All Fields</option>
         </select>
       </div>
@@ -294,32 +331,32 @@
       <div class="sidebar-content">
         <div class="results-info">
           <span id="courses-count">Loading courses...</span>
-          <button id="reset-courses-filters" class="btn-text">
-            <i class="fas fa-filter"></i>
+          <button id="reset-courses-filters" class="btn-text" aria-label="Reset course filters">
+            <i class="fas fa-filter" aria-hidden="true"></i>
             <span>Reset Filters</span>
           </button>
         </div>
 
         <!-- Fields List -->
-        <div id="fields-list" class="fields-list">
+        <div id="fields-list" class="fields-list" role="list" aria-label="List of fields">
           <!-- Fields loaded here -->
         </div>
 
         <!-- Subfields List -->
-        <div id="subfields-list" class="subfields-list" style="display: none;">
+        <div id="subfields-list" class="subfields-list" style="display: none;" role="list" aria-label="List of subfields">
           <!-- Subfields loaded here -->
         </div>
 
         <!-- Courses List -->
-        <div id="courses-list" class="courses-list" style="display: none;">
+        <div id="courses-list" class="courses-list" style="display: none;" role="list" aria-label="List of courses">
           <!-- Courses loaded here -->
         </div>
         
-        <div id="courses-empty-state" class="empty-state" style="display: none;">
-          <i class="fas fa-search"></i>
+        <div id="courses-empty-state" class="empty-state" style="display: none;" role="status" aria-live="polite">
+          <i class="fas fa-search" aria-hidden="true"></i>
           <h3>No courses found</h3>
           <p>Try adjusting your search or filters</p>
-          <button id="reset-courses-filters-empty" class="btn-text">
+          <button id="reset-courses-filters-empty" class="btn-text" aria-label="Reset course filters">
             Reset all filters
           </button>
         </div>
@@ -328,12 +365,12 @@
 
     <!-- Back to Top Button -->
     <button id="back-to-top" class="back-to-top" aria-label="Back to top">
-      <i class="fas fa-chevron-up"></i>
+      <i class="fas fa-chevron-up" aria-hidden="true"></i>
     </button>
   </main>
 
   <!-- Footer -->
-  <footer class="footer">
+  <footer class="footer" role="contentinfo">
     <div class="footer-content">
       <div class="footer-brand">
         <h3>Università d'Italia</h3>
@@ -342,7 +379,7 @@
       <div class="footer-info">
         <p>All Italian public universities mapped</p>
         <p class="footer-credit">
-          Made with <i class="fas fa-heart footer-heart"></i> by 
+          Made with <i class="fas fa-heart footer-heart" aria-hidden="true"></i> by 
           <span class="footer-signature">Deepserish B K</span>
         </p>
       </div>
@@ -358,5 +395,19 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
   <script src="js/app.js"></script>
+  
+  <!-- Polyfill for older browsers -->
+  <script>
+    // Polyfill for Object.entries if needed
+    if (!Object.entries) {
+      Object.entries = function(obj) {
+        var ownProps = Object.keys(obj),
+            i = ownProps.length,
+            resArray = new Array(i);
+        while (i--) resArray[i] = [ownProps[i], obj[ownProps[i]]];
+        return resArray;
+      };
+    }
+  </script>
 </body>
 </html>
