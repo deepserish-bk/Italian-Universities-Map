@@ -1981,6 +1981,17 @@ class UIManager {
     if (!this.coursesPanelOpen) {
       this.toggleCoursesPanel();
     }
+      // MOBILE FIX: Force the panel to be visible
+    const panel = document.getElementById('courses-panel');
+    if (panel && window.innerWidth <= 768) {
+      // Mobile-specific fixes
+      panel.style.right = '0';
+      panel.style.display = 'flex'; // Ensure it's display:flex
+      panel.style.zIndex = '1002'; // Higher than everything
+      
+      // Prevent body scroll on mobile
+      document.body.classList.add('panel-open');
+    }
     
     // Ensure the correct view is loaded based on currentCourseType
     if (this.currentCourseType) {
@@ -1989,7 +2000,14 @@ class UIManager {
   }
 
   closeCoursesPanel() {
-    if (this.coursesPanelOpen) this.toggleCoursesPanel();
+  if (this.coursesPanelOpen) {
+    this.toggleCoursesPanel();
+  }
+  
+  // MOBILE FIX: Remove body class
+  if (window.innerWidth <= 768) {
+    document.body.classList.remove('panel-open');
+  }
   }
 
   // ===== UNIVERSITIES LIST FUNCTIONS =====
@@ -3155,24 +3173,50 @@ filterUniversitiesByRegion(region) {
     // Breadcrumb listeners
     this.setupBreadcrumbListeners();
     
-    // Mobile click outside
-    if (window.innerWidth <= 768) {
-      document.addEventListener('click', (e) => {
-        const sidebar = document.getElementById('sidebar');
-        const coursesPanel = document.getElementById('courses-panel');
-        const toggleBtn = document.getElementById('toggle-sidebar');
-        
-        if (this.sidebarOpen && !sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
-          this.closeSidebar();
-        }
-        
-        if (this.coursesPanelOpen && !coursesPanel.contains(e.target)) {
-          this.closeCoursesPanel();
-        }
-      });
+// ===== MOBILE-SPECIFIC EVENT HANDLERS =====
+if (window.innerWidth <= 768) {
+  // Store reference to UI manager
+  const uiManager = this;
+  
+  // Handle click outside to close panels
+  document.addEventListener('click', function(e) {
+    const sidebar = document.getElementById('sidebar');
+    const coursesPanel = document.getElementById('courses-panel');
+    const toggleBtn = document.getElementById('toggle-sidebar');
+    
+    // Close sidebar if clicking outside
+    if (uiManager.sidebarOpen && sidebar && !sidebar.contains(e.target) && 
+        toggleBtn && !toggleBtn.contains(e.target)) {
+      uiManager.closeSidebar();
     }
     
-    console.log('✅ Event listeners setup complete');
+    // Close courses panel if clicking outside
+    if (uiManager.coursesPanelOpen && coursesPanel && !coursesPanel.contains(e.target)) {
+      // Don't close if clicking on view toggle buttons
+      const viewOptions = document.querySelectorAll('.view-option');
+      let isViewOptionClick = false;
+      viewOptions.forEach(btn => {
+        if (btn.contains(e.target)) isViewOptionClick = true;
+      });
+      
+      if (!isViewOptionClick) {
+        uiManager.closeCoursesPanel();
+      }
+    }
+  });
+  
+  // Mobile-specific touch improvements
+    document.addEventListener('touchstart', function(e) {
+      // Prevent multiple rapid taps
+      if (e.target.classList.contains('control-btn') || 
+          e.target.classList.contains('view-option')) {
+        e.target.style.opacity = '0.7';
+        setTimeout(() => {
+          e.target.style.opacity = '';
+        }, 200);
+      }
+    });
+  }console.log('✅ Event listeners setup complete');
   }
 
   setupBreadcrumbListeners() {
