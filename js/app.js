@@ -1869,23 +1869,22 @@ class UIManager {
         this.openCoursesPanel();
       }
         // MOBILE FIX: Force open panel on mobile
-  if (window.innerWidth <= 768) {
-    // Close universities sidebar if open
-    if (this.sidebarOpen) {
-      this.closeSidebar();
-    }
-    
-    // Force open courses panel
-    this.openCoursesPanel();
-    
-    // Mobile: Add class to body to prevent scroll
-    document.body.classList.add('panel-open');
-  } else {
-    // Desktop behavior
-    if (!this.coursesPanelOpen) {
+      if (window.innerWidth <= 768) {
+      // Close universities sidebar if open
+      if (this.sidebarOpen) {
+        this.closeSidebar();
+      }
+
+      // Open courses panel on mobile
       this.openCoursesPanel();
-    }
-  }
+
+      // DO NOT add scroll-locking class
+      } else {
+      // Desktop behavior
+      if (!this.coursesPanelOpen) {
+        this.openCoursesPanel();
+      }
+}
       // Load the appropriate view
       this.loadFieldsView();
     } else {
@@ -1988,50 +1987,36 @@ class UIManager {
     if (this.sidebarOpen) this.toggleSidebar();
   }
 
-toggleCoursesPanel() {
-  this.coursesPanelOpen = !this.coursesPanelOpen;
-  const panel = document.getElementById('courses-panel');
-  
-  if (panel) {
-    if (this.coursesPanelOpen) {
-      panel.style.right = '0';
-      // CRITICAL: Ensure panel is visible in both orientations
-      panel.style.display = 'flex';
-      panel.style.visibility = 'visible';
-      panel.style.opacity = '1';
-      panel.style.zIndex = '1002';
-      
-      // Mobile: Set proper height
-      if (window.innerWidth <= 768) {
-        panel.style.height = '100vh';
-        panel.style.maxHeight = '100vh';
-      }
-    } else {
-      panel.style.right = '-100%';
-      // Mobile: Clean up when closing
-      if (window.innerWidth <= 768) {
-        panel.style.height = '';
-        panel.style.maxHeight = '';
-      }
-    }
-  }
-}
-openCoursesPanel() {
-  if (!this.coursesPanelOpen) {
-    this.toggleCoursesPanel();
-  } else {
-    // Force panel to be visible even if already "open"
+  toggleCoursesPanel() {
+    this.coursesPanelOpen = !this.coursesPanelOpen;
     const panel = document.getElementById('courses-panel');
-    if (panel && window.innerWidth <= 768) {
-      panel.style.right = '0';
-      panel.style.display = 'flex';
-      panel.style.visibility = 'visible';
-      panel.style.opacity = '1';
+    
+    if (panel) {
+      if (this.coursesPanelOpen) {
+        panel.style.right = '0';
+        panel.style.display = 'flex';
+        
+        // Ensure body scroll is never locked
+        document.body.style.overflow = 'auto';
+      } else {
+        panel.style.right = '-100%';
+      }
     }
   }
+  openCoursesPanel() {
+    if (!this.coursesPanelOpen) {
+      this.toggleCoursesPanel();
+    } else {
+      // Ensure panel is visible on mobile
+      const panel = document.getElementById('courses-panel');
+      if (panel && window.innerWidth <= 768) {
+        panel.style.right = '0';
+        panel.style.display = 'flex';
+      }
+    }
   
-  // DO NOT add body.panel-open class that locks scrolling
-  // document.body.classList.add('panel-open'); // REMOVE THIS LINE
+  // CRITICAL: Never add panel-open class
+  document.body.classList.remove('panel-open');
   
   if (this.currentCourseType) {
     this.loadFieldsView();
@@ -2043,12 +2028,10 @@ closeCoursesPanel() {
     this.toggleCoursesPanel();
   }
   
-  // CRITICAL: Remove any scroll-locking classes
+  // Ensure scroll is never locked
   document.body.classList.remove('panel-open');
-  document.body.style.overflow = '';
-  document.body.style.position = '';
+  document.body.style.overflow = 'auto';
 }
-
   // ===== UNIVERSITIES LIST FUNCTIONS =====
   renderUniversitiesList() {
     const container = document.getElementById('university-list');
@@ -3241,7 +3224,26 @@ if (window.innerWidth <= 768) {
     }
   });
 }console.log('✅ Event listeners setup complete');
-  }
+  
+// Mobile-specific: Close courses panel when tapping outside
+if (window.innerWidth <= 768) {
+  document.addEventListener('click', (e) => {
+    const coursesPanel = document.getElementById('courses-panel');
+    const mastersBtn = document.getElementById('view-masters');
+    const bachelorsBtn = document.getElementById('view-bachelors');
+    
+    // Check if click is outside courses panel
+    if (this.coursesPanelOpen && 
+        coursesPanel && 
+        !coursesPanel.contains(e.target) &&
+        e.target !== mastersBtn && 
+        e.target !== bachelorsBtn &&
+        !mastersBtn.contains(e.target) &&
+        !bachelorsBtn.contains(e.target)) {
+      this.closeCoursesPanel();
+    }
+  });
+}}
 
   setupBreadcrumbListeners() {
     // Masters breadcrumb

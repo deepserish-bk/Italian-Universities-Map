@@ -2081,11 +2081,7 @@ body {
     visibility: visible !important;
   }
   
-  /* FIX: Remove the body.panel-open styles that break scrolling */
-  /* body.panel-open {
-    overflow: hidden;
-  } */
-  
+
   /* Prevent horizontal scrolling */
   body {
     overflow-x: hidden;
@@ -2221,16 +2217,9 @@ body {
       padding: 0.3rem 0.5rem;
     }
   }
-}/* ===== MOBILE (BOTH PORTRAIT & LANDSCAPE) ===== */
+
+/* ===== MOBILE (BOTH PORTRAIT & LANDSCAPE) ===== */
 @media (max-width: 768px) {
-  /* Prevent body scroll lock - REMOVED */
-  /* body.panel-open {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-  } */
-  
   /* VIEW TOGGLE */
   .view-toggle {
     top: var(--spacing-sm);
@@ -2351,36 +2340,11 @@ body {
     gap: var(--spacing-sm);
   }
   
-  /* CRITICAL FIX: COURSES PANEL FOR BOTH ORIENTATIONS */
+  /* COURSES PANEL - SIMPLIFIED FIX */
   #courses-panel {
-    transition: right 0.3s ease !important;
-    /* Works in both portrait and landscape */
-    height: 100vh !important;
-    height: -webkit-fill-available !important;
-    max-height: 100vh !important;
-    top: 0 !important;
-    bottom: 0 !important;
-  }
-  
-  #courses-panel.open,
-  #courses-panel[style*="right: 0"],
-  #courses-panel[style*="right:0"] {
-    /* Force visibility in both orientations */
-    right: 0 !important;
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    box-shadow: -15px 0 40px rgba(0, 0, 0, 0.4);
-    z-index: 1002 !important;
-  }
-  
-  /* Prevent horizontal scrolling */
-  body {
-    overflow-x: hidden;
-    width: 100%;
-    /* DO NOT lock body scroll */
-    position: static !important;
-    overflow-y: auto !important;
+    transition: right 0.3s ease;
+    height: 100vh;
+    height: -webkit-fill-available;
   }
   
   /* Touch feedback */
