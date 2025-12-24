@@ -1988,57 +1988,66 @@ class UIManager {
     if (this.sidebarOpen) this.toggleSidebar();
   }
 
- toggleCoursesPanel() {
+toggleCoursesPanel() {
   this.coursesPanelOpen = !this.coursesPanelOpen;
   const panel = document.getElementById('courses-panel');
   
   if (panel) {
-    // MOBILE FIX: Ensure proper opening
     if (this.coursesPanelOpen) {
       panel.style.right = '0';
-      // Mobile-specific: Full width and higher z-index
+      // CRITICAL: Ensure panel is visible in both orientations
+      panel.style.display = 'flex';
+      panel.style.visibility = 'visible';
+      panel.style.opacity = '1';
+      panel.style.zIndex = '1002';
+      
+      // Mobile: Set proper height
       if (window.innerWidth <= 768) {
-        panel.style.width = '100%';
-        panel.style.zIndex = '1002';
-        panel.style.display = 'flex';
+        panel.style.height = '100vh';
+        panel.style.maxHeight = '100vh';
       }
     } else {
       panel.style.right = '-100%';
-      // Reset mobile styles
+      // Mobile: Clean up when closing
       if (window.innerWidth <= 768) {
-        panel.style.width = '';
-        panel.style.zIndex = '';
+        panel.style.height = '';
+        panel.style.maxHeight = '';
       }
     }
   }
-  
-  console.log('Courses panel toggled:', this.coursesPanelOpen, 'on mobile:', window.innerWidth <= 768);
 }
-
 openCoursesPanel() {
-  // MOBILE FIX: Always ensure panel opens on mobile
-  if (!this.coursesPanelOpen || window.innerWidth <= 768) {
+  if (!this.coursesPanelOpen) {
     this.toggleCoursesPanel();
+  } else {
+    // Force panel to be visible even if already "open"
+    const panel = document.getElementById('courses-panel');
+    if (panel && window.innerWidth <= 768) {
+      panel.style.right = '0';
+      panel.style.display = 'flex';
+      panel.style.visibility = 'visible';
+      panel.style.opacity = '1';
+    }
   }
   
-  // Load content after panel is definitely open
-  setTimeout(() => {
-    if (this.currentCourseType) {
-      this.loadFieldsView();
-    }
-  }, 50);
+  // DO NOT add body.panel-open class that locks scrolling
+  // document.body.classList.add('panel-open'); // REMOVE THIS LINE
+  
+  if (this.currentCourseType) {
+    this.loadFieldsView();
+  }
 }
 
-  closeCoursesPanel() {
+closeCoursesPanel() {
   if (this.coursesPanelOpen) {
     this.toggleCoursesPanel();
   }
   
-  // MOBILE FIX: Remove body class
-  if (window.innerWidth <= 768) {
-    document.body.classList.remove('panel-open');
-  }
-  }
+  // CRITICAL: Remove any scroll-locking classes
+  document.body.classList.remove('panel-open');
+  document.body.style.overflow = '';
+  document.body.style.position = '';
+}
 
   // ===== UNIVERSITIES LIST FUNCTIONS =====
   renderUniversitiesList() {
@@ -3205,8 +3214,9 @@ filterUniversitiesByRegion(region) {
     
 // ===== MOBILE-SPECIFIC EVENT HANDLERS =====
 // MOBILE: Handle closing panels when tapping outside
+// MOBILE: Handle closing panels when tapping outside
 if (window.innerWidth <= 768) {
-  const ui = this; // Store reference to UI manager
+  const ui = this; // Store reference
   
   document.addEventListener('click', function(e) {
     const sidebar = document.getElementById('sidebar');
@@ -3214,8 +3224,8 @@ if (window.innerWidth <= 768) {
     const toggleBtn = document.getElementById('toggle-sidebar');
     
     // Don't close if clicking on view toggle buttons
-    const isViewToggleClick = e.target.closest('.view-toggle') || 
-                              e.target.closest('.view-option');
+    const clickedMasters = e.target.closest('#view-masters');
+    const clickedBachelors = e.target.closest('#view-bachelors');
     
     // Close sidebar if clicking outside
     if (ui.sidebarOpen && sidebar && !sidebar.contains(e.target) && 
@@ -3223,12 +3233,11 @@ if (window.innerWidth <= 768) {
       ui.closeSidebar();
     }
     
-    // Close courses panel if clicking outside (and not on view toggle)
+    // Close courses panel if clicking outside
     if (ui.coursesPanelOpen && coursesPanel && 
-        !coursesPanel.contains(e.target) && 
-        !isViewToggleClick) {
+        !coursesPanel.contains(e.target) &&
+        !clickedMasters && !clickedBachelors) {
       ui.closeCoursesPanel();
-      document.body.classList.remove('panel-open');
     }
   });
 }console.log('✅ Event listeners setup complete');
