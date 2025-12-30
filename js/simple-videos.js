@@ -35,10 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen>
           </iframe>
-          <div class="video-info">
-            <h3>${video.title || ''}</h3>
-            ${video.university ? `<p><i class="fas fa-university"></i> ${video.university}</p>` : ''}
-          </div>
         </div>
       `;
     } else {
