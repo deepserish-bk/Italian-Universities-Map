@@ -33,22 +33,26 @@ An immersive, interactive map of Italian public universities with beautiful UI a
    ```bash
    cd italian-universities-map
    npm install
+  ```
 Add GeoJSON file:
 
 Download Italy regions GeoJSON file
 Place it in geojson/italy-regions.geojson
 Run the application:
 
-bash
+```bash
 npm start
+```
 # or
+```bash
 python3 -m http.server 8000
 Open in browser:
-
+```
 Navigate to http://localhost:8000
 📁 Project Structure
 
 text
+```bash
 italian-universities-map/
 ├── index.html              # Main HTML file
 ├── css/
@@ -66,7 +70,7 @@ italian-universities-map/
 ├── fonts/                 # Custom fonts (optional)
 └── README.md              # This file
 🎯 Usage
-
+```
 Exploring Universities
 
 Start at the hero section - Click "Explore the Map" or scroll down
